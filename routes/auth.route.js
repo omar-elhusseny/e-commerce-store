@@ -1,0 +1,26 @@
+const express = require('express');
+const router = express.Router();
+const { loginUserValidation, registerUserValidation, resetPasswordValidation } = require("../middleware/validator/authValidator")
+const { register, login, forgetPassword, verifyResetCode, resetPassword } = require("../controllers/auth.controller")
+const { allowedTo } = require("../middleware/allowTo");
+const refreshAccessToken = require('../utils/refreshToken');
+
+// POST /api/v1/auth/register
+router.post("/register", registerUserValidation, register)
+
+// POST /api/v1/auth/login
+router.post("/login", loginUserValidation, login)
+
+// POST /api/v1/auth/forget-password
+router.post('/forgot-password', forgetPassword);
+
+// POST /api/v1/auth/verify-reset-code
+router.post('/verify-reset-code', verifyResetCode);
+
+// POST /api/v1/auth/reset-password
+router.post('/reset-password', resetPasswordValidation, resetPassword);
+
+// POST /api/v1/auth/refresh-token
+router.post("/refresh-token", allowedTo, refreshAccessToken)
+
+module.exports = router;

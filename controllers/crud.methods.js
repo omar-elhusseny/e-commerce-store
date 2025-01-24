@@ -2,6 +2,7 @@ const asyncWrapper = require("../middleware/asyncWrapper"); // === "express-asyn
 const AppError = require("../utils/appError");
 const QueryHelper = require("../utils/queryHelper");
 const fs = require('fs');
+const redisClient = require("../config/redis");
 
 exports.delete = (Model) => {
     return asyncWrapper(async (req, res, next) => {
@@ -91,27 +92,51 @@ exports.get = (Model, population) => {
     return asyncWrapper(async (req, res, next) => {
         const { id } = req.params;
 
-        // 1) Build query
-        let query = Model.findById(id);
+        // 1) Generate a unique cache key for this product
+        const cacheKey = `${Model.collection.name}:${id}`;
 
+        console.log(cacheKey)
+
+        // 2) Check Redis cache
+        const cachedData = await redisClient.get(cacheKey);
+        if (cachedData) {
+            return res.status(200).json({ data: JSON.parse(cachedData) });
+        }
+
+        // 3) Build the database query
+        let query = Model.findById(id);
         if (population) query = query.populate(population);
 
-        // 2) Execute query
+        // 4) Execute the query
         const document = await query;
 
+        // 5) Handle the case where no document is found
         if (!document) return next(new AppError(`No document for this id ${id}`, 404));
 
+        // 6) Store the result in Redis for future requests
+        await redisClient.set(cacheKey, JSON.stringify(document), { EX: 3600 }); // Cache expires in 1 hour
+
+        // 7) Return the response to the client
         res.status(200).json({ data: document });
     });
 }
 
 exports.getAll = (Model, population) => {
     return asyncWrapper(async (req, res) => {
+        // 1) Generate a unique cache key based on the request query
+        const cacheKey = `${Model.collection.name}:${JSON.stringify(req.query)}`;
+
+        // 2) Check if data is in Redis cache
+        const cachedData = await redisClient.get(cacheKey);
+        if (cachedData) {
+            return res.status(200).json(JSON.parse(cachedData));
+        }
+
+        // 3) If not cached, query the database
         const documents = await Model.countDocuments();
         // Model.find() return the query object will use to search in database but not executed yet.
-        // we build the query by adding methods which added to query (query object)
-        // 1) Build query
         const queryHelper = new QueryHelper(Model.find(), req.query)
+        // we build the query by adding methods which added to query (query object)
             .filter()
             .paginate(documents)
             .sort()
@@ -124,8 +149,20 @@ exports.getAll = (Model, population) => {
         // we start to execute with await/then()/exec() using the query object (.query)
         // Final query object
 
-        // 2) Execute query
+        // 4) Execute query
         const modelDocuments = await queryHelper.query;
-        return res.status(200).json({ results: modelDocuments.length, paginationResult, data: modelDocuments });
+
+        // 5) Prepare the response object
+        const response = {
+            results: modelDocuments.length,
+            paginationResult,
+            data: modelDocuments
+        };
+
+        // 6) Store the response in Redis for future requests
+        await redisClient.set(cacheKey, JSON.stringify(response), { EX: 3600 }); // Cache expires in 1 hour
+        
+        // 7) Return the response to the client
+        return res.status(200).json(response);
     })
 }

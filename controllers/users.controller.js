@@ -2,6 +2,7 @@ const fs = require('fs');
 const redisClient = require("../config/redis");
 const User = require("../models/user.model");
 const { addToBlackList } = require("../utils/handleTokens");
+const { generateToken } = require("../utils/jwtToken");
 const asyncWrapper = require("../middleware/asyncWrapper");
 const helperFunction = require("./crud.methods");
 const AppError = require("../utils/appError");
@@ -59,10 +60,33 @@ const updateProfile = asyncWrapper(async (req, res) => {
         {
             ...req.body,
             ...(req.body.username && { slug: slugify(req.body.username) }),
-            profilePicture: req.file.path
+            profilePicture: req.file?.path
         },
         { new: true }
     );
+
+    if (req.body.username || req.body.email) {
+        // delete the old refresh token
+        await redisClient.del(`refreshToken:${user._id}`);
+        // Generate new tokens
+        const newRefreshToken = generateToken(
+            { id: updatedUser._id, username: updatedUser.username, email: updatedUser.email },
+            "7d"
+        );
+        const newAccessToken = generateToken(
+            { id: updatedUser._id, username: updatedUser.username, email: updatedUser.email },
+            "1h"
+        );
+        // Save new refresh token to Redis
+        await redisClient.set(`refreshToken:${updatedUser._id}`, newRefreshToken, { EX: 7 * 24 * 60 * 60 });
+
+        // Return updated user and new tokens
+        return res.status(200).json({
+            message: "User profile updated successfully",
+            data: { ...updatedUser._doc, accessToken: newAccessToken, refreshToken: newRefreshToken },
+        });
+    }
+
     return res.status(200).json({ message: "User profile updated successfully", data: updatedUser });
 })
 

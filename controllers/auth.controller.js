@@ -17,7 +17,7 @@ const login = asyncWrapper(async (req, res, next) => {
     const accessToken = generateToken({ id: user._id, username: user.username, email: user.email }, "1h");
 
     // Save refresh token to redis
-    // await redisClient.set(`refreshToken:${user.username}`, refreshToken, { EX: 7 * 24 * 60 * 60 });
+    await redisClient.set(`refreshToken:${user._id}`, refreshToken, { EX: 7 * 24 * 60 * 60 });
 
     const message = `Hi ${user.username}, welcome back`
     sendEmail(user.email, "Welcome back!", message);
@@ -48,7 +48,7 @@ const register = asyncWrapper(async (req, res) => {
     const accessToken = generateToken({ id: user._id, username, email }, "1h");
 
     // Save refresh token to redis
-    // await redisClient.set(`refreshToken:${user.username}`, refreshToken, { EX: 7 * 24 * 60 * 60 });
+    await redisClient.set(`refreshToken:${user._id}`, refreshToken, { EX: 7 * 24 * 60 * 60 });
 
     const message = `Hi ${username}, welcome to our E-commerce store`
     sendEmail(user.email, "Welcome to a wonderful world of shopping", message);

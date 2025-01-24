@@ -8,9 +8,9 @@ const editRequestBody = (req, res, next) => {
     next();
 }
 
-const getSubCategories = helperFunction.getAll(Subcategory, { path: "category", select: "_id name" });
+const getSubCategories = helperFunction.getAll(Subcategory);
 
-const getSubCategory = helperFunction.get(Subcategory, { path: "category", select: "_id name" });
+const getSubCategory = helperFunction.get(Subcategory);
 
 const createSubCategory = helperFunction.create(Subcategory);
 

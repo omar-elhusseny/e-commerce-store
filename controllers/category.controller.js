@@ -1,6 +1,5 @@
 const Category = require("../models/category.model");
 const helperFunction = require("./crud.methods");
-const asyncWrapper = require("../middleware/asyncWrapper"); // === "express-async-handler" package
 
 const getCategories = helperFunction.getAll(Category);
 

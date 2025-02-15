@@ -113,7 +113,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - PUT /api/v1/coupons/:id - update a specific coupon
 - DELETE /api/v1/coupons/:id - remove a specific coupon
 
-#### Reviews Routes (admin only)
+#### Reviews Routes
 - GET /api/v1/reviews – View reviews
 - GET /api/v1/reviews/:id - Get a specific review
 - POST /api/v1/reviews – Add a review

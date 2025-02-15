@@ -9,6 +9,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - **Cart:** Add, update, delete, and view user’s cart.
 - **Orders:** Create, update (admin only), and view orders.
 - **Wishlist:** Add, remove, and view items.
+- **Reviews:** Add, remove, and view reviews.
 
 ---
 

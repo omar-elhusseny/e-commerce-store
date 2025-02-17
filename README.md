@@ -23,7 +23,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 ### Steps
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/e-commerce-backend.git
+   git clone https://github.com/omar-elhusseny/e-commerce-backend.git
    cd e-commerce-backend
 2. Install dependencies:
    ```sh
@@ -37,13 +37,13 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
    STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 4. Start the server:
    ```sh
-   npm run dev
+   npm start
 
 ---
 
 ## 📌 API Endpoints
 
-#### Auth Routes
+### Auth Routes
 - POST /api/v1/auth/register – Register a new user
 - POST /api/v1/auth/login – Login user
 - POST /api/v1/auth/forget-password
@@ -51,7 +51,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - POST /api/v1/auth/reset-password
 - POST /api/v1/auth/refresh-token (admin-only)
 
-#### User Routes
+### User Routes
 - GET /api/v1/users/profile – Get user's profile
 - POST /api/v1/users/logout – Register a new user
 - POST /api/v1/users/addresses – Add user address (One of user's infomation)
@@ -62,7 +62,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - DELETE /api/v1/users/:id/deactivate – Deactivate user's account
 - DELETE /api/v1/users/:id – Delete user's account
 
-#### Product Routes
+### Product Routes
 - GET /api/v1/products – Get all products
 - GET /api/v1/products/:id – Get product by ID
 - POST /api/v1/products – Add product (admin only)
@@ -71,27 +71,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - (GET,POST) /api/v1/products/:productId/reviews - Get the reviews of a specific product / add a review (Nested route)
 - (GET,POST) /api/v1/products/:productId/wishlist - Get a product from wishlist / add a product (Nested route)
 
-#### Cart Routes
-- GET /api/v1/cart – View cart
-- POST /api/v1/cart – Add to cart
-- PUT /api/v1/cart/:id – Update cart
-- PUT /api/v1/cart/applyCoupon - add a coupon to the total of the cart
-- DELETE /api/v1/cart/:id – Remove item from cart
-
-#### Order Routes
-- GET /api/v1/orders – View orders
-- GET /api/v1/orders/:id – View order by ID
-- POST /api/v1/orders – Create order
-- PUT /api/v1/orders/:id – Update order (admin only)
-- PUT /api/v1/orders/:id/pay – Update order status if the payment done by cash
-
-#### Wishlist Routes
-- GET /api/v1/wishlist – View wishlist
-- POST /api/v1/wishlist – Add to wishlist
-- DELETE /api/v1/wishlist/:id - remove product from wishlist
-- DELETE /api/v1/wishlist/clear - clear all products in wishlist at once
-
-#### Category Routes
+### Category Routes
 - GET /api/v1/categories – View categories
 - GET /api/v1/categories/:id - Get a specific category
 - POST /api/v1/categories – Add a category (admin only)
@@ -99,37 +79,55 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - DELETE /api/v1/categories/:id - remove a specific category (admin only)
 - (GET, POST) /api/v1/categories/:categoryId/subcategories (Nested route)
 
-#### Brand Routes
-- GET /api/v1/brands – View brands
-- GET /api/v1/brands/:id - Get a specific brand
-- POST /api/v1/brands – Add a brand (admin only)
-- PUT /api/v1/brands/:id - update a specific brand (admin only)
-- DELETE /api/v1/brands/:id - remove a specific brand (admin only)
-
-#### Coupons Routes (admin only)
-- GET /api/v1/coupons – View coupons
-- GET /api/v1/coupons/:id - Get a specific coupon
-- POST /api/v1/coupons – Add a coupon
-- PUT /api/v1/coupons/:id - update a specific coupon
-- DELETE /api/v1/coupons/:id - remove a specific coupon
-
-#### Reviews Routes
-- GET /api/v1/reviews – View reviews
-- GET /api/v1/reviews/:id - Get a specific review
-- POST /api/v1/reviews – Add a review
-- PUT /api/v1/reviews/:id - update a specific review
-- DELETE /api/v1/reviews/:id - remove a specific review
-
-#### Subcategory Routes
+### Subcategory Routes
 - GET /api/v1/subcategories – View subcategories
 - GET /api/v1/subcategories/:id - Get a specific subcategories
 - POST /api/v1/subcategories – Add a subcategories (admin only)
 - PUT /api/v1/subcategories/:id - update a specific subcategories (admin only)
 - DELETE /api/v1/subcategories/:id - remove a specific subcategories (admin only)
 
+### Brand Routes
+- GET /api/v1/brands – View brands
+- GET /api/v1/brands/:id - Get a specific brand
+- POST /api/v1/brands – Add a brand (admin only)
+- PUT /api/v1/brands/:id - update a specific brand (admin only)
+- DELETE /api/v1/brands/:id - remove a specific brand (admin only)
+
+### Cart Routes
+- GET /api/v1/cart – View cart
+- POST /api/v1/cart – Add to cart
+- PUT /api/v1/cart/:id – Update cart
+- PUT /api/v1/cart/applyCoupon - add a coupon to the total of the cart
+- DELETE /api/v1/cart/:id – Remove item from cart
+
+### Order Routes
+- GET /api/v1/orders – View orders
+- GET /api/v1/orders/:id – View order by ID
+- POST /api/v1/orders – Create order
+- PUT /api/v1/orders/:id – Update order (admin only)
+- PUT /api/v1/orders/:id/pay – Update order status if the payment done by cash
+
+### Wishlist Routes
+- GET /api/v1/wishlist – View wishlist
+- POST /api/v1/wishlist – Add to wishlist
+- DELETE /api/v1/wishlist/:id - remove product from wishlist
+- DELETE /api/v1/wishlist/clear - clear all products in wishlist at once
+
+### Coupons Routes (admin only)
+- GET /api/v1/coupons – View coupons
+- GET /api/v1/coupons/:id - Get a specific coupon
+- POST /api/v1/coupons – Add a coupon
+- PUT /api/v1/coupons/:id - update a specific coupon
+- DELETE /api/v1/coupons/:id - remove a specific coupon
+
+### Reviews Routes
+- GET /api/v1/reviews – View reviews
+- GET /api/v1/reviews/:id - Get a specific review
+- POST /api/v1/reviews – Add a review
+- PUT /api/v1/reviews/:id - update a specific review
+- DELETE /api/v1/reviews/:id - remove a specific review
 
 ---
-
 
 ## 📜 Technologies Used
 - Node.js & Express.js (Backend)

@@ -61,6 +61,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - DELETE /api/v1/users/addresses/:addressId – delete user address
 - DELETE /api/v1/users/:id/deactivate – Deactivate user's account
 - DELETE /api/v1/users/:id – Delete user's account
+- GET /api/v1/users/:id/wishlist - Nested route to get user wishlist (Nested Route)
 
 ### Product Routes
 - GET /api/v1/products – Get all products
@@ -69,7 +70,6 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - PUT /api/v1/products/:id – Update product (admin only)
 - DELETE /api/v1/products/:id – Delete product (admin only)
 - (GET,POST) /api/v1/products/:productId/reviews - Get the reviews of a specific product / add a review (Nested route)
-- (GET,POST) /api/v1/products/:productId/wishlist - Get a product from wishlist / add a product (Nested route)
 
 ### Category Routes
 - GET /api/v1/categories – View categories
@@ -123,6 +123,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 ### Reviews Routes
 - GET /api/v1/reviews – View reviews
 - GET /api/v1/reviews/:id - Get a specific review
+- GET /api/v1/reviews/product/:id - Get a specific product reviews
 - POST /api/v1/reviews – Add a review
 - PUT /api/v1/reviews/:id - update a specific review
 - DELETE /api/v1/reviews/:id - remove a specific review

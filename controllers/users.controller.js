@@ -8,10 +8,12 @@ const helperFunction = require("./crud.methods");
 const AppError = require("../utils/appError");
 const bcrypt = require("bcryptjs");
 const slugify = require("slugify");
+const sendEmail = require("../config/mail");
+
 
 const logout = asyncWrapper(async (req, res) => {
     // delete refresh token from redis
-    await redisClient.del(`refreshToken:${req.user.username}`);
+    await redisClient.del(`refreshToken:${req.user._id}`);
 
     // Add the token to the blacklist
     await addToBlackList(req.token);
@@ -38,6 +40,17 @@ const getProfile = asyncWrapper(async (req, res, next) => {
 
 const deactivateUser = asyncWrapper(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.user._id, { isActive: false }, { new: true });
+    
+    // Sending deactivation message
+    const message = `Hi ${user.username}, Your account deactivated successfuly, you can re-activate it by login`
+    sendEmail(user.email, "Deactivation", message);
+
+    // Remove refresh token from Redis
+    await redisClient.del(`refreshToken:${user._id}`)
+
+    // Add the token to the blacklist
+    await addToBlackList(req.token);
+
     return res.status(204).json({ status: 'Success', data: user });
 });
 

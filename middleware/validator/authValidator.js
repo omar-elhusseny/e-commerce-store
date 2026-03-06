@@ -21,11 +21,10 @@ const registerUserValidation = [
         .notEmpty().withMessage("email is required")
         .isEmail().withMessage('Invalid email address')
         .custom(async (val) => {
-            User.findOne({ email: val }).then((user) => {
-                if (user) {
-                    return Promise.reject(new AppError('E-mail already in user', 400));
-                }
-            })
+            const user = await User.findOne({ email: val })
+            if (user) {
+                return Promise.reject(new AppError('Email already in user', 400));
+            }
         }),
 
     body("password")
@@ -39,7 +38,6 @@ const loginUserValidation = [
     body("email")
         .notEmpty().withMessage("Email is required")
         .custom(async (val, { req }) => {
-
             const user = await User.findOne({ email: val });
             if (!user) return Promise.reject(new AppError('No user found with this email', 404));
         }),

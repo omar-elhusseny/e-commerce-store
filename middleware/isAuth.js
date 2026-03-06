@@ -17,10 +17,10 @@ const auth = asyncWrapper(async (req, res, next) => {
     }
 
     // Check if the token is blacklisted
-    // const blacklisted = await isBlackListed(token);
-    // if (blacklisted) {
-    //     return next(new AppError("Token is invalid or blacklisted. Please log in again.", 401));
-    // }
+    const blacklisted = await isBlackListed(token);
+    if (blacklisted) {
+        return next(new AppError("Token is invalid or blacklisted. Please log in again.", 401));
+    }
 
     // Verify the token
     const decoded = verifyToken(token);

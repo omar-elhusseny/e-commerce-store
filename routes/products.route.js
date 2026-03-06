@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const reviewsRoute = require("./review.route");
-const wishlistRoute = require("./wishlist.route");
 const { createProductValidator, updateProductValidator, getProductValidator, deleteProductValidator } = require("../middleware/validator/productValidator");
 const { getProducts, getProduct, addProduct, updateProduct, deleteProduct } = require("../controllers/products.controller");
 const { uploadMultipleImages, setUploadType } = require("../config/multer");
@@ -17,9 +16,7 @@ const uploadImages = uploadMultipleImages([
 // POST   /products/jkshjhsdjh2332n/reviews
 // GET    /products/jkshjhsdjh2332n/reviews
 // GET    /products/jkshjhsdjh2332n/reviews/87487sfww3
-router.use('/:productId/reviews', isAuth, reviewsRoute);
-
-router.use('/:productId/wishlist', isAuth, wishlistRoute);
+router.use('/:id/reviews', isAuth, reviewsRoute);
 
 // /api/v1/products - (get all products - add product)
 router.route("/")

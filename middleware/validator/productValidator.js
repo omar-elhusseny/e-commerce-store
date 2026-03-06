@@ -117,18 +117,18 @@ exports.createProductValidator = [
         ),
 
     check('brand').optional().isMongoId().withMessage('Invalid ID'),
-    check('rating')
-        .optional()
-        .isNumeric()
-        .withMessage('rating must be a number')
-        .isLength({ min: 1 })
-        .withMessage('Rating must be above or equal 1.0')
-        .isLength({ max: 5 })
-        .withMessage('Rating must be below or equal 5.0'),
-    check('ratingQuantity')
-        .optional()
-        .isNumeric()
-        .withMessage('rating quantity must be a number'),
+    // check('rating')
+    //     .optional()
+    //     .isNumeric()
+    //     .withMessage('rating must be a number')
+    //     .isLength({ min: 1 })
+    //     .withMessage('Rating must be above or equal 1.0')
+    //     .isLength({ max: 5 })
+    //     .withMessage('Rating must be below or equal 5.0'),
+    // check('ratingQuantity')
+    //     .optional()
+    //     .isNumeric()
+    //     .withMessage('rating quantity must be a number'),
     validation
 ];
 

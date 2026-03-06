@@ -3,13 +3,6 @@ const Product = require("../models/product.model");
 const asyncWrapper = require("../middleware/asyncWrapper");
 const AppError = require("../utils/appError");
 
-// Nested route (Create)
-const editRequestBody = (req, res, next) => {
-    // if the params have id, we use the nested route to add subcategory, if null, we use the original route to add it
-    if (!req.body.productId) req.body.productId = req.params.productId;
-    next();
-}
-
 const getWishlist = asyncWrapper(async (req, res) => {
     const wishlist = await WishList.find({ userId: req.user._id }).populate("products", "_id name");
     return res.status(200).json({
@@ -83,4 +76,4 @@ const clearWishlist = asyncWrapper(async (req, res) => {
     return res.status(200).json({ message: 'Wishlist cleared', wishlist });
 })
 
-module.exports = { getWishlist, addWishlist, removeFromWishlist, clearWishlist, editRequestBody };
+module.exports = { getWishlist, addWishlist, removeFromWishlist, clearWishlist };

@@ -1,7 +1,4 @@
-
 const nodemailer = require("nodemailer");
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey("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"); // Your actual API key here
 
 const transporter = nodemailer.createTransport({
     service: 'gmail', // Or any other service like 'smtp.mailtrap.io' or 'SendGrid'
@@ -26,12 +23,6 @@ const sendEmail = (email, emailSubject, message) => {
             console.log('Email sent: ' + info.response);
         }
     });
-    // sgMail.send({
-    //     to: email,
-    //     from: 'omarelhusseny.63@gmail.com', // Use a verified sender email
-    //     subject: emailSubject,
-    //     html: `<h1>${message}</h1>`,
-    // });
 };
 
 module.exports = sendEmail;

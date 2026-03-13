@@ -164,19 +164,34 @@ const removeAddress = asyncWrapper(async (req, res, next) => {
     });
 });
 
-const updatePassword = asyncWrapper(async (req, res, next) => {
-    const { oldPassowrd, newPassword } = req.body;
-    const user = await User.findByIdAndUpdate(
-        req.user._id,
-        {
-            password: await bcrypt.hash(newPassword, 15),
-            passwordChangedAt: Date.now(),
-        },
-        {
-            new: true,
-        }
-    );
-    return res.status(200).json({ message: "Password changed" });
+const changePassword = asyncWrapper(async (req, res, next) => {
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await User.findById(req.params.id).select("+password");
+    // 1️⃣ Check current password
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    console.log(isMatch)
+    if (!isMatch) {
+        return next(new AppError("Current password is incorrect", 401));
+    }
+
+    // 2️⃣ Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 15);
+
+    user.password = hashedPassword;
+    user.passwordChangedAt = Date.now();
+
+    await user.save();
+
+    // 3️⃣ Remove refresh token from Redis
+    await redisClient.del(`refreshToken:${user._id}`);
+
+    // 4️⃣ Blacklist current access token
+    await addToBlackList(req.token);
+
+    return res.status(201).json({
+        message: "Password changed successfully. Please login again."
+    });
 });
 
 module.exports = {
@@ -188,5 +203,5 @@ module.exports = {
     addAddress,
     updateAddress,
     removeAddress,
-    updatePassword
+    changePassword
 };

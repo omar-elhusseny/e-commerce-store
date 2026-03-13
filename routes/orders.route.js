@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getOrders, getOrder, checkout, webhook, updateOrderToPaid, updateOrderStatus } = require('../controllers/orders.controller');
+const { getOrders, getOrder, checkout, updateOrderToPaid, updateOrderStatus, cancelOrder } = require('../controllers/orders.controller');
 const { createOrderValidation, updatedOrderValidation, getOrderValidation } = require("../middleware/validator/orderValidation")
 const { allowedTo } = require("../middleware/allowTo");
 
@@ -10,9 +10,16 @@ router.route("/")
     .post(createOrderValidation, checkout)
 
 // /api/v1/orders/:id
-router.route('/:id').get(getOrderValidation, getOrder).put(allowedTo, updatedOrderValidation, updateOrderStatus)
+router.route('/:id')
+    .get(getOrderValidation, getOrder)
 
 // /api/v1/orders/:id/pay
 router.put('/:id/pay', allowedTo, updateOrderToPaid);
+
+// /api/v1/orders/:id/status
+router.patch("/:id/status", allowedTo, updatedOrderValidation, updateOrderStatus)
+
+// /api/v1/orders/:id/cancel
+router.patch('/:id/cancel', allowedTo, cancelOrder);
 
 module.exports = router;

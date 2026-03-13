@@ -1,0 +1,650 @@
+2026-03-07 05:41:03 [info]: Connecting to MongoDB...
+2026-03-07 05:41:03 [error]: ❌ Redis error: 
+2026-03-07 05:41:03 [warn]: Redis reconnecting...
+2026-03-07 05:41:03 [error]: ❌ Redis error: 
+2026-03-07 05:41:03 [warn]: Redis reconnecting...
+2026-03-07 05:41:03 [error]: ❌ Redis error: 
+2026-03-07 05:41:03 [warn]: Redis reconnecting...
+2026-03-07 05:41:04 [error]: ❌ Redis error: 
+2026-03-07 05:41:04 [warn]: Redis reconnecting...
+2026-03-07 05:41:04 [error]: ❌ Redis error: 
+2026-03-07 05:41:04 [warn]: Redis reconnecting...
+2026-03-07 05:41:04 [error]: ❌ Redis error: 
+2026-03-07 05:41:04 [error]: Error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4851fae5dbdsm148918375e9.8 - gsmtp
+    at SMTPConnection._formatError (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:912:19)
+    at SMTPConnection._actionAUTHComplete (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:1722:34)
+    at SMTPConnection.<anonymous> (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:651:26)
+    at SMTPConnection._processResponse (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:1098:20)
+    at SMTPConnection._onData (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:872:14)
+    at SMTPConnection._onSocketData (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:196:44)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+2026-03-07 05:41:04 [warn]: Redis reconnecting...
+2026-03-07 05:41:04 [error]: ❌ Redis error: 
+2026-03-07 05:41:04 [warn]: Redis reconnecting...
+2026-03-07 05:41:04 [error]: ❌ Redis error: 
+2026-03-07 05:41:05 [warn]: Redis reconnecting...
+2026-03-07 05:41:05 [error]: ❌ Redis error: 
+2026-03-07 05:41:05 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 05:41:05 [warn]: Redis reconnecting...
+2026-03-07 05:41:05 [error]: ❌ Redis error: 
+2026-03-07 05:41:06 [warn]: Redis reconnecting...
+2026-03-07 05:41:06 [error]: ❌ Redis error: 
+2026-03-07 05:41:06 [warn]: Redis reconnecting...
+2026-03-07 05:41:06 [error]: ❌ Redis error: 
+2026-03-07 05:41:07 [warn]: Redis reconnecting...
+2026-03-07 05:41:07 [error]: ❌ Redis error: 
+2026-03-07 05:41:07 [warn]: Redis reconnecting...
+2026-03-07 05:41:07 [error]: ❌ Redis error: 
+2026-03-07 05:41:08 [warn]: Redis reconnecting...
+2026-03-07 05:41:08 [error]: ❌ Redis error: 
+2026-03-07 05:41:08 [warn]: Redis reconnecting...
+2026-03-07 05:41:08 [error]: ❌ Redis error: 
+2026-03-07 05:41:09 [warn]: Redis reconnecting...
+2026-03-07 05:41:09 [error]: ❌ Redis error: 
+2026-03-07 05:41:09 [warn]: Redis reconnecting...
+2026-03-07 05:41:09 [error]: ❌ Redis error: 
+2026-03-07 05:41:10 [warn]: Redis reconnecting...
+2026-03-07 05:41:10 [error]: ❌ Redis error: 
+2026-03-07 05:41:10 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-07 05:44:02 [info]: Connecting to MongoDB...
+2026-03-07 05:44:02 [info]: ✅ Redis connected
+2026-03-07 05:44:03 [error]: Error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-485237f6304sm34058175e9.6 - gsmtp
+    at SMTPConnection._formatError (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:912:19)
+    at SMTPConnection._actionAUTHComplete (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:1722:34)
+    at SMTPConnection.<anonymous> (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:651:26)
+    at SMTPConnection._processResponse (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:1098:20)
+    at SMTPConnection._onData (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:872:14)
+    at SMTPConnection._onSocketData (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:196:44)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+2026-03-07 05:44:04 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 05:45:12 [info]: ::1 - - [07/Mar/2026:03:45:12 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 05:45:13 [error]: ❌ Error sending email to undefined: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-439dadb29fdsm8658765f8f.16 - gsmtp
+2026-03-07 05:45:52 [info]: Connecting to MongoDB...
+2026-03-07 05:45:52 [info]: ✅ Redis connected
+2026-03-07 05:45:53 [error]: Error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-439dae2ba06sm8361126f8f.24 - gsmtp
+    at SMTPConnection._formatError (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:912:19)
+    at SMTPConnection._actionAUTHComplete (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:1722:34)
+    at SMTPConnection.<anonymous> (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:651:26)
+    at SMTPConnection._processResponse (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:1098:20)
+    at SMTPConnection._onData (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:872:14)
+    at SMTPConnection._onSocketData (/Users/omarwalid/Documents/Backend-projects/ecommerce-backend/node_modules/nodemailer/lib/smtp-connection/index.js:196:44)
+    at TLSSocket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+2026-03-07 05:45:54 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 05:46:00 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-07 05:50:44 [info]: Connecting to MongoDB...
+2026-03-07 05:50:44 [info]: ✅ Redis connected
+2026-03-07 05:50:46 [info]: ✅ Email transporter is ready
+2026-03-07 05:50:49 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 05:51:05 [info]: ::1 - - [07/Mar/2026:03:51:05 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 05:51:05 [error]: ❌ Error sending email to undefined: No recipients defined
+2026-03-07 06:37:50 [info]: Connecting to MongoDB...
+2026-03-07 06:37:50 [info]: ✅ Redis connected
+2026-03-07 06:37:51 [info]: ✅ Email transporter is ready
+2026-03-07 06:37:51 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 06:38:02 [info]: ::1 - - [07/Mar/2026:04:38:02 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:38:02 [error]: ❌ Error sending email to undefined: No recipients defined
+2026-03-07 06:40:54 [info]: Connecting to MongoDB...
+2026-03-07 06:40:54 [info]: ✅ Redis connected
+2026-03-07 06:40:55 [info]: ✅ Email transporter is ready
+2026-03-07 06:40:56 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 06:41:55 [info]: Connecting to MongoDB...
+2026-03-07 06:41:55 [info]: ✅ Redis connected
+2026-03-07 06:41:56 [info]: ✅ Email transporter is ready
+2026-03-07 06:41:58 [info]: Connecting to MongoDB...
+2026-03-07 06:41:58 [info]: ✅ Redis connected
+2026-03-07 06:41:59 [info]: Connecting to MongoDB...
+2026-03-07 06:41:59 [info]: ✅ Redis connected
+2026-03-07 06:42:00 [info]: ✅ Email transporter is ready
+2026-03-07 06:42:01 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 06:42:11 [info]: ::1 - - [07/Mar/2026:04:42:11 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:42:12 [error]: ❌ Error sending email to undefined: No recipients defined
+2026-03-07 06:42:40 [info]: Connecting to MongoDB...
+2026-03-07 06:42:40 [info]: ✅ Redis connected
+2026-03-07 06:42:42 [info]: ✅ Email transporter is ready
+2026-03-07 06:42:44 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 06:43:00 [info]: ::1 - - [07/Mar/2026:04:43:00 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:43:00 [error]: ❌ Error sending email to undefined: No recipients defined
+2026-03-07 06:44:41 [info]: Connecting to MongoDB...
+2026-03-07 06:44:41 [info]: ✅ Redis connected
+2026-03-07 06:44:42 [info]: ✅ Email transporter is ready
+2026-03-07 06:44:43 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 06:44:48 [info]: Connecting to MongoDB...
+2026-03-07 06:44:48 [info]: ✅ Redis connected
+2026-03-07 06:44:49 [info]: ✅ Email transporter is ready
+2026-03-07 06:44:50 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 06:45:08 [info]: ::1 - - [07/Mar/2026:04:45:08 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:45:08 [error]: ❌ Error sending email to undefined: No recipients defined
+2026-03-07 06:49:44 [info]: Connecting to MongoDB...
+2026-03-07 06:49:44 [info]: ✅ Redis connected
+2026-03-07 06:49:45 [info]: ✅ Email transporter is ready
+2026-03-07 06:49:46 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 06:49:57 [info]: ::1 - - [07/Mar/2026:04:49:57 +0000] "POST /api/v1/auth/login HTTP/1.1" 500 340 "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:51:31 [info]: Connecting to MongoDB...
+2026-03-07 06:51:31 [info]: ✅ Redis connected
+2026-03-07 06:51:32 [info]: ✅ Email transporter is ready
+2026-03-07 06:51:33 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 06:51:41 [info]: ::1 - - [07/Mar/2026:04:51:41 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:51:42 [error]: ❌ Error sending email to undefined: No recipients defined
+2026-03-07 06:52:47 [info]: Connecting to MongoDB...
+2026-03-07 06:52:47 [info]: ✅ Redis connected
+2026-03-07 06:52:48 [info]: ✅ Email transporter is ready
+2026-03-07 06:52:49 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 06:54:51 [info]: Connecting to MongoDB...
+2026-03-07 06:54:51 [info]: ✅ Redis connected
+2026-03-07 06:54:52 [info]: ✅ Email transporter is ready
+2026-03-07 06:54:59 [info]: Connecting to MongoDB...
+2026-03-07 06:54:59 [info]: ✅ Redis connected
+2026-03-07 06:55:00 [info]: Connecting to MongoDB...
+2026-03-07 06:55:00 [info]: ✅ Redis connected
+2026-03-07 06:55:01 [info]: ✅ Email transporter is ready
+2026-03-07 06:55:02 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 06:55:33 [info]: Connecting to MongoDB...
+2026-03-07 06:55:33 [info]: ✅ Redis connected
+2026-03-07 06:55:36 [info]: Connecting to MongoDB...
+2026-03-07 06:55:36 [info]: ✅ Redis connected
+2026-03-07 06:55:37 [info]: ✅ Email transporter is ready
+2026-03-07 06:55:40 [info]: Connecting to MongoDB...
+2026-03-07 06:55:41 [info]: ✅ Redis connected
+2026-03-07 06:55:41 [info]: Connecting to MongoDB...
+2026-03-07 06:55:41 [info]: ✅ Redis connected
+2026-03-07 06:55:42 [info]: ✅ Email transporter is ready
+2026-03-07 06:55:44 [info]: Connecting to MongoDB...
+2026-03-07 06:55:44 [info]: ✅ Redis connected
+2026-03-07 06:55:45 [info]: ✅ Email transporter is ready
+2026-03-07 06:55:47 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 06:55:54 [info]: ::1 - - [07/Mar/2026:04:55:54 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:55:56 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772859356 5b1f17b1804b1-485246fd127sm45301795e9.6 - gsmtp
+2026-03-07 06:56:08 [info]: Connecting to MongoDB...
+2026-03-07 06:56:08 [info]: ✅ Redis connected
+2026-03-07 06:56:09 [info]: ✅ Email transporter is ready
+2026-03-07 06:56:10 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 06:56:14 [info]: ::1 - - [07/Mar/2026:04:56:14 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:56:16 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772859376 5b1f17b1804b1-4851fae538bsm207876925e9.7 - gsmtp
+2026-03-07 06:56:25 [info]: ::1 - - [07/Mar/2026:04:56:25 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 06:56:26 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772859387 5b1f17b1804b1-4853044d849sm11224395e9.11 - gsmtp
+2026-03-07 07:07:37 [info]: Connecting to MongoDB...
+2026-03-07 07:07:37 [info]: ✅ Redis connected
+2026-03-07 07:07:38 [info]: ✅ Email transporter is ready
+2026-03-07 07:07:38 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 07:09:45 [info]: ::1 - - [07/Mar/2026:05:09:45 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:09:46 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772860187 5b1f17b1804b1-4851fb4257csm265100465e9.15 - gsmtp
+2026-03-07 07:10:47 [info]: Connecting to MongoDB...
+2026-03-07 07:10:47 [info]: ✅ Redis connected
+2026-03-07 07:10:49 [info]: Connecting to MongoDB...
+2026-03-07 07:10:49 [info]: ✅ Redis connected
+2026-03-07 07:10:49 [info]: ✅ Email transporter is ready
+2026-03-07 07:10:50 [info]: Connecting to MongoDB...
+2026-03-07 07:10:50 [info]: ✅ Redis connected
+2026-03-07 07:10:52 [info]: Connecting to MongoDB...
+2026-03-07 07:10:52 [info]: ✅ Redis connected
+2026-03-07 07:10:53 [info]: Connecting to MongoDB...
+2026-03-07 07:10:53 [info]: ✅ Redis connected
+2026-03-07 07:10:54 [info]: ✅ Email transporter is ready
+2026-03-07 07:10:55 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:11:16 [info]: ::1 - - [07/Mar/2026:05:11:16 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:11:18 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772860278 5b1f17b1804b1-4852378ea07sm33584035e9.0 - gsmtp
+2026-03-07 07:13:08 [info]: Connecting to MongoDB...
+2026-03-07 07:13:08 [info]: ✅ Redis connected
+2026-03-07 07:13:08 [info]: ✅ Email transporter is ready
+2026-03-07 07:13:09 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:13:12 [info]: Connecting to MongoDB...
+2026-03-07 07:13:12 [info]: ✅ Redis connected
+2026-03-07 07:13:13 [info]: ✅ Email transporter is ready
+2026-03-07 07:13:14 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 07:13:36 [info]: ::1 - - [07/Mar/2026:05:13:36 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:13:38 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772860418 5b1f17b1804b1-4851fb4257csm265316025e9.15 - gsmtp
+2026-03-07 07:14:47 [info]: Connecting to MongoDB...
+2026-03-07 07:14:47 [info]: ✅ Redis connected
+2026-03-07 07:14:47 [info]: ✅ Email transporter is ready
+2026-03-07 07:14:48 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 07:14:54 [info]: Connecting to MongoDB...
+2026-03-07 07:14:54 [info]: ✅ Redis connected
+2026-03-07 07:14:55 [info]: ✅ Email transporter is ready
+2026-03-07 07:14:56 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 07:15:14 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772860514 5b1f17b1804b1-485246f36c1sm32328025e9.22 - gsmtp
+2026-03-07 07:15:14 [info]: ::1 - - [07/Mar/2026:05:15:14 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:16:14 [info]: Connecting to MongoDB...
+2026-03-07 07:16:14 [info]: ✅ Redis connected
+2026-03-07 07:16:14 [info]: ✅ Email transporter is ready
+2026-03-07 07:16:15 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 07:16:32 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772860592 ffacd0b85a97d-439dad8d973sm7928344f8f.3 - gsmtp
+2026-03-07 07:16:32 [info]: ::1 - - [07/Mar/2026:05:16:32 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:17:06 [info]: Connecting to MongoDB...
+2026-03-07 07:17:06 [info]: ✅ Redis connected
+2026-03-07 07:17:07 [info]: ✅ Email transporter is ready
+2026-03-07 07:17:08 [info]: Connecting to MongoDB...
+2026-03-07 07:17:08 [info]: ✅ Redis connected
+2026-03-07 07:17:13 [info]: Connecting to MongoDB...
+2026-03-07 07:17:13 [info]: ✅ Redis connected
+2026-03-07 07:17:14 [info]: ✅ Email transporter is ready
+2026-03-07 07:17:15 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:17:16 [info]: Connecting to MongoDB...
+2026-03-07 07:17:16 [info]: ✅ Redis connected
+2026-03-07 07:17:17 [info]: ✅ Email transporter is ready
+2026-03-07 07:17:17 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 07:17:21 [info]: Connecting to MongoDB...
+2026-03-07 07:17:21 [info]: ✅ Redis connected
+2026-03-07 07:17:22 [info]: ✅ Email transporter is ready
+2026-03-07 07:17:23 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:17:37 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772860657 ffacd0b85a97d-439dae2ba66sm7500826f8f.20 - gsmtp
+2026-03-07 07:17:37 [info]: ::1 - - [07/Mar/2026:05:17:37 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:17:43 [info]: ::1 - - [07/Mar/2026:05:17:43 +0000] "GET /api/v1/auth/verify-email/81b46da96589eca84ba7b5ae960b081b3fae2398c3da2fea14ce571de256adac HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+2026-03-07 07:17:43 [info]: ::1 - - [07/Mar/2026:05:17:43 +0000] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+2026-03-07 07:18:37 [info]: Connecting to MongoDB...
+2026-03-07 07:18:37 [info]: ✅ Redis connected
+2026-03-07 07:18:38 [info]: ✅ Email transporter is ready
+2026-03-07 07:18:39 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 07:18:57 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772860737 5b1f17b1804b1-4852470c258sm30896045e9.30 - gsmtp
+2026-03-07 07:18:57 [info]: ::1 - - [07/Mar/2026:05:18:57 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:19:20 [info]: ::1 - - [07/Mar/2026:05:19:20 +0000] "POST /api/v1/auth/verify-email/e11053848477c6d146f9b7c4f5b1149c6cacaa897e9546331e2a3cc20e809c6e HTTP/1.1" 400 355 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:23:33 [info]: Connecting to MongoDB...
+2026-03-07 07:23:33 [info]: ✅ Redis connected
+2026-03-07 07:23:34 [info]: ✅ Email transporter is ready
+2026-03-07 07:23:35 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 07:23:46 [info]: ::1 - - [07/Mar/2026:05:23:46 +0000] "POST /api/v1/auth/register HTTP/1.1" 500 341 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:24:19 [info]: ::1 - - [07/Mar/2026:05:24:19 +0000] "POST /api/v1/auth/register HTTP/1.1" 400 236 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:24:31 [info]: Connecting to MongoDB...
+2026-03-07 07:24:31 [info]: ✅ Redis connected
+2026-03-07 07:24:32 [info]: Connecting to MongoDB...
+2026-03-07 07:24:33 [info]: ✅ Redis connected
+2026-03-07 07:24:34 [info]: Connecting to MongoDB...
+2026-03-07 07:24:34 [info]: ✅ Redis connected
+2026-03-07 07:24:34 [info]: ✅ Email transporter is ready
+2026-03-07 07:24:35 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:24:49 [info]: ::1 - - [07/Mar/2026:05:24:49 +0000] "POST /api/v1/auth/register HTTP/1.1" 400 236 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:24:53 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-07 07:24:58 [info]: Connecting to MongoDB...
+2026-03-07 07:24:58 [info]: ✅ Redis connected
+2026-03-07 07:24:59 [info]: ✅ Email transporter is ready
+2026-03-07 07:25:00 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 07:25:40 [info]: ::1 - - [07/Mar/2026:05:25:40 +0000] "POST /api/v1/auth/register HTTP/1.1" 500 341 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:26:01 [info]: Connecting to MongoDB...
+2026-03-07 07:26:01 [info]: ✅ Redis connected
+2026-03-07 07:26:04 [info]: ✅ Email transporter is ready
+2026-03-07 07:26:06 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:26:15 [info]: Connecting to MongoDB...
+2026-03-07 07:26:15 [info]: ✅ Redis connected
+2026-03-07 07:26:16 [info]: ✅ Email transporter is ready
+2026-03-07 07:26:18 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:26:19 [info]: Connecting to MongoDB...
+2026-03-07 07:26:19 [info]: ✅ Redis connected
+2026-03-07 07:26:21 [info]: ✅ Email transporter is ready
+2026-03-07 07:26:24 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:27:11 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772861231 ffacd0b85a97d-439dae3c80esm7494820f8f.29 - gsmtp
+2026-03-07 07:27:11 [info]: ::1 - - [07/Mar/2026:05:27:11 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:27:59 [info]: ::1 - - [07/Mar/2026:05:27:59 +0000] "GET /api/v1/auth/verify-email/a69fed2b121809a5ffbf47999c2d1f8148f239e6cbbd312a8b81f804362670cf HTTP/1.1" 400 355 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:32:57 [info]: Connecting to MongoDB...
+2026-03-07 07:32:57 [info]: ✅ Redis connected
+2026-03-07 07:32:58 [info]: ✅ Email transporter is ready
+2026-03-07 07:32:59 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 07:33:10 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772861590 5b1f17b1804b1-485246fd237sm60580965e9.7 - gsmtp
+2026-03-07 07:33:10 [info]: ::1 - - [07/Mar/2026:05:33:10 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:33:32 [info]: ::1 - - [07/Mar/2026:05:33:32 +0000] "GET /api/v1/auth/verify-email/97b29422b42e981383f9d5a8c86778bf7ec2936c4bbce0c78f2d658a26b54115 HTTP/1.1" 200 41 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:33:33 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772861613 5b1f17b1804b1-4852470620dsm32719405e9.27 - gsmtp
+2026-03-07 07:44:26 [info]: Connecting to MongoDB...
+2026-03-07 07:44:26 [info]: ✅ Redis connected
+2026-03-07 07:44:27 [info]: ✅ Email transporter is ready
+2026-03-07 07:44:27 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 07:44:37 [info]: ::1 - - [07/Mar/2026:05:44:37 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 107 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:44:48 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772862288 ffacd0b85a97d-439dad977f8sm9126130f8f.9 - gsmtp
+2026-03-07 07:44:48 [info]: ::1 - - [07/Mar/2026:05:44:48 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 931 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:46:13 [info]: ::1 - - [07/Mar/2026:05:46:13 +0000] "POST /api/v1/auth/change-password HTTP/1.1" 404 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:46:21 [info]: ::1 - - [07/Mar/2026:05:46:21 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 401 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:46:32 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772862392 5b1f17b1804b1-4851fae02a8sm244730475e9.5 - gsmtp
+2026-03-07 07:46:32 [info]: ::1 - - [07/Mar/2026:05:46:32 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 931 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:46:36 [info]: ::1 - - [07/Mar/2026:05:46:36 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 401 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:47:17 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772862437 5b1f17b1804b1-485245dbe50sm33535685e9.17 - gsmtp
+2026-03-07 07:47:17 [info]: ::1 - - [07/Mar/2026:05:47:17 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 931 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:48:56 [info]: ::1 - - [07/Mar/2026:05:48:56 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 500 759 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:49:31 [info]: ::1 - - [07/Mar/2026:05:49:31 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 500 351 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:49:54 [info]: ::1 - - [07/Mar/2026:05:49:54 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 107 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:50:02 [info]: ::1 - - [07/Mar/2026:05:50:02 +0000] "POST /api/v1/auth/login HTTP/1.1" 429 77 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:51:14 [info]: Connecting to MongoDB...
+2026-03-07 07:51:14 [info]: ✅ Redis connected
+2026-03-07 07:51:15 [info]: ✅ Email transporter is ready
+2026-03-07 07:51:16 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 07:51:30 [info]: Connecting to MongoDB...
+2026-03-07 07:51:30 [info]: ✅ Redis connected
+2026-03-07 07:51:31 [info]: ✅ Email transporter is ready
+2026-03-07 07:51:59 [info]: Connecting to MongoDB...
+2026-03-07 07:51:59 [info]: ✅ Redis connected
+2026-03-07 07:52:00 [info]: ✅ Email transporter is ready
+2026-03-07 07:52:01 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 07:52:17 [info]: ::1 - - [07/Mar/2026:05:52:17 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 269 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:52:37 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772862757 5b1f17b1804b1-485276b7547sm92695485e9.12 - gsmtp
+2026-03-07 07:52:37 [info]: ::1 - - [07/Mar/2026:05:52:37 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:52:58 [info]: ::1 - - [07/Mar/2026:05:52:58 +0000] "GET /api/v1/auth/verify-email/e3eb4bc384d45aa8e103dd38f6b6982879c3a7609ddcdcd8af96f8e5e07a9c5c HTTP/1.1" 200 41 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:53:01 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772862781 5b1f17b1804b1-48529a2fa39sm19515985e9.8 - gsmtp
+2026-03-07 07:53:08 [info]: ::1 - - [07/Mar/2026:05:53:08 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 107 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:53:19 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772862799 5b1f17b1804b1-485276b7547sm92765895e9.12 - gsmtp
+2026-03-07 07:53:19 [info]: ::1 - - [07/Mar/2026:05:53:19 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 931 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:54:02 [info]: ::1 - - [07/Mar/2026:05:54:02 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 500 351 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:54:16 [info]: ::1 - - [07/Mar/2026:05:54:16 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 107 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:54:27 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772862867 5b1f17b1804b1-4851fad27dbsm140190995e9.2 - gsmtp
+2026-03-07 07:54:27 [info]: ::1 - - [07/Mar/2026:05:54:27 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 978 "-" "PostmanRuntime/7.44.1"
+2026-03-07 07:55:33 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-07 08:01:23 [info]: Connecting to MongoDB...
+2026-03-07 08:01:23 [info]: ✅ Redis connected
+2026-03-07 08:01:25 [info]: ✅ Email transporter is ready
+2026-03-07 08:01:38 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 08:02:06 [info]: ::1 - - [07/Mar/2026:06:02:06 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 269 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:03:18 [info]: MongoDB reconnected
+2026-03-07 08:03:18 [info]: MongoDB reconnected
+2026-03-07 08:03:49 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-07 08:03:49 [info]: MongoDB reconnected
+2026-03-07 08:04:11 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772863451 5b1f17b1804b1-4852470a654sm32365245e9.29 - gsmtp
+2026-03-07 08:04:11 [info]: ::1 - - [07/Mar/2026:06:04:11 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:05:07 [info]: ::1 - - [07/Mar/2026:06:05:07 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 107 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:05:23 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772863523 5b1f17b1804b1-485246fd127sm47831285e9.6 - gsmtp
+2026-03-07 08:05:23 [info]: ::1 - - [07/Mar/2026:06:05:23 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:07:16 [info]: ::1 - - [07/Mar/2026:06:07:16 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 500 351 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:07:33 [info]: Connecting to MongoDB...
+2026-03-07 08:07:33 [info]: ✅ Redis connected
+2026-03-07 08:07:35 [info]: Connecting to MongoDB...
+2026-03-07 08:07:35 [info]: ✅ Redis connected
+2026-03-07 08:07:35 [info]: ✅ Email transporter is ready
+2026-03-07 08:07:36 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-07 08:08:02 [info]: ::1 - - [07/Mar/2026:06:08:02 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 401 282 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:08:19 [info]: ::1 - - [07/Mar/2026:06:08:19 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 500 351 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:08:55 [info]: Connecting to MongoDB...
+2026-03-07 08:08:55 [info]: ✅ Redis connected
+2026-03-07 08:08:56 [info]: ✅ Email transporter is ready
+2026-03-07 08:08:57 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-07 08:09:02 [info]: ::1 - - [07/Mar/2026:06:09:02 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 401 282 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:09:35 [info]: ::1 - - [07/Mar/2026:06:09:35 +0000] "PATCH /api/v1/auth/change-password HTTP/1.1" 201 64 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:09:49 [info]: ::1 - - [07/Mar/2026:06:09:49 +0000] "GET /api/v1/users/profile HTTP/1.1" 401 403 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:09:59 [info]: ::1 - - [07/Mar/2026:06:09:59 +0000] "POST /api/v1/auth/login HTTP/1.1" 400 107 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:10:09 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772863809 5b1f17b1804b1-485237dd07csm35077345e9.3 - gsmtp
+2026-03-07 08:10:09 [info]: ::1 - - [07/Mar/2026:06:10:09 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:10:13 [info]: ::1 - - [07/Mar/2026:06:10:13 +0000] "GET /api/v1/users/profile HTTP/1.1" 200 594 "-" "PostmanRuntime/7.44.1"
+2026-03-07 08:13:59 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-07 08:18:54 [info]: Connecting to MongoDB...
+2026-03-07 08:18:54 [info]: ✅ Redis connected
+2026-03-07 08:18:55 [info]: ✅ Email transporter is ready
+2026-03-07 08:18:56 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-07 08:18:59 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-08 00:47:16 [info]: Connecting to MongoDB...
+2026-03-08 00:47:16 [info]: ✅ Redis connected
+2026-03-08 00:47:17 [info]: ✅ Email transporter is ready
+2026-03-08 00:47:17 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 00:47:29 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772923649 5b1f17b1804b1-4853616a085sm3489295e9.3 - gsmtp
+2026-03-08 00:47:29 [info]: ::1 - - [07/Mar/2026:22:47:29 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:48:20 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772923700 5b1f17b1804b1-4851fae0202sm302590475e9.6 - gsmtp
+2026-03-08 00:48:20 [info]: ::1 - - [07/Mar/2026:22:48:20 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:50:38 [info]: ::1 - - [07/Mar/2026:22:50:38 +0000] "PATCH /api/v1/users/69abbf6d16170d29cc038729/change-password HTTP/1.1" 404 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:51:10 [info]: Connecting to MongoDB...
+2026-03-08 00:51:10 [info]: ✅ Redis connected
+2026-03-08 00:51:11 [info]: ✅ Email transporter is ready
+2026-03-08 00:51:12 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 00:51:19 [info]: ::1 - - [07/Mar/2026:22:51:19 +0000] "PATCH /api/v1/users/69abbf6d16170d29cc038729/change-password HTTP/1.1" 404 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:51:29 [info]: ::1 - - [07/Mar/2026:22:51:29 +0000] "PATCH /api/v1/users/69abbf6d16170d29cc038729/change-password HTTP/1.1" 404 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:51:54 [info]: Connecting to MongoDB...
+2026-03-08 00:51:54 [info]: ✅ Redis connected
+2026-03-08 00:51:56 [info]: ✅ Email transporter is ready
+2026-03-08 00:51:57 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-08 00:52:13 [info]: Connecting to MongoDB...
+2026-03-08 00:52:13 [info]: ✅ Redis connected
+2026-03-08 00:52:14 [info]: ✅ Email transporter is ready
+2026-03-08 00:52:14 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-08 00:52:20 [info]: ::1 - - [07/Mar/2026:22:52:20 +0000] "PATCH /api/v1/users/69abbf6d16170d29cc038729/change-password HTTP/1.1" 500 760 "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:53:09 [info]: Connecting to MongoDB...
+2026-03-08 00:53:09 [info]: ✅ Redis connected
+2026-03-08 00:53:10 [info]: Connecting to MongoDB...
+2026-03-08 00:53:10 [info]: ✅ Redis connected
+2026-03-08 00:53:12 [info]: ✅ Email transporter is ready
+2026-03-08 00:53:14 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-08 00:53:20 [info]: ::1 - - [07/Mar/2026:22:53:20 +0000] "PATCH /api/v1/users/69abbf6d16170d29cc038729/change-password HTTP/1.1" 500 760 "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:53:29 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772924009 5b1f17b1804b1-4851fad2812sm352040515e9.1 - gsmtp
+2026-03-08 00:53:29 [info]: ::1 - - [07/Mar/2026:22:53:29 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:54:37 [info]: Connecting to MongoDB...
+2026-03-08 00:54:38 [info]: ✅ Redis connected
+2026-03-08 00:54:38 [info]: ✅ Email transporter is ready
+2026-03-08 00:54:39 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-08 00:54:45 [info]: ::1 - - [07/Mar/2026:22:54:45 +0000] "PATCH /api/v1/users/69abbf6d16170d29cc038729/change-password HTTP/1.1" 500 760 "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:55:08 [info]: Connecting to MongoDB...
+2026-03-08 00:55:08 [info]: ✅ Redis connected
+2026-03-08 00:55:09 [info]: ✅ Email transporter is ready
+2026-03-08 00:55:10 [info]: Connecting to MongoDB...
+2026-03-08 00:55:10 [info]: ✅ Redis connected
+2026-03-08 00:55:11 [info]: Connecting to MongoDB...
+2026-03-08 00:55:11 [info]: ✅ Redis connected
+2026-03-08 00:55:14 [info]: Connecting to MongoDB...
+2026-03-08 00:55:14 [info]: ✅ Redis connected
+2026-03-08 00:55:15 [info]: Connecting to MongoDB...
+2026-03-08 00:55:15 [info]: ✅ Redis connected
+2026-03-08 00:55:16 [info]: ✅ Email transporter is ready
+2026-03-08 00:55:17 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 00:55:22 [info]: ::1 - - [07/Mar/2026:22:55:22 +0000] "PATCH /api/v1/users/69abbf6d16170d29cc038729/change-password HTTP/1.1" 500 760 "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:55:44 [info]: Connecting to MongoDB...
+2026-03-08 00:55:44 [info]: ✅ Redis connected
+2026-03-08 00:55:44 [info]: ✅ Email transporter is ready
+2026-03-08 00:55:45 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 00:55:48 [info]: Connecting to MongoDB...
+2026-03-08 00:55:48 [info]: ✅ Redis connected
+2026-03-08 00:55:50 [info]: Connecting to MongoDB...
+2026-03-08 00:55:50 [info]: ✅ Redis connected
+2026-03-08 00:55:51 [info]: Connecting to MongoDB...
+2026-03-08 00:55:51 [info]: ✅ Redis connected
+2026-03-08 00:55:52 [info]: ✅ Email transporter is ready
+2026-03-08 00:55:53 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-08 00:56:04 [info]: ::1 - - [07/Mar/2026:22:56:04 +0000] "PATCH /api/v1/users/69abbf6d16170d29cc038729/change-password HTTP/1.1" 201 64 "-" "PostmanRuntime/7.51.1"
+2026-03-08 00:56:30 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772924190 ffacd0b85a97d-439dada3b43sm14215824f8f.13 - gsmtp
+2026-03-08 00:56:30 [info]: ::1 - - [07/Mar/2026:22:56:30 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:04:28 [info]: ::1 - - [07/Mar/2026:23:04:28 +0000] "GET /api/v1/cart HTTP/1.1" 200 359 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:04:59 [info]: Connecting to MongoDB...
+2026-03-08 01:04:59 [info]: ✅ Redis connected
+2026-03-08 01:05:00 [info]: ✅ Email transporter is ready
+2026-03-08 01:05:01 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 01:05:02 [info]: Connecting to MongoDB...
+2026-03-08 01:05:02 [info]: ✅ Redis connected
+2026-03-08 01:05:03 [info]: Connecting to MongoDB...
+2026-03-08 01:05:03 [info]: ✅ Redis connected
+2026-03-08 01:05:04 [info]: ✅ Email transporter is ready
+2026-03-08 01:05:05 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-08 01:05:12 [info]: ::1 - - [07/Mar/2026:23:05:12 +0000] "GET /api/v1/cart HTTP/1.1" 200 359 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:06:13 [info]: Connecting to MongoDB...
+2026-03-08 01:06:13 [info]: ✅ Redis connected
+2026-03-08 01:06:13 [info]: ✅ Email transporter is ready
+2026-03-08 01:06:15 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 01:06:49 [info]: ::1 - - [07/Mar/2026:23:06:49 +0000] "GET /api/v1/cart HTTP/1.1" 500 352 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:07:00 [info]: Connecting to MongoDB...
+2026-03-08 01:07:00 [info]: ✅ Redis connected
+2026-03-08 01:07:01 [info]: ✅ Email transporter is ready
+2026-03-08 01:07:02 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 01:07:05 [info]: ::1 - - [07/Mar/2026:23:07:05 +0000] "GET /api/v1/cart HTTP/1.1" 200 259 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:11:31 [info]: Connecting to MongoDB...
+2026-03-08 01:11:31 [info]: ✅ Redis connected
+2026-03-08 01:11:32 [info]: ✅ Email transporter is ready
+2026-03-08 01:11:33 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-08 01:11:51 [info]: ::1 - - [07/Mar/2026:23:11:51 +0000] "GET /api/v1/cart HTTP/1.1" 200 193 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:13:29 [info]: Connecting to MongoDB...
+2026-03-08 01:13:29 [info]: ✅ Redis connected
+2026-03-08 01:13:32 [info]: Connecting to MongoDB...
+2026-03-08 01:13:32 [info]: ✅ Redis connected
+2026-03-08 01:13:32 [info]: ✅ Email transporter is ready
+2026-03-08 01:13:33 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-08 01:14:00 [info]: ::1 - - [07/Mar/2026:23:14:00 +0000] "GET /api/v1/cart HTTP/1.1" 200 193 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:16:10 [info]: Connecting to MongoDB...
+2026-03-08 01:16:10 [info]: ✅ Redis connected
+2026-03-08 01:16:11 [info]: Connecting to MongoDB...
+2026-03-08 01:16:11 [info]: ✅ Redis connected
+2026-03-08 01:16:11 [info]: ✅ Email transporter is ready
+2026-03-08 01:16:13 [info]: Connecting to MongoDB...
+2026-03-08 01:16:13 [info]: ✅ Redis connected
+2026-03-08 01:16:14 [info]: ✅ Email transporter is ready
+2026-03-08 01:16:15 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-08 01:16:18 [info]: ::1 - - [07/Mar/2026:23:16:18 +0000] "GET /api/v1/cart HTTP/1.1" 200 193 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:21:08 [info]: Connecting to MongoDB...
+2026-03-08 01:21:08 [info]: ✅ Redis connected
+2026-03-08 01:21:09 [info]: ✅ Email transporter is ready
+2026-03-08 01:21:10 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-08 01:22:16 [info]: Connecting to MongoDB...
+2026-03-08 01:22:16 [info]: ✅ Redis connected
+2026-03-08 01:22:18 [info]: Connecting to MongoDB...
+2026-03-08 01:22:18 [info]: ✅ Redis connected
+2026-03-08 01:22:19 [info]: Connecting to MongoDB...
+2026-03-08 01:22:19 [info]: ✅ Redis connected
+2026-03-08 01:22:21 [info]: Connecting to MongoDB...
+2026-03-08 01:22:21 [info]: ✅ Redis connected
+2026-03-08 01:22:22 [info]: ✅ Email transporter is ready
+2026-03-08 01:22:23 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-08 01:22:41 [info]: ::1 - - [07/Mar/2026:23:22:41 +0000] "GET /api/v1/cart HTTP/1.1" 200 193 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:22:57 [info]: ::1 - - [07/Mar/2026:23:22:57 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:23:30 [info]: ::1 - - [07/Mar/2026:23:23:30 +0000] "GET /api/v1/products/67b3949c90c1cf6a27058d6a HTTP/1.1" 200 549 "-" "PostmanRuntime/7.51.1"
+2026-03-08 01:23:40 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-08 03:34:37 [info]: Connecting to MongoDB...
+2026-03-08 03:34:37 [info]: ✅ Redis connected
+2026-03-08 03:34:38 [info]: ✅ Email transporter is ready
+2026-03-08 03:34:40 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 03:35:00 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772933700 ffacd0b85a97d-439dae2b9d8sm15961706f8f.21 - gsmtp
+2026-03-08 03:35:00 [info]: ::1 - - [08/Mar/2026:01:35:00 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:35:09 [info]: ::1 - - [08/Mar/2026:01:35:09 +0000] "GET /api/v1/cart HTTP/1.1" 200 193 "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:35:17 [info]: ::1 - - [08/Mar/2026:01:35:17 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:36:16 [info]: ::1 - - [08/Mar/2026:01:36:16 +0000] "POST /api/v1/cart HTTP/1.1" 400 339 "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:37:54 [info]: ::1 - - [08/Mar/2026:01:37:54 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:38:45 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-08 03:43:58 [info]: Connecting to MongoDB...
+2026-03-08 03:43:58 [info]: ✅ Redis connected
+2026-03-08 03:43:58 [info]: ✅ Email transporter is ready
+2026-03-08 03:44:00 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-08 03:44:05 [info]: ::1 - - [08/Mar/2026:01:44:05 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:44:17 [info]: ::1 - - [08/Mar/2026:01:44:17 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:44:38 [info]: ::1 - - [08/Mar/2026:01:44:38 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:45:42 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-08 03:45:47 [info]: Connecting to MongoDB...
+2026-03-08 03:45:47 [info]: ✅ Redis connected
+2026-03-08 03:45:48 [info]: ✅ Email transporter is ready
+2026-03-08 03:45:50 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 03:46:35 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772934395 5b1f17b1804b1-485276bc6bbsm143509005e9.15 - gsmtp
+2026-03-08 03:46:36 [info]: ::1 - - [08/Mar/2026:01:46:36 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:47:00 [info]: Connecting to MongoDB...
+2026-03-08 03:47:00 [info]: ✅ Redis connected
+2026-03-08 03:47:03 [info]: Connecting to MongoDB...
+2026-03-08 03:47:03 [info]: ✅ Redis connected
+2026-03-08 03:47:07 [info]: Connecting to MongoDB...
+2026-03-08 03:47:07 [info]: ✅ Redis connected
+2026-03-08 03:47:12 [info]: Connecting to MongoDB...
+2026-03-08 03:47:12 [info]: ✅ Redis connected
+2026-03-08 03:47:16 [info]: Connecting to MongoDB...
+2026-03-08 03:47:16 [info]: ✅ Redis connected
+2026-03-08 03:47:18 [info]: Connecting to MongoDB...
+2026-03-08 03:47:18 [info]: ✅ Redis connected
+2026-03-08 03:47:20 [info]: Connecting to MongoDB...
+2026-03-08 03:47:20 [info]: ✅ Redis connected
+2026-03-08 03:47:21 [info]: ✅ Email transporter is ready
+2026-03-08 03:47:24 [info]: Connecting to MongoDB...
+2026-03-08 03:47:24 [info]: ✅ Redis connected
+2026-03-08 03:47:25 [info]: Connecting to MongoDB...
+2026-03-08 03:47:25 [info]: ✅ Redis connected
+2026-03-08 03:47:27 [info]: Connecting to MongoDB...
+2026-03-08 03:47:27 [info]: ✅ Redis connected
+2026-03-08 03:47:28 [info]: ✅ Email transporter is ready
+2026-03-08 03:47:29 [info]: Connecting to MongoDB...
+2026-03-08 03:47:29 [info]: ✅ Redis connected
+2026-03-08 03:47:34 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-08 03:47:35 [info]: ✅ Email transporter is ready
+2026-03-08 03:47:48 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772934468 ffacd0b85a97d-439dae2b9ccsm14258367f8f.19 - gsmtp
+2026-03-08 03:47:48 [info]: ::1 - - [08/Mar/2026:01:47:48 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:48:15 [info]: ::1 - - [08/Mar/2026:01:48:15 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:48:47 [info]: ::1 - - [08/Mar/2026:01:48:47 +0000] "POST /api/v1/cart HTTP/1.1" 200 359 "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:48:59 [info]: ::1 - - [08/Mar/2026:01:48:59 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:49:13 [info]: ::1 - - [08/Mar/2026:01:49:13 +0000] "GET /api/v1/cart HTTP/1.1" 200 328 "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:49:20 [info]: ::1 - - [08/Mar/2026:01:49:20 +0000] "POST /api/v1/cart HTTP/1.1" 200 359 "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:49:27 [info]: ::1 - - [08/Mar/2026:01:49:27 +0000] "GET /api/v1/cart HTTP/1.1" 200 328 "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:50:27 [info]: ::1 - - [08/Mar/2026:01:50:27 +0000] "POST /api/v1/orders HTTP/1.1" 201 1001 "-" "PostmanRuntime/7.51.1"
+2026-03-08 03:50:56 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-08 05:01:11 [info]: Connecting to MongoDB...
+2026-03-08 05:01:11 [info]: ✅ Redis connected
+2026-03-08 05:01:12 [info]: ✅ Email transporter is ready
+2026-03-08 05:01:14 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-08 05:01:17 [info]: ::1 - - [08/Mar/2026:03:01:17 +0000] "GET /api/v1/cart HTTP/1.1" 500 885 "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:01:34 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1772938894 ffacd0b85a97d-439dae2b9ccsm14576463f8f.19 - gsmtp
+2026-03-08 05:01:34 [info]: ::1 - - [08/Mar/2026:03:01:34 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:01:42 [info]: ::1 - - [08/Mar/2026:03:01:42 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:01:57 [info]: ::1 - - [08/Mar/2026:03:01:57 +0000] "GET /api/v1/cart HTTP/1.1" 200 193 "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:02:44 [info]: ::1 - - [08/Mar/2026:03:02:44 +0000] "POST /api/v1/cart HTTP/1.1" 200 359 "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:02:49 [info]: ::1 - - [08/Mar/2026:03:02:49 +0000] "GET /api/v1/cart HTTP/1.1" 200 328 "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:02:53 [info]: ::1 - - [08/Mar/2026:03:02:53 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:02:57 [info]: ::1 - - [08/Mar/2026:03:02:57 +0000] "POST /api/v1/orders HTTP/1.1" 500 435 "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:03:47 [info]: ::1 - - [08/Mar/2026:03:03:47 +0000] "POST /api/v1/cart HTTP/1.1" 200 359 "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:03:51 [info]: ::1 - - [08/Mar/2026:03:03:51 +0000] "POST /api/v1/orders HTTP/1.1" 201 1001 "-" "PostmanRuntime/7.51.1"
+2026-03-08 05:03:57 [info]: ::1 - - [08/Mar/2026:03:03:57 +0000] "GET /api/v1/products HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:37:50 [info]: Connecting to MongoDB...
+2026-03-13 20:37:50 [info]: ✅ Redis connected
+2026-03-13 20:37:51 [info]: ✅ Email transporter is ready
+2026-03-13 20:37:52 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-13 20:38:12 [info]: ::1 - - [13/Mar/2026:18:38:12 +0000] "GET /api/v1/orders HTTP/1.1" 500 885 "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:38:37 [info]: 📧 Email sent to omarelhusseny.63@gmail.com: 250 2.0.0 OK  1773427117 5b1f17b1804b1-48557c679c1sm24706825e9.24 - gsmtp
+2026-03-13 20:38:37 [info]: ::1 - - [13/Mar/2026:18:38:37 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:38:51 [info]: ::1 - - [13/Mar/2026:18:38:51 +0000] "GET /api/v1/orders HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:40:08 [info]: ::1 - - [13/Mar/2026:18:40:08 +0000] "GET /api/v1/orders HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:43:20 [info]: Connecting to MongoDB...
+2026-03-13 20:43:20 [info]: ✅ Redis connected
+2026-03-13 20:43:22 [info]: Connecting to MongoDB...
+2026-03-13 20:43:23 [info]: ✅ Redis connected
+2026-03-13 20:43:24 [info]: Connecting to MongoDB...
+2026-03-13 20:43:24 [info]: ✅ Redis connected
+2026-03-13 20:43:25 [info]: ✅ Email transporter is ready
+2026-03-13 20:43:26 [info]: Connecting to MongoDB...
+2026-03-13 20:43:26 [info]: ✅ Redis connected
+2026-03-13 20:43:27 [info]: ✅ Email transporter is ready
+2026-03-13 20:43:28 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-13 20:43:34 [info]: Connecting to MongoDB...
+2026-03-13 20:43:34 [info]: ✅ Redis connected
+2026-03-13 20:43:35 [info]: ✅ Email transporter is ready
+2026-03-13 20:43:35 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-13 20:43:41 [info]: ::1 - - [13/Mar/2026:18:43:41 +0000] "GET /api/v1/orders HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:44:01 [info]: Connecting to MongoDB...
+2026-03-13 20:44:01 [info]: ✅ Redis connected
+2026-03-13 20:44:02 [info]: ✅ Email transporter is ready
+2026-03-13 20:44:03 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-13 20:44:09 [info]: Connecting to MongoDB...
+2026-03-13 20:44:09 [info]: ✅ Redis connected
+2026-03-13 20:44:10 [info]: ✅ Email transporter is ready
+2026-03-13 20:44:12 [info]: Connecting to MongoDB...
+2026-03-13 20:44:12 [info]: ✅ Redis connected
+2026-03-13 20:44:13 [info]: ✅ Email transporter is ready
+2026-03-13 20:44:14 [info]: Connecting to MongoDB...
+2026-03-13 20:44:14 [info]: ✅ Redis connected
+2026-03-13 20:44:16 [info]: Connecting to MongoDB...
+2026-03-13 20:44:16 [info]: ✅ Redis connected
+2026-03-13 20:44:17 [info]: Connecting to MongoDB...
+2026-03-13 20:44:17 [info]: ✅ Redis connected
+2026-03-13 20:44:18 [info]: ✅ Email transporter is ready
+2026-03-13 20:44:19 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-13 20:44:24 [info]: ::1 - - [13/Mar/2026:18:44:24 +0000] "GET /api/v1/orders HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:44:32 [info]: Connecting to MongoDB...
+2026-03-13 20:44:32 [info]: ✅ Redis connected
+2026-03-13 20:44:34 [info]: Connecting to MongoDB...
+2026-03-13 20:44:34 [info]: ✅ Redis connected
+2026-03-13 20:44:36 [info]: Connecting to MongoDB...
+2026-03-13 20:44:36 [info]: ✅ Redis connected
+2026-03-13 20:44:37 [info]: ✅ Email transporter is ready
+2026-03-13 20:44:38 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-13 20:44:42 [info]: ::1 - - [13/Mar/2026:18:44:42 +0000] "GET /api/v1/orders HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:45:05 [info]: Connecting to MongoDB...
+2026-03-13 20:45:05 [info]: ✅ Redis connected
+2026-03-13 20:45:06 [info]: ✅ Email transporter is ready
+2026-03-13 20:45:07 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-13 20:45:12 [info]: ::1 - - [13/Mar/2026:18:45:12 +0000] "GET /api/v1/orders HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:46:06 [info]: ::1 - - [13/Mar/2026:18:46:06 +0000] "GET /api/v1/orders?page=1 HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-13 20:46:22 [info]: Connecting to MongoDB...
+2026-03-13 20:46:22 [info]: ✅ Redis connected
+2026-03-13 20:46:22 [info]: ✅ Email transporter is ready
+2026-03-13 20:46:24 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-13 20:46:28 [info]: ::1 - - [13/Mar/2026:18:46:28 +0000] "GET /api/v1/orders?page=2 HTTP/1.1" 200 98 "-" "PostmanRuntime/7.51.1"
+2026-03-13 21:04:30 [info]: Connecting to MongoDB...
+2026-03-13 21:04:30 [info]: ✅ Redis connected

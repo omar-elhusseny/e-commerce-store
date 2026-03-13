@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const clearModelCache = require("../utils/clearCache");
 
 const subCategorySchema = new mongoose.Schema({
     name: {
@@ -20,5 +21,17 @@ const subCategorySchema = new mongoose.Schema({
 }, { timestamps: true })
 
 subCategorySchema.index({ name: "text" });
+
+productSchema.post("save", async function () {
+    await clearModelCache(this.constructor.collection.name);
+})
+
+productSchema.post("findOneAndUpdate", async function () {
+    await clearModelCache(this.model.collection.name);
+});
+
+productSchema.post("findOneAndDelete", async function () {
+    await clearModelCache(this.model.collection.name);
+});
 
 module.exports = mongoose.model("Subcategory", subCategorySchema);

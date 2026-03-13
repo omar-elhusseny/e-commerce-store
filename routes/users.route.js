@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { updatePasswordValidation } = require("../middleware/validator/userValidator")
-const { getProfile, updateProfile, logout, deleteUser, addAddress, removeAddress, updateAddress, deactivateUser, updatePassword } = require("../controllers/users.controller");
+const { getProfile, updateProfile, logout, deleteUser, addAddress, removeAddress, updateAddress, deactivateUser, changePassword } = require("../controllers/users.controller");
 const { uploadSingleImage, setUploadType } = require("../config/multer")
 const wishlistRoute = require("../routes/wishlist.route");
 
@@ -30,8 +30,8 @@ router.route("/addresses/:addressId")
 // /api/v1/users/:id/deactivate
 router.put("/:id/deactivate", deactivateUser);
 
-// /api/v1/users/:id/password
-router.put("/:id/password", updatePasswordValidation, updatePassword);
+// PATCH /api/v1/users/:id/change-password
+router.patch("/:id/change-password", updatePasswordValidation, changePassword);
 
 
 module.exports = router;

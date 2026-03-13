@@ -50,6 +50,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - POST /api/v1/auth/verify-reset-code
 - POST /api/v1/auth/reset-password
 - POST /api/v1/auth/refresh-token (admin-only)
+- GET  /api/v1/auth/verify-email
 
 ### User Routes
 - GET /api/v1/users/profile – Get user's profile
@@ -57,7 +58,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - POST /api/v1/users/addresses – Add user address (One of user's infomation)
 - PUT /api/v1/users/:id – Update user's info
 - PUT /api/v1/users/addresses/:addressId – Update user address
-- PUT /api/v1/users/:id/password – Update user password
+- PATCH /api/v1/users/:id/change-password – change user password
 - DELETE /api/v1/users/addresses/:addressId – delete user address
 - DELETE /api/v1/users/:id/deactivate – Deactivate user's account
 - DELETE /api/v1/users/:id – Delete user's account
@@ -97,15 +98,18 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - GET /api/v1/cart – View cart
 - POST /api/v1/cart – Add to cart
 - PUT /api/v1/cart/:id – Update cart
-- PUT /api/v1/cart/applyCoupon - add a coupon to the total of the cart
+- PUT /api/v1/cart/apply-coupon - add a coupon to the total of the cart
+- PATCH /api/v1/cart/remove-coupon - remove the added coupon from the cart
 - DELETE /api/v1/cart/:id – Remove item from cart
+- DELETE /api/v1/cart/clear-cart - clear cart at once
 
 ### Order Routes
 - GET /api/v1/orders – View orders
 - GET /api/v1/orders/:id – View order by ID
 - POST /api/v1/orders – Create order
-- PUT /api/v1/orders/:id – Update order (admin only)
-- PUT /api/v1/orders/:id/pay – Update order status if the payment done by cash
+- PUT /api/v1/orders/:id/pay – Update order status if the payment done by cash (admin only)
+- PUT /api/v1/orders/:id/status - Update order status (admin only)
+- PATCH /api/v1/orders/:id/cancel - Cancel orders under [pending, processing] status only
 
 ### Wishlist Routes
 - GET /api/v1/wishlist – View wishlist

@@ -1,6 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const AppError = require("../utils/appError");
 
 // Ensure directory exists
 const ensureDirectoryExistence = (dir) => {
@@ -41,7 +42,7 @@ const fileFilter = (req, file, cb) => {
     if (mimeType && extName) {
         return cb(null, true);
     }
-    cb(new Error('Unsupported file type. Please upload JPEG, JPG, or PNG files.'));
+    cb(new AppError('Unsupported file type. Please upload JPEG, JPG, or PNG files.'));
 };
 
 // Middleware to set the upload type dynamically

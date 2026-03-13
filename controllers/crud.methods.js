@@ -123,46 +123,53 @@ exports.get = (Model, population) => {
 
 exports.getAll = (Model, population) => {
     return asyncWrapper(async (req, res) => {
-        // 1) Generate a unique cache key based on the request query
-        const cacheKey = `${Model.collection.name}:${JSON.stringify(req.query)}`;
 
-        // 2) Check if data is in Redis cache
+        // Sort the queries to be same pattern saved in Caching
+        const sortedQuery = Object.keys(req.query)
+            .sort()
+            .reduce((acc, key) => {
+                acc[key] = req.query[key];
+                return acc;
+            }, {});
+
+        // Generate a unique cache key based on the request query
+        const cacheKey = `${Model.collection.name}:${JSON.stringify(sortedQuery)}`;
+
+        // Check if data is in Redis cache
         const cachedData = await redisClient.get(cacheKey);
         if (cachedData) {
             return res.status(200).json(JSON.parse(cachedData));
         }
 
-        // 3) If not cached, query the database
-        const documents = await Model.countDocuments();
         // Model.find() return the query object will use to search in database but not executed yet.
         const queryHelper = new QueryHelper(Model.find(), req.query)
-        // we build the query by adding methods which added to query (query object)
+            // we build the query by adding methods which added to query (query object)
             .filter()
-            .paginate(documents)
             .sort()
             .search()
             .selectFields()
 
+        // To make MongoDB counts only filtered results.
+        const documents = await Model.countDocuments(queryHelper.query.getQuery());
+
+        queryHelper.paginate(documents);
+
         if (population) queryHelper.query = queryHelper.query.populate(population);
 
-        const { paginationResult } = queryHelper;
-        // we start to execute with await/then()/exec() using the query object (.query)
-        // Final query object
+        // Execute query
+        const modelDocuments = await queryHelper.query.exec();
 
-        // 4) Execute query
-        const modelDocuments = await queryHelper.query;
-
-        // 5) Prepare the response object
+        // Prepare the response object
         const response = {
             results: modelDocuments.length,
-            paginationResult,
+            paginationResult: queryHelper.paginationResult,
             data: modelDocuments
         };
 
-        // 6) Store the response in Redis for future requests
+        // Store the response in Redis for future requests
         await redisClient.set(cacheKey, JSON.stringify(response), { EX: 3600 }); // Cache expires in 1 hour
-        
-        // 7) Return the response to the client
+
+        // Return the response to the client
         return res.status(200).json(response);
     })
 }

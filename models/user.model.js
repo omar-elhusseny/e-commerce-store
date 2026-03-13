@@ -34,10 +34,15 @@ const userSchema = new mongoose.Schema({
         city: String,
         postalCode: String,
     }],
+    isEmailVerified: {
+        type: Boolean, default: false
+    },
     isActive: {
         type: Boolean,
         default: true
     },
+    emailVerificationToken: String,
+    emailVerificationExpires: Date,
     passwordResetCode: String,
     passwordResetExpires: Date,
     passwordResetVerified: Boolean,

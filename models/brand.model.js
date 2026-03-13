@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const clearModelCache = require("../utils/clearCache");
 
 const brandSchema = new mongoose.Schema({
     name: {
@@ -17,5 +18,17 @@ const brandSchema = new mongoose.Schema({
 
 // Indexing the name and description fields for full-text search
 brandSchema.index({ name: "text", description: "text" });
+
+productSchema.post("save", async function () {
+    await clearModelCache(this.constructor.collection.name);
+})
+
+productSchema.post("findOneAndUpdate", async function () {
+    await clearModelCache(this.model.collection.name);
+});
+
+productSchema.post("findOneAndDelete", async function () {
+    await clearModelCache(this.model.collection.name);
+});
 
 module.exports = mongoose.model("Brand", brandSchema);

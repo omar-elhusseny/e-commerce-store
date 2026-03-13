@@ -12,18 +12,22 @@ const login = asyncWrapper(async (req, res, next) => {
 
     const user = await User.findOne({ email });
 
+    user.isActive = true;
+    await user.save();
+
     // Generate refresh token and access token
     const refreshToken = generateToken({ id: user._id, username: user.username, email: user.email }, "7d");
     const accessToken = generateToken({ id: user._id, username: user.username, email: user.email }, "1h");
 
     // Save refresh token to redis
     await redisClient.set(`refreshToken:${user._id}`, refreshToken, { EX: 7 * 24 * 60 * 60 });
-
+    
     const message = `Hi ${user.username}, welcome back`
-    sendEmail(user.email, "Welcome back!", message);
-
-    user.isActive = true;
-    await user.save();
+    await sendEmail({
+        to: user.email,
+        subject: "Welcome back!",
+        text: message
+    });
 
     // Respond with success
     return res.status(200).json({
@@ -41,7 +45,27 @@ const register = asyncWrapper(async (req, res) => {
     // Create new user
     const user = await User.create({ username, slug, email, password: hashedPassword });
 
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const hashedToken = crypto.createHash("sha256").update(verificationToken).digest("hex");
+
+    user.emailVerificationToken = hashedToken;
+    user.emailVerificationExpires = Date.now() + 10 * 60 * 1000;
+
     await user.save();
+
+    const verificationURL = `${req.protocol}://${req.get("host")}/api/v1/auth/verify-email/${verificationToken}`;
+    const message = `
+        Hi ${username},
+        Please verify your email by clicking the link below:
+        ${verificationURL}
+        This link expires in 10 minutes
+    `;
+
+    await sendEmail({
+        to: user.email,
+        subject: "Verify your email",
+        text: message
+    });
 
     // Generate refresh token and access token
     const refreshToken = generateToken({ id: user._id, username, email }, "7d");
@@ -50,15 +74,43 @@ const register = asyncWrapper(async (req, res) => {
     // Save refresh token to redis
     await redisClient.set(`refreshToken:${user._id}`, refreshToken, { EX: 7 * 24 * 60 * 60 });
 
-    const message = `Hi ${username}, welcome to our E-commerce store`
-    sendEmail(user.email, "Welcome to a wonderful world of shopping", message);
-
     // Respond with success
     return res.status(201).json({
         message: "User created successfully",
         data: { ...user._doc, accessToken, refreshToken },
     });
 })
+
+const verifyEmail = asyncWrapper(async (req, res, next) => {
+
+    const hashedToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+
+    const user = await User.findOne({
+        emailVerificationToken: hashedToken,
+        emailVerificationExpires: { $gt: Date.now() }
+    });
+
+    if (!user)
+        return next(new AppError("Token invalid or expired", 400));
+
+    user.isEmailVerified = true;
+    user.emailVerificationToken = undefined;
+    user.emailVerificationExpires = undefined;
+
+    await user.save();
+
+    const message = `Hi ${user.username}, welcome to our E-commerce store`
+    sendEmail({
+        to: user.email,
+        subject: "Welcome to a wonderful world of shopping",
+        text: message
+    });
+
+
+    res.status(200).json({
+        message: "Email verified successfully"
+    });
+});
 
 const forgetPassword = asyncWrapper(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
@@ -125,6 +177,7 @@ const resetPassword = asyncWrapper(async (req, res, next) => {
 module.exports = {
     login,
     register,
+    verifyEmail,
     forgetPassword,
     verifyResetCode,
     resetPassword

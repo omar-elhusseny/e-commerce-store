@@ -19,15 +19,15 @@ const brandSchema = new mongoose.Schema({
 // Indexing the name and description fields for full-text search
 brandSchema.index({ name: "text", description: "text" });
 
-productSchema.post("save", async function () {
+brandSchema.post("save", async function () {
     await clearModelCache(this.constructor.collection.name);
 })
 
-productSchema.post("findOneAndUpdate", async function () {
+brandSchema.post("findOneAndUpdate", async function () {
     await clearModelCache(this.model.collection.name);
 });
 
-productSchema.post("findOneAndDelete", async function () {
+brandSchema.post("findOneAndDelete", async function () {
     await clearModelCache(this.model.collection.name);
 });
 

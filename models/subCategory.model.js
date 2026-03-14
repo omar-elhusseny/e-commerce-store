@@ -22,15 +22,15 @@ const subCategorySchema = new mongoose.Schema({
 
 subCategorySchema.index({ name: "text" });
 
-productSchema.post("save", async function () {
+subCategorySchema.post("save", async function () {
     await clearModelCache(this.constructor.collection.name);
 })
 
-productSchema.post("findOneAndUpdate", async function () {
+subCategorySchema.post("findOneAndUpdate", async function () {
     await clearModelCache(this.model.collection.name);
 });
 
-productSchema.post("findOneAndDelete", async function () {
+subCategorySchema.post("findOneAndDelete", async function () {
     await clearModelCache(this.model.collection.name);
 });
 

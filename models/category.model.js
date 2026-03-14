@@ -20,15 +20,15 @@ const categorySchema = new mongoose.Schema({
 
 categorySchema.index({ name: "text" });
 
-productSchema.post("save", async function () {
+categorySchema.post("save", async function () {
     await clearModelCache(this.constructor.collection.name);
 })
 
-productSchema.post("findOneAndUpdate", async function () {
+categorySchema.post("findOneAndUpdate", async function () {
     await clearModelCache(this.model.collection.name);
 });
 
-productSchema.post("findOneAndDelete", async function () {
+categorySchema.post("findOneAndDelete", async function () {
     await clearModelCache(this.model.collection.name);
 });
 

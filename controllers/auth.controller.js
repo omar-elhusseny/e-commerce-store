@@ -8,33 +8,73 @@ const asyncWrapper = require("../middleware/asyncWrapper");
 const AppError = require("../utils/appError");
 
 const login = asyncWrapper(async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email } = req.body;
 
-    const user = await User.findOne({ email });
+    // 1️⃣ Check if user exists in cache
+    let cachedUser = await redisClient.get(`userEmail:${email}`);
+    let user;
 
-    user.isActive = true;
-    await user.save();
+    if (cachedUser) {
+        user = JSON.parse(cachedUser);
+    } else {
+        // 2️⃣ Query database if not cached
+        user = await User.findOne({ email });
 
-    // Generate refresh token and access token
-    const refreshToken = generateToken({ id: user._id, username: user.username, email: user.email }, "7d");
-    const accessToken = generateToken({ id: user._id, username: user.username, email: user.email }, "1h");
+        // Cache safe user data (no password)
+        const userCache = {
+            id: user._id,
+            username: user.username,
+            email: user.email
+        };
 
-    // Save refresh token to redis
-    await redisClient.set(`refreshToken:${user._id}`, refreshToken, { EX: 7 * 24 * 60 * 60 });
-    
-    const message = `Hi ${user.username}, welcome back`
-    await sendEmail({
+        await redisClient.set(
+            `userEmail:${email}`,
+            JSON.stringify(userCache),
+            { EX: 60 * 60 } // 1 hour
+        );
+    }
+
+    // 3️⃣ Update active status
+    await User.findByIdAndUpdate(user.id || user._id, { isActive: true });
+
+    const payload = {
+        id: user.id || user._id,
+        username: user.username,
+        email: user.email
+    };
+
+    // 4️⃣ Generate tokens
+    const refreshToken = generateToken(payload, "7d");
+    const accessToken = generateToken(payload, "1h");
+
+    // 5️⃣ Save refresh token in Redis
+    await redisClient.set(
+        `refreshToken:${payload.id}`,
+        refreshToken,
+        { EX: 7 * 24 * 60 * 60 }
+    );
+
+    // 6️⃣ Send welcome email
+    const message = `Hi ${user.username}, welcome back`;
+
+    sendEmail({
         to: user.email,
         subject: "Welcome back!",
         text: message
-    });
+    }).catch(console.error);
 
-    // Respond with success
+    // 7️⃣ Response
     return res.status(200).json({
         message: "User logged in successfully",
-        data: { ...user._doc, accessToken, refreshToken },
-    })
-})
+        data: {
+            id: payload.id,
+            username: user.username,
+            email: user.email,
+            accessToken,
+            refreshToken
+        }
+    });
+});
 
 const register = asyncWrapper(async (req, res) => {
     const { username, email, password, slug } = req.body;

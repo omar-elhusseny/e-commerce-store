@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true, // Ensure unique emails
+        index: true
     },
     password: {
         type: String,
@@ -48,5 +49,7 @@ const userSchema = new mongoose.Schema({
     passwordResetVerified: Boolean,
     passwordChangedAt: Date,
 }, { timestamps: true });
+
+userSchema.index({ email: 1 }, { unique: true });
 
 module.exports = mongoose.model("User", userSchema);

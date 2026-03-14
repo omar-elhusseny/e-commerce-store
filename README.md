@@ -23,7 +23,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 ### Steps
 1. Clone the repository:
    ```sh
-   git clone https://github.com/omar-elhusseny/e-commerce-backend.git
+   git clone https://github.com/omar-elhusseny/e-commerce-store.git
    cd e-commerce-backend
 2. Install dependencies:
    ```sh

@@ -1,7 +1,7 @@
 const asyncWrapper = require("../middleware/asyncWrapper"); // === "express-async-handler" package
 const AppError = require("../utils/appError");
 const QueryHelper = require("../utils/queryHelper");
-const fs = require('fs');
+const { deleteImage } = require("../config/cloudinary")
 const redisClient = require("../config/redis");
 
 exports.delete = (Model) => {
@@ -27,32 +27,24 @@ exports.update = (Model) => {
         if (!document) return next(new AppError(`No document for this id ${id}`, 404));
 
         if (req.file) {
-            // Delete the old image if it exists
-            if (document.image && fs.existsSync(document.image)) {
-                fs.unlinkSync(document.image);
-            }
+            // Delete the old image from Cloudinary if it exists
+            await deleteImage(document.image);
             data.image = req.file.path;
         }
 
         // Handle main image update (single file under req.files.mainImage)
         if (req.files && req.files.mainImage) {
-            // If there's an old main image, delete it
-            if (document.mainImage && fs.existsSync(document.mainImage)) {
-                fs.unlinkSync(document.mainImage);
-            }
+            // Delete the old main image from Cloudinary if it exists
+            await deleteImage(document.mainImage);
             // Save the new main image path
             data.mainImage = req.files.mainImage[0].path; // Assuming mainImage is a single file
         }
 
         // Handle multiple images (e.g., other images associated with the product/brand)
         if (req.files && req.files.images) {
-            // If old images exist, delete them first
+            // Delete old images from Cloudinary
             if (document.images) {
-                document.images.forEach((oldFilePath) => {
-                    if (fs.existsSync(oldFilePath)) {
-                        fs.unlinkSync(oldFilePath);
-                    }
-                });
+                await Promise.all(document.images.map((url) => deleteImage(url)));
             }
             // Assign new images to the document
             data.images = req.files.images.map((file) => file.path); // Handling multiple images

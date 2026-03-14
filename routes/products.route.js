@@ -3,7 +3,8 @@ const router = express.Router();
 const reviewsRoute = require("./review.route");
 const { createProductValidator, updateProductValidator, getProductValidator, deleteProductValidator } = require("../middleware/validator/productValidator");
 const { getProducts, getProduct, addProduct, updateProduct, deleteProduct } = require("../controllers/products.controller");
-const { uploadMultipleImages, setUploadType } = require("../config/multer");
+// const { uploadMultipleImages, setUploadType } = require("../config/multer");
+const { uploadMultipleImages, setUploadType} = require("../config/cloudinary")
 const { allowedTo } = require("../middleware/allowTo");
 const isAuth = require("../middleware/isAuth");
 

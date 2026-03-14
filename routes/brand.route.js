@@ -2,7 +2,8 @@ const express = require("express")
 const router = express.Router();
 const { createBrandValidator, getBrandValidator, updateBrandValidator, deleteBrandValidator } = require("../middleware/validator/brandValidator");
 const { getBrands, getBrand, createBrand, updateBrand, deleteBrand } = require("../controllers/brand.controller");
-const { uploadSingleImage, setUploadType } = require("../config/multer")
+// const { uploadSingleImage, setUploadType } = require("../config/multer")
+const { uploadSingleImage, setUploadType} = require("../config/cloudinary")
 const { allowedTo } = require("../middleware/allowTo");
 
 

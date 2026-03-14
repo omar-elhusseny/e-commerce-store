@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { updatePasswordValidation } = require("../middleware/validator/userValidator")
 const { getProfile, updateProfile, logout, deleteUser, addAddress, removeAddress, updateAddress, deactivateUser, changePassword } = require("../controllers/users.controller");
-const { uploadSingleImage, setUploadType } = require("../config/multer")
+// const { uploadSingleImage, setUploadType } = require("../config/multer")
+const { uploadSingleImage, setUploadType } = require("../config/cloudinary")
 const wishlistRoute = require("../routes/wishlist.route");
 
 router.use('/:id/wishlist', wishlistRoute);

@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { deleteImage } = require("../config/cloudinary");
 const redisClient = require("../config/redis");
 const User = require("../models/user.model");
 const { addToBlackList } = require("../utils/handleTokens");
@@ -64,25 +64,27 @@ const updateProfile = asyncWrapper(async (req, res) => {
     // Retrieve the user from the database
     const user = await User.findById(req.user._id);
 
-    // Check if the user has an existing profile picture and delete it if it exists
+    // If a new file is uploaded, delete the old profile picture from Cloudinary
     if (req.file) {
-        if (user.profilePicture && fs.existsSync(user.profilePicture)) {
-            fs.unlinkSync(user.profilePicture); // Delete old profile picture from file system
-        }
+        await deleteImage(user.profilePicture);
     }
 
-    // update only: username, email, phone, profilePicture
+    // Whitelist only the fields updateProfile is allowed to change
+    const { username, email, phone } = req.body;
+    const updateData = {
+        ...(username && { username, slug: slugify(username) }),
+        ...(email && { email }),
+        ...(phone && { phone }),
+        ...(req.file && { profilePicture: req.file.path }),
+    };
+
     const updatedUser = await User.findByIdAndUpdate(
         req.user._id,
-        {
-            ...req.body,
-            ...(req.body.username && { slug: slugify(req.body.username) }),
-            profilePicture: req.file?.path
-        },
+        updateData,
         { new: true }
     );
 
-    if (req.body.username || req.body.email) {
+    if (username || email) {
         // delete the old refresh token
         await redisClient.del(`refreshToken:${user._id}`);
         // Generate new tokens

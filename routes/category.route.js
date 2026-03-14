@@ -3,7 +3,8 @@ const router = express.Router();
 const { getCategoryValidator, createCategoryValidator, updateCategoryValidator, deleteCategoryValidator } = require("../middleware/validator/categoryValidator");
 const { getCategories, getCategory, createCategory, updateCategory, deleteCategory } = require("../controllers/category.controller");
 const subCategoryRoute = require("./subCategory.route");
-const { uploadSingleImage, setUploadType } = require("../config/multer");
+// const { uploadSingleImage, setUploadType } = require("../config/multer");
+const { uploadSingleImage, setUploadType } = require("../config/cloudinary");
 const { allowedTo } = require("../middleware/allowTo");
 
 

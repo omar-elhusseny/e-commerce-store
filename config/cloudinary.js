@@ -1,8 +1,8 @@
 const { v2: cloudinary } = require("cloudinary");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
-const AppError = require("./appError");
-const logger = require("./logger");
+const AppError = require("../utils/appError");
+const logger = require("../utils/logger");
 
 // Configure Cloudinary
 cloudinary.config({
@@ -68,4 +68,20 @@ const setUploadType = (uploadType) => (req, res, next) => {
 const uploadSingleImage = (fieldName) => upload.single(fieldName);
 const uploadMultipleImages = (arrayOfFields) => upload.fields(arrayOfFields);
 
-module.exports = { uploadSingleImage, uploadMultipleImages, setUploadType, cloudinary };
+// Delete an image from Cloudinary by its URL
+// Cloudinary URLs look like: https://res.cloudinary.com/<cloud>/image/upload/v123/<folder>/<public_id>.ext
+const deleteImage = async (imageUrl) => {
+    if (!imageUrl) return;
+    try {
+        // Extract everything after "/upload/v<version>/" as the public_id (without extension)
+        const matches = imageUrl.match(/\/upload\/(?:v\d+\/)?(.+)\.[a-z]+$/i);
+        if (!matches) return;
+        const public_id = matches[1];
+        await cloudinary.uploader.destroy(public_id);
+        logger.info(`Deleted Cloudinary image: ${public_id}`);
+    } catch (error) {
+        logger.error(`Failed to delete Cloudinary image: ${error.message}`);
+    }
+};
+
+module.exports = { uploadSingleImage, uploadMultipleImages, setUploadType, cloudinary, deleteImage };

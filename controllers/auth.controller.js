@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const crypto = require('crypto');
-// const sendEmail = require("../config/mail");
 const redisClient = require("../config/redis");
 const User = require("../models/user.model");
 const { generateToken } = require("../utils/jwtToken");

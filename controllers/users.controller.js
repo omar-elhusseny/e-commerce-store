@@ -8,7 +8,7 @@ const helperFunction = require("./crud.methods");
 const AppError = require("../utils/appError");
 const bcrypt = require("bcryptjs");
 const slugify = require("slugify");
-const sendEmail = require("../config/mail");
+const { sendEmail } = require("../utils/email");
 
 
 const logout = asyncWrapper(async (req, res) => {
@@ -40,10 +40,14 @@ const getProfile = asyncWrapper(async (req, res, next) => {
 
 const deactivateUser = asyncWrapper(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.user._id, { isActive: false }, { new: true });
-    
+
     // Sending deactivation message
     const message = `Hi ${user.username}, Your account deactivated successfuly, you can re-activate it by login`
-    sendEmail(user.email, "Deactivation", message);
+    sendEmail({
+        to: user.email,
+        subject: "Account Deactivation",
+        text: message,
+    }).catch(console.error);
 
     // Remove refresh token from Redis
     await redisClient.del(`refreshToken:${user._id}`)

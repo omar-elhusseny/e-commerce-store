@@ -1,11 +1,12 @@
 const bcrypt = require("bcryptjs");
 const crypto = require('crypto');
-const sendEmail = require("../config/mail");
+// const sendEmail = require("../config/mail");
 const redisClient = require("../config/redis");
 const User = require("../models/user.model");
 const { generateToken } = require("../utils/jwtToken");
 const asyncWrapper = require("../middleware/asyncWrapper");
 const AppError = require("../utils/appError");
+const { sendEmail, emailTemplates } = require("../utils/email");
 
 const login = asyncWrapper(async (req, res, next) => {
     const { email } = req.body;
@@ -55,12 +56,16 @@ const login = asyncWrapper(async (req, res, next) => {
     );
 
     // 6️⃣ Send welcome email
-    const message = `Hi ${user.username}, welcome back`;
+    const message = `
+        <h2>Welcome ${user.username} 🎉</h2>
+        <p>We are happy to have you here.</p>
+        <p>You can now start using our platform, Enjoy🎉.</p>
+    `;
 
     sendEmail({
         to: user.email,
-        subject: "Welcome back!",
-        text: message
+        subject: "Welcome to E-Commerce Store 🚀",
+        html: message
     }).catch(console.error);
 
     // 7️⃣ Response
@@ -103,8 +108,7 @@ const register = asyncWrapper(async (req, res) => {
 
     await sendEmail({
         to: user.email,
-        subject: "Verify your email",
-        text: message
+        ...emailTemplates.verifyEmail(username, verificationURL),
     });
 
     // Generate refresh token and access token
@@ -163,7 +167,11 @@ const forgetPassword = asyncWrapper(async (req, res, next) => {
 
     const message = `Hi ${user.username},\nWe received a request to reset the password.\nYour request code: ${resetCode}. \n Thanks for helping us keep your account secure.`;
 
-    sendEmail(user.email, "Your password reset code (valid for 10 mins)", message);
+    sendEmail({
+        to: user.email,
+        subject: "Your password reset code (valid for 10 mins)",
+        text: message,
+    }).catch(console.error);
 
     user.passwordResetCode = hashedResetCode;
     user.passwordResetExpires = Date.now() + 10 * 60 * 1000 // 10 mins

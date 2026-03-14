@@ -30,7 +30,8 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
    npm install
 3. Create a .env file and configure environment variables:
    ```sh
-   PORT=5000
+   PORT=3000
+   NODE_ENV=development
    MONGO_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret
    STRIPE_SECRET_KEY=your_stripe_secret

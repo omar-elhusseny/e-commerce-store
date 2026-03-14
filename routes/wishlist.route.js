@@ -11,7 +11,7 @@ router.route("/")
 // DELETE /api/v1/wishlist/clear - clear all products in wishlist at once
 router.delete("/clear", clearWishlist);
 
-// DELETE /api/v1/wishlist/remove - remove product from wishlist
+// DELETE /api/v1/wishlist/:id - remove product from wishlist
 router.delete("/:id", removeWishlistValidation, removeFromWishlist);
 
 module.exports = router;

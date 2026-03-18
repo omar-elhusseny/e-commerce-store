@@ -1009,3 +1009,11 @@
 2026-03-18 20:45:25 [info]: ::1 - - [18/Mar/2026:18:45:25 +0000] "GET / HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
 2026-03-18 20:45:31 [info]: ::1 - - [18/Mar/2026:18:45:31 +0000] "GET /login HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
 2026-03-18 20:54:38 [warn]: MongoDB disconnected. Attempting to reconnect...
+<<<<<<< Updated upstream
+=======
+2026-03-18 21:16:27 [info]: Connecting to MongoDB...
+2026-03-18 21:16:27 [info]: Server is ON — port 3000
+2026-03-18 21:16:27 [info]: ✅ Redis connected
+2026-03-18 21:16:29 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-18 21:16:33 [warn]: MongoDB disconnected. Attempting to reconnect...
+>>>>>>> Stashed changes

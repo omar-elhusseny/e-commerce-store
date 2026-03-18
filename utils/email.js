@@ -13,6 +13,13 @@ const createTransporter = () => {
     });
 };
 
+/**
+ * Send an email
+ * @param {string} to - recipient email
+ * @param {string} subject - email subject
+ * @param {string} text - plain text message
+ * @param {string} html - optional HTML message
+ */
 const sendEmail = async ({ to, subject, html, text }) => {
     try {
         const transporter = createTransporter();

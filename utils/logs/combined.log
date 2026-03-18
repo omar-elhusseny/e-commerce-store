@@ -865,3 +865,147 @@
 2026-03-14 22:05:33 [info]: ::1 - - [14/Mar/2026:20:05:33 +0000] "POST /api/v1/users/addresses HTTP/1.1" 200 239 "-" "PostmanRuntime/7.51.1"
 2026-03-14 22:05:42 [info]: ::1 - - [14/Mar/2026:20:05:42 +0000] "GET /api/v1/users/profile HTTP/1.1" 200 695 "-" "PostmanRuntime/7.51.1"
 2026-03-14 22:13:07 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-16 21:07:00 [info]: Connecting to MongoDB...
+2026-03-16 21:07:00 [info]: ✅ Redis connected
+2026-03-16 21:07:02 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-16 21:07:11 [info]: ::1 - - [16/Mar/2026:19:07:11 +0000] "GET /api/v1/users/profile HTTP/1.1" 500 885 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:07:26 [info]: ::1 - - [16/Mar/2026:19:07:26 +0000] "PUT /api/v1/users/null HTTP/1.1" 500 885 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:32:47 [info]: Connecting to MongoDB...
+2026-03-16 21:32:47 [info]: ✅ Redis connected
+2026-03-16 21:32:49 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-16 21:32:59 [info]: ::1 - - [16/Mar/2026:19:32:59 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 712 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:33:07 [info]: ::1 - - [16/Mar/2026:19:33:07 +0000] "GET /api/v1/users/profile HTTP/1.1" 200 695 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:34:20 [info]: Connecting to MongoDB...
+2026-03-16 21:34:20 [info]: ✅ Redis connected
+2026-03-16 21:34:22 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-16 21:36:27 [info]: Email sent to omarwalidelhusseny@gmail.com: <6090e7f6-c316-4a9e-9b60-f8e043368461@gmail.com>
+2026-03-16 21:36:27 [info]: ::1 - - [16/Mar/2026:19:36:27 +0000] "POST /api/v1/auth/register HTTP/1.1" 201 1010 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:36:51 [info]: ::1 - - [16/Mar/2026:19:36:51 +0000] "POST /api/v1/auth/login HTTP/1.1" 401 391 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:37:29 [info]: ::1 - - [16/Mar/2026:19:37:29 +0000] "GET /api/v1/auth/verify-email/dc9255bbe4287371f814ed9617987267b1c8d74bc944e9e2b079bb4ea854152d HTTP/1.1" 200 41 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-03-16 21:37:29 [info]: ::1 - - [16/Mar/2026:19:37:29 +0000] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-03-16 21:37:31 [info]: Email sent to omarwalidelhusseny@gmail.com: <7ae1fad3-10a1-5636-ea4e-17152f01ab0c@gmail.com>
+2026-03-16 21:37:39 [info]: ::1 - - [16/Mar/2026:19:37:39 +0000] "POST /api/v1/auth/login HTTP/1.1" 200 690 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:37:45 [info]: ::1 - - [16/Mar/2026:19:37:45 +0000] "GET /api/v1/users/profile HTTP/1.1" 200 402 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:39:48 [info]: ::1 - - [16/Mar/2026:19:39:48 +0000] "GET /api/v1/users/profile HTTP/1.1" 200 402 "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:40:06 [info]: ::1 - - [16/Mar/2026:19:40:06 +0000] "PUT /api/v1/users/69b5b4e59ffaa4c4937af766 HTTP/1.1" 200 - "-" "PostmanRuntime/7.51.1"
+2026-03-16 21:52:33 [info]: MongoDB reconnected
+2026-03-16 21:52:33 [info]: MongoDB reconnected
+2026-03-16 21:52:43 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-16 21:52:44 [info]: MongoDB reconnected
+2026-03-16 22:03:26 [info]: MongoDB reconnected
+2026-03-16 22:03:26 [info]: MongoDB reconnected
+2026-03-16 22:03:36 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-16 22:03:37 [info]: MongoDB reconnected
+2026-03-16 22:04:55 [info]: Connecting to MongoDB...
+2026-03-16 22:04:55 [info]: ✅ Redis connected
+2026-03-16 22:04:57 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-16 22:05:13 [info]: Connecting to MongoDB...
+2026-03-16 22:05:13 [info]: ✅ Redis connected
+2026-03-16 22:05:15 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-16 22:05:36 [info]: Connecting to MongoDB...
+2026-03-16 22:05:36 [info]: ✅ Redis connected
+2026-03-16 22:05:37 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-16 22:06:17 [info]: Connecting to MongoDB...
+2026-03-16 22:06:17 [info]: ✅ Redis connected
+2026-03-16 22:06:19 [info]: ✅ MongoDB Connected: cluster1-shard-00-01.nvf2d.mongodb.net
+2026-03-16 22:06:30 [info]: Connecting to MongoDB...
+2026-03-16 22:06:30 [info]: Server is ON — port 3000
+2026-03-16 22:06:30 [info]: ✅ Redis connected
+2026-03-16 22:06:32 [info]: ✅ MongoDB Connected: cluster1-shard-00-02.nvf2d.mongodb.net
+2026-03-16 22:06:37 [info]: Connecting to MongoDB...
+2026-03-16 22:06:37 [info]: Server is ON — port 3000
+2026-03-16 22:06:37 [info]: ✅ Redis connected
+2026-03-16 22:06:39 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-16 22:24:08 [info]: MongoDB reconnected
+2026-03-16 22:24:08 [info]: MongoDB reconnected
+2026-03-16 22:24:18 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-16 22:24:18 [info]: MongoDB reconnected
+2026-03-16 22:46:08 [info]: MongoDB reconnected
+2026-03-16 22:46:08 [info]: MongoDB reconnected
+2026-03-16 22:46:19 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-16 22:46:19 [info]: MongoDB reconnected
+2026-03-16 23:43:56 [info]: MongoDB reconnected
+2026-03-16 23:43:56 [info]: MongoDB reconnected
+2026-03-16 23:44:07 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-16 23:44:07 [info]: MongoDB reconnected
+2026-03-17 00:58:21 [info]: MongoDB reconnected
+2026-03-17 00:58:21 [info]: MongoDB reconnected
+2026-03-17 00:58:44 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-17 00:58:53 [info]: MongoDB reconnected
+2026-03-17 04:55:23 [info]: MongoDB reconnected
+2026-03-17 04:55:38 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-17 04:55:39 [info]: MongoDB reconnected
+2026-03-17 04:57:51 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-17 04:58:02 [info]: MongoDB reconnected
+2026-03-17 05:15:37 [info]: MongoDB reconnected
+2026-03-17 05:15:37 [info]: MongoDB reconnected
+2026-03-17 05:15:50 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-17 05:15:52 [info]: MongoDB reconnected
+2026-03-17 05:20:22 [info]: MongoDB reconnected
+2026-03-17 05:20:24 [info]: MongoDB reconnected
+2026-03-17 08:44:45 [info]: MongoDB reconnected
+2026-03-17 08:44:45 [info]: MongoDB reconnected
+2026-03-17 08:51:01 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-17 10:51:18 [info]: MongoDB reconnected
+2026-03-17 12:46:47 [info]: MongoDB reconnected
+2026-03-17 12:46:47 [info]: MongoDB reconnected
+2026-03-17 14:47:41 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-17 18:46:01 [info]: MongoDB reconnected
+2026-03-17 20:59:47 [info]: MongoDB reconnected
+2026-03-17 20:59:47 [info]: MongoDB reconnected
+2026-03-18 05:35:56 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 05:36:01 [info]: MongoDB reconnected
+2026-03-18 05:38:00 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 05:38:02 [info]: MongoDB reconnected
+2026-03-18 05:57:46 [info]: MongoDB reconnected
+2026-03-18 06:02:37 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 06:02:38 [info]: MongoDB reconnected
+2026-03-18 06:03:49 [info]: MongoDB reconnected
+2026-03-18 06:03:49 [info]: MongoDB reconnected
+2026-03-18 06:05:38 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 06:05:47 [info]: MongoDB reconnected
+2026-03-18 06:11:59 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 06:12:49 [info]: MongoDB reconnected
+2026-03-18 06:15:46 [info]: MongoDB reconnected
+2026-03-18 06:15:51 [info]: MongoDB reconnected
+2026-03-18 06:15:57 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 06:16:01 [info]: MongoDB reconnected
+2026-03-18 06:20:27 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 06:21:14 [info]: MongoDB reconnected
+2026-03-18 06:24:16 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 06:24:46 [info]: MongoDB reconnected
+2026-03-18 06:35:27 [info]: MongoDB reconnected
+2026-03-18 07:03:05 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 07:03:09 [info]: MongoDB reconnected
+2026-03-18 07:03:39 [info]: MongoDB reconnected
+2026-03-18 07:03:46 [info]: MongoDB reconnected
+2026-03-18 08:11:37 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 08:11:37 [info]: MongoDB reconnected
+2026-03-18 09:12:29 [info]: MongoDB reconnected
+2026-03-18 09:24:47 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 09:24:48 [info]: MongoDB reconnected
+2026-03-18 09:34:34 [info]: MongoDB reconnected
+2026-03-18 09:34:34 [info]: MongoDB reconnected
+2026-03-18 13:26:04 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 13:26:04 [info]: MongoDB reconnected
+2026-03-18 15:26:10 [info]: MongoDB reconnected
+2026-03-18 15:26:10 [info]: MongoDB reconnected
+2026-03-18 15:42:03 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 15:42:04 [info]: MongoDB reconnected
+2026-03-18 16:11:26 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 18:12:54 [info]: MongoDB reconnected
+2026-03-18 18:35:46 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 18:35:46 [info]: MongoDB reconnected
+2026-03-18 19:51:31 [info]: MongoDB reconnected
+2026-03-18 19:51:42 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 19:51:42 [info]: MongoDB reconnected
+2026-03-18 19:52:30 [warn]: MongoDB disconnected. Attempting to reconnect...
+2026-03-18 20:44:10 [info]: Connecting to MongoDB...
+2026-03-18 20:44:10 [info]: Server is ON — port 3000
+2026-03-18 20:44:10 [info]: ✅ Redis connected
+2026-03-18 20:44:12 [info]: ✅ MongoDB Connected: cluster1-shard-00-00.nvf2d.mongodb.net
+2026-03-18 20:45:07 [info]: ::1 - - [18/Mar/2026:18:45:07 +0000] "GET / HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-03-18 20:45:07 [info]: ::1 - - [18/Mar/2026:18:45:07 +0000] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-03-18 20:45:25 [info]: ::1 - - [18/Mar/2026:18:45:25 +0000] "GET / HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-03-18 20:45:31 [info]: ::1 - - [18/Mar/2026:18:45:31 +0000] "GET /login HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+2026-03-18 20:54:38 [warn]: MongoDB disconnected. Attempting to reconnect...

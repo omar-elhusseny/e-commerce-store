@@ -10,62 +10,33 @@ const { sendEmail, emailTemplates } = require("../utils/email");
 const login = asyncWrapper(async (req, res, next) => {
     const { email } = req.body;
 
-    // 1️⃣ Check if user exists in cache
-    let cachedUser = await redisClient.get(`userEmail:${email}`);
-    let user;
+    // 1️⃣ Fetch user (password already validated by loginUserValidation middleware)
+    const user = await User.findOne({ email });
 
-    if (cachedUser) {
-        user = JSON.parse(cachedUser);
-    } else {
-        // 2️⃣ Query database if not cached
-        user = await User.findOne({ email });
+    // 2️⃣ Guard: email must be verified
+    if (!user.isEmailVerified)
+        return next(new AppError('Please verify your email before logging in', 401));
 
-        // Cache safe user data (no password)
-        const userCache = {
-            id: user._id,
-            username: user.username,
-            email: user.email
-        };
+    // 3️⃣ Guard: account must be active
+    if (!user.isActive)
+        return next(new AppError('Your account is deactivated. Please contact support.', 403));
 
-        await redisClient.set(
-            `userEmail:${email}`,
-            JSON.stringify(userCache),
-            { EX: 60 * 60 } // 1 hour
-        );
-    }
+    // 4️⃣ Cache safe user data (no password) for future lookups
+    const userCache = { id: user._id, username: user.username, email: user.email };
+    await redisClient.set(`userEmail:${email}`, JSON.stringify(userCache), { EX: 60 * 60 });
 
-    // 3️⃣ Update active status
-    await User.findByIdAndUpdate(user.id || user._id, { isActive: true });
+    const payload = { id: user._id, username: user.username, email: user.email };
 
-    const payload = {
-        id: user.id || user._id,
-        username: user.username,
-        email: user.email
-    };
-
-    // 4️⃣ Generate tokens
+    // 5️⃣ Generate tokens
     const refreshToken = generateToken(payload, "7d");
     const accessToken = generateToken(payload, "1h");
 
-    // 5️⃣ Save refresh token in Redis
+    // 6️⃣ Save refresh token in Redis
     await redisClient.set(
         `refreshToken:${payload.id}`,
         refreshToken,
         { EX: 7 * 24 * 60 * 60 }
     );
-
-    // 6️⃣ Send welcome email
-    const message = `
-        <h2>Welcome ${user.username} 🎉</h2>
-        <p>We are happy to have you here.</p>
-        <p>You can now start using our platform, Enjoy🎉.</p>
-    `;
-
-    sendEmail({
-        to: user.email,
-        subject: "Welcome to E-Commerce Store 🚀",
-        html: message
-    }).catch(console.error);
 
     // 7️⃣ Response
     return res.status(200).json({
@@ -98,12 +69,6 @@ const register = asyncWrapper(async (req, res) => {
     await user.save();
 
     const verificationURL = `${req.protocol}://${req.get("host")}/api/v1/auth/verify-email/${verificationToken}`;
-    const message = `
-        Hi ${username},
-        Please verify your email by clicking the link below:
-        ${verificationURL}
-        This link expires in 10 minutes
-    `;
 
     await sendEmail({
         to: user.email,
@@ -117,10 +82,11 @@ const register = asyncWrapper(async (req, res) => {
     // Save refresh token to redis
     await redisClient.set(`refreshToken:${user._id}`, refreshToken, { EX: 7 * 24 * 60 * 60 });
 
-    // Respond with success
+    // Respond with success (exclude password from response)
+    const { password: _, ...safeUser } = user._doc;
     return res.status(201).json({
         message: "User created successfully",
-        data: { ...user._doc, accessToken, refreshToken },
+        data: { ...safeUser, accessToken, refreshToken },
     });
 })
 
@@ -159,12 +125,17 @@ const forgetPassword = asyncWrapper(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return next(new AppError("No user with this email"));
 
-    console.log(user);
-
     const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
     const hashedResetCode = crypto.createHash('sha256').update(resetCode).digest('hex');
 
-    const message = `Hi ${user.username},\nWe received a request to reset the password.\nYour request code: ${resetCode}. \n Thanks for helping us keep your account secure.`;
+    user.passwordResetCode = hashedResetCode;
+    user.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 mins
+    user.passwordResetVerified = false;
+
+    // Save first — avoids sending a code that was never persisted
+    await user.save();
+
+    const message = `Hi ${user.username},\nWe received a request to reset your password.\nYour reset code: ${resetCode}\nThis code is valid for 10 minutes.`;
 
     sendEmail({
         to: user.email,
@@ -172,15 +143,6 @@ const forgetPassword = asyncWrapper(async (req, res, next) => {
         text: message,
     }).catch(console.error);
 
-    user.passwordResetCode = hashedResetCode;
-    user.passwordResetExpires = Date.now() + 10 * 60 * 1000 // 10 mins
-
-    user.passwordResetVerified = false;
-
-    // Log token for testing
-    console.log(`Reset code: ${resetCode} sent to ${user.email}`);
-
-    await user.save();
     return res.status(200).json({ message: 'Reset code sent to your email, Check it out.' });
 })
 

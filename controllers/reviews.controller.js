@@ -16,7 +16,6 @@ exports.getReviews = helperFunction.getAll(Review, { path: "user product", selec
 exports.getReview = helperFunction.get(Review, { path: "user product", select: "username name" });
 
 exports.getProductReviews = asyncWrapper(async (req, res, next) => {
-    console.log(req.body.id)
     const productReview = await Review.find({ product: req.params.id }).populate({ path: "user product", select: "username name" });
     return res.status(200).json({ data: productReview })
 })

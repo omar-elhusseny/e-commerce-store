@@ -23,7 +23,12 @@ const auth = asyncWrapper(async (req, res, next) => {
     }
 
     // Verify the token
-    const decoded = verifyToken(token);
+    let decoded;
+    try {
+        decoded = verifyToken(token);
+    } catch (err) {
+        return next(new AppError("Invalid or expired token. Please log in again.", 401));
+    }
 
     const user = await User.findOne({ _id: decoded.id }).select('-password -__v');
     if (!user) return next(new AppError("User with this token not found", 404));

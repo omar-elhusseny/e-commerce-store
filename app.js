@@ -4,7 +4,6 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const dotenv = require("dotenv").config();
-const path = require("path");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -53,7 +52,6 @@ app.use(limiter);
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "uploads")));
 app.use(morgan('combined', { stream: { write: msg => logger.info(msg.trim()) } }));
 
 // App main routes
@@ -68,14 +66,12 @@ app.all("*", (req, res, next) => {
 app.use(errorHandler)
 
 // Start the server
-const server = app.listen(process.env.PORT || 3000, () => { console.log("Server is ON") });
+const server = app.listen(process.env.PORT || 3000, () => { logger.info(`Server is ON — port ${process.env.PORT || 3000}`) });
 
 // any error catched outside express error-middleware
 process.on("unhandledRejection", (error) => {
-    console.log(`unhandledRejection Error: ${error.name} | ${error.message}`);
-    console.log(error)
     server.close(_ => {
-        console.log("Server is OFF");
+        logger.error("Server is OFF");
         process.exit(1);
     })
 })

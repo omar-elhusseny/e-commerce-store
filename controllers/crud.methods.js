@@ -87,8 +87,6 @@ exports.get = (Model, population) => {
         // 1) Generate a unique cache key for this product
         const cacheKey = `${Model.collection.name}:${id}`;
 
-        console.log(cacheKey)
-
         // 2) Check Redis cache
         const cachedData = await redisClient.get(cacheKey);
         if (cachedData) {

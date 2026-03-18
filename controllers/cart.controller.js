@@ -206,15 +206,16 @@ const applyCoupon = asyncWrapper(async (req, res, next) => {
     const coupon = await Coupon.findOne({
         name: couponCode,
         expire: { $gt: Date.now() },
-        isActive: true,
-        $or: [
-            { usageLimit: null },               // unlimited usage
-            { usedCount: { $lt: "$usageLimit" } }  // usage limit not exceeded
-        ]
+        isActive: true
     });
 
     if (!coupon) {
         return next(new AppError("Coupon is invalid, expired, or exceeded usage limit", 400));
+    }
+
+    // Check usage limit separately (avoids broken $lt: "$usageLimit" query)
+    if (coupon.usageLimit !== null && coupon.usedCount >= coupon.usageLimit) {
+        return next(new AppError("Coupon has exceeded its usage limit", 400));
     }
 
     // 2️⃣ Get user's cart

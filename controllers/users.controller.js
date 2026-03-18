@@ -176,7 +176,7 @@ const changePassword = asyncWrapper(async (req, res, next) => {
     const user = await User.findById(req.params.id).select("+password");
     // 1️⃣ Check current password
     const isMatch = await bcrypt.compare(oldPassword, user.password);
-    console.log(isMatch)
+
     if (!isMatch) {
         return next(new AppError("Current password is incorrect", 401));
     }

@@ -17,7 +17,6 @@ exports.createReviewValidator = [
             // Check if logged user create review before
             Review.findOne({ user: req.user._id, product: req.body.product }).then(
                 (review) => {
-                    console.log(review);
                     if (review) {
                         return Promise.reject(
                             new Error('You already created a review before')

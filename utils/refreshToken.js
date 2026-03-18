@@ -9,7 +9,6 @@ const refreshAccessToken = asyncWrapper(async (req, res, next) => {
     
     // Validate refresh token
     const decoded = verifyToken(refreshToken);
-    console.log(decoded);
     
     // Check Redis for the refresh token
     const storedToken = await redisClient.get(`refreshToken:${decoded.id}`);

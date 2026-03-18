@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { loginUserValidation, registerUserValidation, resetPasswordValidation } = require("../middleware/validator/authValidator")
-const { register, verifyEmail, login, changePassword, forgetPassword, verifyResetCode, resetPassword } = require("../controllers/auth.controller")
+const { register, verifyEmail, login, forgetPassword, verifyResetCode, resetPassword } = require("../controllers/auth.controller")
 const { allowedTo } = require("../middleware/allowTo");
 const isAuth = require("../middleware/isAuth");
 const refreshAccessToken = require('../utils/refreshToken');

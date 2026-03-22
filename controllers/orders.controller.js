@@ -3,10 +3,15 @@ const Cart = require('../models/cart.model');
 const Product = require("../models/product.model");
 const helperFunction = require("./crud.methods");
 const asyncWrapper = require("../middleware/asyncWrapper");
-const AppError = require("../utils/appError")
+const AppError = require("../utils/appError");
+const logger = require("../utils/logger");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const getOrders = helperFunction.getAll(Order);
+
+const getOrders = (req, res, next) => {
+    const forcedFilter = req.user.role === 'user' ? { userId: req.user._id } : {};
+    return helperFunction.getAll(Order, null, forcedFilter)(req, res, next);
+};
 
 const getOrder = asyncWrapper(async (req, res, next) => {
     const order = await Order.findById(req.params.id);
@@ -89,7 +94,7 @@ const checkout = asyncWrapper(async (req, res, next) => {
                 metadata: { orderId: order._id.toString(), testStripe: testStripe || false },
             });
         } catch (err) {
-            console.error("Stripe session error:", err);
+            logger.error(`Stripe session error: ${err.message}`);
             return next(new AppError("Failed to create Stripe session. Check your API keys or network.", 500));
         }
     }
@@ -146,9 +151,11 @@ const updateOrderStatus = asyncWrapper(async (req, res, next) => {
     if (status === "cancelled" && order.status !== "cancelled") {
         for (const item of order.orderItems) {
             const product = await Product.findById(item.productId);
-            product.quantity += item.quantity;
-            product.sold -= item.quantity;
-            await product.save();
+            if (product) {
+                product.inventory += item.quantity;
+                product.sold -= item.quantity;
+                await product.save();
+            }
         }
     }
 
@@ -174,9 +181,11 @@ const cancelOrder = asyncWrapper(async (req, res, next) => {
     // Update stock
     for (const item of order.orderItems) {
         const product = await Product.findById(item.productId);
-        product.quantity += item.quantity;
-        product.sold -= item.quantity;
-        await product.save();
+        if (product) {
+            product.inventory += item.quantity;
+            product.sold -= item.quantity;
+            await product.save();
+        }
     }
 
     order.status = "cancelled";

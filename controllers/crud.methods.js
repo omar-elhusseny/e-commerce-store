@@ -111,7 +111,7 @@ exports.get = (Model, population) => {
     });
 }
 
-exports.getAll = (Model, population) => {
+exports.getAll = (Model, population, forcedFilter = {}) => {
     return asyncWrapper(async (req, res) => {
 
         // Sort the queries to be same pattern saved in Caching
@@ -122,8 +122,8 @@ exports.getAll = (Model, population) => {
                 return acc;
             }, {});
 
-        // Generate a unique cache key based on the request query
-        const cacheKey = `${Model.collection.name}:${JSON.stringify(sortedQuery)}`;
+        // Generate a unique cache key based on the request query + forcedFilter
+        const cacheKey = `${Model.collection.name}:${JSON.stringify(forcedFilter)}:${JSON.stringify(sortedQuery)}`;
 
         // Check if data is in Redis cache
         const cachedData = await redisClient.get(cacheKey);
@@ -132,15 +132,14 @@ exports.getAll = (Model, population) => {
         }
 
         // Model.find() return the query object will use to search in database but not executed yet.
-        const queryHelper = new QueryHelper(Model.find(), req.query)
-            // we build the query by adding methods which added to query (query object)
+        const queryHelper = new QueryHelper(Model.find(forcedFilter), req.query)
             .filter()
             .sort()
             .search()
             .selectFields()
 
         // To make MongoDB counts only filtered results.
-        const documents = await Model.countDocuments(queryHelper.query.getQuery());
+        const documents = await Model.countDocuments({ ...forcedFilter, ...queryHelper.query.getQuery() });
 
         queryHelper.paginate(documents);
 

@@ -123,7 +123,9 @@ const verifyEmail = asyncWrapper(async (req, res, next) => {
 
 const forgetPassword = asyncWrapper(async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return next(new AppError("No user with this email"));
+
+    // Generic response regardless — avoids leaking which emails are registered
+    if (!user) return res.status(200).json({ message: 'If that email exists, a reset code has been sent.' });
 
     const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
     const hashedResetCode = crypto.createHash('sha256').update(resetCode).digest('hex');
@@ -143,7 +145,7 @@ const forgetPassword = asyncWrapper(async (req, res, next) => {
         text: message,
     }).catch(console.error);
 
-    return res.status(200).json({ message: 'Reset code sent to your email, Check it out.' });
+    return res.status(200).json({ message: 'If that email exists, a reset code has been sent.' });
 })
 
 const verifyResetCode = asyncWrapper(async (req, res, next) => {

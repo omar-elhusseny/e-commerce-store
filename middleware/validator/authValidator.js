@@ -38,15 +38,17 @@ const loginUserValidation = [
     body("email")
         .notEmpty().withMessage("Email is required")
         .custom(async (val, { req }) => {
-            const user = await User.findOne({ email: val });
+            const user = await User.findOne({ email: val }).select('+password');
             if (!user) return Promise.reject(new AppError('No user found with this email', 404));
+            // Attach user to req so password validator reuses it without a second DB call
+            req._loginUser = user;
         }),
 
     body("password")
         .notEmpty().withMessage("password is required")
         .custom(async (val, { req }) => {
-            const user = await User.findOne({ email: req.body.email });
-            const isPasswordValid = await bcrypt.compare(val, user.password);
+            if (!req._loginUser) return; // email validator already failed
+            const isPasswordValid = await bcrypt.compare(val, req._loginUser.password);
             if (!isPasswordValid) return Promise.reject(new AppError("Wrong password", 400));
         }),
 

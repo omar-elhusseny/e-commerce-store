@@ -8,7 +8,12 @@ const refreshAccessToken = asyncWrapper(async (req, res, next) => {
     if (!refreshToken) return next(new AppError("Refresh token required", 401));
     
     // Validate refresh token
-    const decoded = verifyToken(refreshToken);
+    let decoded;
+    try {
+        decoded = verifyToken(refreshToken);
+    } catch (err) {
+        return next(new AppError("Invalid or expired refresh token", 401));
+    }
     
     // Check Redis for the refresh token
     const storedToken = await redisClient.get(`refreshToken:${decoded.id}`);

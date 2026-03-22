@@ -43,7 +43,7 @@ const addWishlist = asyncWrapper(async (req, res, next) => {
     });
 })
 
-const removeFromWishlist = asyncWrapper(async (req, res) => {
+const removeFromWishlist = asyncWrapper(async (req, res, next) => {
     const { id } = req.params;
     const wishlist = await WishList.findOne({ userId: req.user.id });
     if (!wishlist) {
@@ -66,7 +66,7 @@ const removeFromWishlist = asyncWrapper(async (req, res) => {
     })
 })
 
-const clearWishlist = asyncWrapper(async (req, res) => {
+const clearWishlist = asyncWrapper(async (req, res, next) => {
     const wishlist = await WishList.findOne({ userId: req.user._id });
     if (!wishlist) {
         return next(new AppError("Wishlist not found", 404))

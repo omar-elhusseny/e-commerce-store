@@ -8,7 +8,13 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const getOrders = helperFunction.getAll(Order);
 
-const getOrder = helperFunction.get(Order);
+const getOrder = asyncWrapper(async (req, res, next) => {
+    const order = await Order.findById(req.params.id);
+    if (!order) return next(new AppError(`No order found with id: ${req.params.id}`, 404));
+    if (req.user.role === 'user' && order.userId.toString() !== req.user._id.toString())
+        return next(new AppError('You are not allowed to view this order', 403));
+    return res.status(200).json({ data: order });
+});
 
 const checkout = asyncWrapper(async (req, res, next) => {
     const { shippingAddress, paymentMethod, testStripe } = req.body;
@@ -50,7 +56,7 @@ const checkout = asyncWrapper(async (req, res, next) => {
     if (paymentMethod === "cash") {
         for (const item of cart.products) {
             const product = await Product.findById(item.productId._id);
-            product.quantity -= item.quantity;
+            product.inventory -= item.quantity;
             product.sold += item.quantity;
             await product.save();
         }
@@ -155,6 +161,10 @@ const updateOrderStatus = asyncWrapper(async (req, res, next) => {
 const cancelOrder = asyncWrapper(async (req, res, next) => {
     const order = await Order.findById(req.params.id);
     if (!order) return next(new AppError(`No order found with id: ${req.params.id}`, 404));
+
+    // Users can only cancel their own orders; admins/managers can cancel any
+    if (req.user.role === 'user' && order.userId.toString() !== req.user._id.toString())
+        return next(new AppError('You are not allowed to cancel this order', 403));
 
     // Only pending or processing orders can be cancelled
     if (["shipped", "delivered", "cancelled"].includes(order.status)) {

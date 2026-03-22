@@ -43,7 +43,7 @@ const webhook = asyncWrapper(async (req, res) => {
             const product = await Product.findById(item.productId);
 
             if (product) {
-                product.quantity -= item.quantity;
+                product.inventory -= item.quantity;
                 product.sold += item.quantity;
                 await product.save();
             }

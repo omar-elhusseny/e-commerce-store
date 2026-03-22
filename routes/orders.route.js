@@ -20,6 +20,6 @@ router.put('/:id/pay', allowedTo, updateOrderToPaid);
 router.patch("/:id/status", allowedTo, updatedOrderValidation, updateOrderStatus)
 
 // /api/v1/orders/:id/cancel
-router.patch('/:id/cancel', allowedTo, cancelOrder);
+router.patch('/:id/cancel', cancelOrder);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const redisClient = require("../config/redis");
 
-const invalidateCache = async (pattern) => {
+const invalidateCache = async (collectionName) => {
 
     const keys = await redisClient.keys(`${collectionName}:*`);
 

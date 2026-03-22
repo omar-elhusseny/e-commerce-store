@@ -10,7 +10,7 @@ router.route('/')
 router.route('/:id')
     .get(getReviewValidator, getReview)
     .put(updateReviewValidator, updateReview)
-    .delete(deleteReview, deleteReviewValidator);
+    .delete(deleteReviewValidator, deleteReview);
 
 router.route("/product/:id").get(getReviewValidator, getProductReviews)
 

@@ -1,9 +1,9 @@
-
 // Import dependencies
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const dotenv = require("dotenv").config();
+const path = require("path");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -30,8 +30,20 @@ connectDB();
 app.post('/api/v1/webhook/stripe', express.raw({ type: "application/json" }), webhook);
 
 
+// ------------------ Health check ------------------
+app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
+
 // ------------------ Security Middleware ------------------
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+            connectSrc: ["'self'"],
+        },
+    },
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+}));
 app.use(cors({
     origin: process.env.FRONTEND_URL || '*',
     credentials: true,
@@ -70,6 +82,7 @@ const server = app.listen(process.env.PORT || 3000, () => { logger.info(`Server 
 
 // any error catched outside express error-middleware
 process.on("unhandledRejection", (error) => {
+    logger.error(`unhandledRejection Error: ${error.name} | ${error.message}`);
     server.close(_ => {
         logger.error("Server is OFF");
         process.exit(1);

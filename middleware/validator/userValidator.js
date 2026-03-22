@@ -18,5 +18,21 @@ const updatePasswordValidation = [
         .isLength({ min: 8 }).withMessage("Minimum length is 8 characters"),
     validation
 ]
-
-module.exports = { updatePasswordValidation }
+const updateProfileValidation = [
+    body("username")
+        .optional()
+        .isLength({ min: 3 }).withMessage("Username must be at least 3 characters"),
+    body("email")
+        .optional()
+        .isEmail().withMessage("Invalid email address")
+        .custom(async (val, { req }) => {
+            const user = await User.findOne({ email: val });
+            if (user && user._id.toString() !== req.params.id)
+                return Promise.reject(new Error("Email already in use"));
+        }),
+    body("phone")
+        .optional()
+        .isMobilePhone().withMessage("Invalid phone number"),
+    validation,
+];
+module.exports = { updatePasswordValidation, updateProfileValidation }

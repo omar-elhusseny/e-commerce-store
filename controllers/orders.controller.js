@@ -6,6 +6,7 @@ const asyncWrapper = require("../middleware/asyncWrapper");
 const AppError = require("../utils/appError");
 const logger = require("../utils/logger");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const redisClient = require("../config/redis");
 
 
 const getOrders = (req, res, next) => {
@@ -108,6 +109,12 @@ const checkout = asyncWrapper(async (req, res, next) => {
     cart.totalPriceAfterDiscount = 0;
     cart.coupon = null;
     await cart.save();
+
+    const pattern = `${Order.collection.name}:*${req.user._id}*`;
+    const keys = await redisClient.keys(pattern);
+    if (keys.length) {
+        await redisClient.del(keys);
+    }
 
     // 9️⃣ Return response for Postman / frontend
     return res.status(201).json({

@@ -1,47 +1,52 @@
 const asyncWrapper = require("../middleware/asyncWrapper");
-const Product = require("../models/product.model");
 const Review = require("../models/review.model");
-const helperFunction = require("./crud.methods")
+const helperFunction = require("./crud.methods");
+const AppError = require("../utils/appError");
 
-// Nested route (Create)
-exports.editRequestBody = (req, res, next) => {
-    // if the params have id, we use the nested route to add subcategory, if null, we use the original route to add it
+// Inject product and user into body for nested route support
+// POST /api/v1/products/:productId/reviews
+exports.setProductAndUser = (req, res, next) => {
     if (!req.body.product) req.body.product = req.params.productId;
-    if (!req.body.user) req.body.user = req.user._id;
+    req.body.user = req.user._id; // always from token, never from body
     next();
-}
+};
 
-exports.getReviews = helperFunction.getAll(Review, { path: "user product", select: "username name" })
+exports.getReviews = helperFunction.getAll(Review, { path: "user product", select: "username name" });
 
 exports.getReview = helperFunction.get(Review, { path: "user product", select: "username name" });
 
 exports.getProductReviews = asyncWrapper(async (req, res, next) => {
-    const productReview = await Review.find({ product: req.params.id }).populate({ path: "user product", select: "username name" });
-    return res.status(200).json({ data: productReview })
-})
+    const reviews = await Review.find({ product: req.params.productId })
+        .populate({ path: "user", select: "username" });
+    return res.status(200).json({ results: reviews.length, data: reviews });
+});
 
-// exports.createReview = helperFunction.create(Review);
 exports.createReview = asyncWrapper(async (req, res, next) => {
     const review = await Review.create(req.body);
+    // avgRating and totalReviews are updated automatically via reviewSchema.post("save")
+    return res.status(201).json({ message: "Review created", data: review });
+});
 
-    let totalRating = 0.0;
+exports.updateReview = asyncWrapper(async (req, res, next) => {
+    // Only allow updating title and rating — not user or product
+    const { title, rating } = req.body;
+    const updateData = {
+        ...(title !== undefined && { title }),
+        ...(rating !== undefined && { rating }),
+    };
 
-    const product = await Product.findOne({ _id: req.body.product })
-    const productReviews = await Review.find({ product: req.body.product });
+    const review = await Review.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    if (!review) return next(new AppError(`No review found with id ${req.params.id}`, 404));
 
-    productReviews.forEach(review => {
-        totalRating += review.rating;
-    })
+    // Manually trigger recalculation since findByIdAndUpdate doesn't fire post("save")
+    await Review.calcRatings(review.product);
 
-    product.totalReviews += 1;
+    return res.status(200).json({ data: review });
+});
 
-    product.avgRating = totalRating / product.totalReviews;
-
-    await product.save();
-
-    return res.status(201).json({ message: "Review created" })
-})
-
-exports.updateReview = helperFunction.update(Review);
-
-exports.deleteReview = helperFunction.delete(Review);
+exports.deleteReview = asyncWrapper(async (req, res, next) => {
+    const review = await Review.findByIdAndDelete(req.params.id);
+    if (!review) return next(new AppError(`No review found with id ${req.params.id}`, 404));
+    // avgRating and totalReviews are updated automatically via reviewSchema.post("findOneAndDelete")
+    return res.status(204).send();
+});

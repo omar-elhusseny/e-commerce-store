@@ -185,11 +185,29 @@ const resetPassword = asyncWrapper(async (req, res, next) => {
     return res.status(201).json({ message: "password changed successfuly" });
 })
 
+const reactivateAccount = asyncWrapper(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) return next(new AppError('Invalid credentials', 401));
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return next(new AppError('Invalid credentials', 401));
+
+    if (user.isActive) return next(new AppError('Account is already active', 400));
+
+    user.isActive = true;
+    await user.save();
+
+    return res.status(200).json({ message: 'Account reactivated successfully. You can now log in.' });
+});
+
 module.exports = {
     login,
     register,
     verifyEmail,
     forgetPassword,
     verifyResetCode,
-    resetPassword
+    resetPassword,
+    reactivateAccount
 };

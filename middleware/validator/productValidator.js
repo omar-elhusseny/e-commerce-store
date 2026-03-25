@@ -5,130 +5,115 @@ const Subcategory = require('../../models/subCategory.model');
 const validation = require("../validation")
 
 exports.createProductValidator = [
+    // 1. Name
     check('name')
-        .isLength({ min: 3 })
-        .withMessage('must be at least 3 chars')
-        .notEmpty()
-        .withMessage('Product required')
+        .trim()
+        .notEmpty().withMessage('Product name is required')
+        .isLength({ min: 3 }).withMessage('Must be at least 3 chars')
         .custom((val, { req }) => {
             req.body.slug = slugify(val);
             return true;
         }),
+
+    // 2. Description
     check('description')
-        .notEmpty()
-        .withMessage('Product description is required')
-        .isLength({ max: 2000 })
-        .withMessage('Too long description'),
-    check('quantity')
-        .notEmpty()
-        .withMessage('Product quantity is required')
-        .isNumeric()
-        .withMessage('Product quantity must be a number'),
+        .trim()
+        .notEmpty().withMessage('Product description is required')
+        .isLength({ max: 2000 }).withMessage('Too long description'),
+
+    // 3. Inventory
+    check('inventory')
+        .notEmpty().withMessage('Product inventory is required')
+        .isInt({ min: 0 }).withMessage('Inventory must be a positive integer'),
+
+    // 4. Sold
     check('sold')
         .optional()
-        .isNumeric()
-        .withMessage('Product quantity must be a number'),
+        .isInt({ min: 0 }).withMessage('Sold must be a positive integer'),
+
+    // 5. Price
     check('price')
-        .notEmpty()
-        .withMessage('Product price is required')
-        .isNumeric()
-        .withMessage('Product price must be a number')
-        .isLength({ max: 32 })
-        .withMessage('To long price'),
+        .notEmpty().withMessage('Product price is required')
+        .isFloat({ min: 0 }).withMessage('Price must be a positive number'),
+
+    // 6. Price After Discount
     check('priceAfterDiscount')
         .optional()
-        .isNumeric()
-        .withMessage('Product price after discount must be a number')
-        .toFloat()
+        .isFloat({ min: 0 }).withMessage('Discount price must be a number')
         .custom((value, { req }) => {
-            if (req.body.price <= value) {
-                throw new Error('price after discount must be lower than price');
+            if (value >= req.body.price) {
+                throw new Error('Discount price must be lower than original price');
             }
             return true;
         }),
 
+    // 7. Colors
     check('colors')
         .optional()
-        .isArray()
-        .withMessage('colors should be array of string'),
-    check('mainImage')
-        .custom((value, { req }) => {
-            if (!req.files?.mainImage || req.files.mainImage.length === 0) {
-                throw new Error('Product main image is required');
-            }
-            return true;
-        }),
+        .isArray().withMessage('Colors must be an array'),
+
+    // 8. Main Image
+    check('mainImage').custom((_, { req }) => {
+        if (!req.files?.mainImage?.length) {
+            throw new Error('Main image is required');
+        }
+        return true;
+    }),
+
+    // 9. Images
     check('images')
         .optional()
-        .isArray()
-        .withMessage('images should be array of string')
-        .custom((value, { req }) => {
+        .custom((_, { req }) => {
             if (req.files?.images && !Array.isArray(req.files.images)) {
-                throw new Error('Images should be an array of files');
+                throw new Error('Images must be an array');
             }
             return true;
         }),
-    check('category')
-        .notEmpty()
-        .withMessage('Product must be belong to a category')
-        .isMongoId()
-        .withMessage('Invalid id')
-        .custom((categoryId) =>
-            Category.findById(categoryId).then((category) => {
-                if (!category) {
-                    return Promise.reject(new Error(`No category for this id: ${categoryId}`));
-                }
-            })
-        ),
 
+    // 10. Category
+    check('category')
+        .notEmpty().withMessage('Category is required')
+        .isMongoId().withMessage('Invalid category ID')
+        .custom(async (categoryId) => {
+            const category = await Category.findById(categoryId);
+            if (!category) {
+                throw new Error('Category not found');
+            }
+        }),
+
+    // 11. Subcategories
     check('subcategory')
         .optional()
-        .isMongoId()
-        .withMessage('Invalid ID formate')
-        .custom((subcategoriesIds) =>
-            Subcategory.find({ _id: { $exists: true, $in: subcategoriesIds } }).then(
-                (result) => {
-                    if (result.length < 1 || result.length !== subcategoriesIds.length) {
-                        return Promise.reject(new Error(`Invalid subcategories Ids`));
-                    }
-                }
-            )
-        )
-        .custom((val, { req }) =>
-            Subcategory.find({ category: req.body.category }).then(
-                (subcategories) => {
-                    // Initialize an empty array to hold the IDs of subcategories found in the database
-                    const subCategoriesIdsInDB = [];
+        .custom(async (value, { req }) => {
+            const ids = Array.isArray(value) ? value : [value];
 
-                    // Loop through all the subcategories retrieved from the database
-                    subcategories.forEach((Subcategory) => {
-                        // Push the stringified ID of each subcategory to the array
-                        subCategoriesIdsInDB.push(Subcategory._id.toString());
-                    });
+            // Validate format
+            const isValid = ids.every(id => /^[a-fA-F0-9]{24}$/.test(id));
+            if (!isValid) throw new Error('Invalid subcategory ID format');
 
-                    // Check if each value in the provided array 'val' (which likely contains subcategory IDs) exists in the 'subCategoriesIdsInDB' array
-                    const isBelong = val.every((v) => subCategoriesIdsInDB.includes(v));
-                    // If any of the provided subcategory IDs don't belong to the category, reject the promise with an error message
-                    if (!isBelong) {
-                        return Promise.reject(new Error(`subcategories not belong to category`));
-                    }
-                }
-            )
-        ),
+            // Fetch from DB
+            const subcategories = await Subcategory.find({ _id: { $in: ids } });
 
-    check('brand').optional().isMongoId().withMessage('Invalid ID'),
-    // check('rating')
-    //     .optional()
-    //     .isNumeric()
-    //     .withMessage('rating must be a number')
-    //     .isLength({ min: 1 })
-    //     .withMessage('Rating must be above or equal 1.0')
-    //     .isLength({ max: 5 })
-    //     .withMessage('Rating must be below or equal 5.0'),
-    // check('ratingQuantity')
-    //     .optional()
-    //     .isNumeric()
-    //     .withMessage('rating quantity must be a number'),
+            if (subcategories.length !== ids.length) {
+                throw new Error('Some subcategories not found');
+            }
+
+            // Check relation with category
+            const isBelong = subcategories.every(
+                sub => sub.category.toString() === req.body.category
+            );
+
+            if (!isBelong) {
+                throw new Error('Subcategories do not belong to the selected category');
+            }
+
+            return true;
+        }),
+
+    // 12. Brand
+    check('brand')
+        .optional()
+        .isMongoId().withMessage('Invalid brand ID'),
     validation
 ];
 
@@ -141,7 +126,7 @@ exports.updateProductValidator = [
     check('id').isMongoId().withMessage('Invalid id'),
     body('name')
         .custom((val, { req }) => {
-            if(val) req.body.slug = slugify(val);
+            if (val) req.body.slug = slugify(val);
             return true;
         }),
     validation

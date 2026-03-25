@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { loginUserValidation, registerUserValidation, resetPasswordValidation } = require("../middleware/validator/authValidator")
-const { register, verifyEmail, login, forgetPassword, verifyResetCode, resetPassword } = require("../controllers/auth.controller")
+const { register, verifyEmail, login, forgetPassword, verifyResetCode, resetPassword, reactivateAccount } = require("../controllers/auth.controller")
 const { allowedTo } = require("../middleware/allowTo");
 const isAuth = require("../middleware/isAuth");
 const refreshAccessToken = require('../utils/refreshToken');
@@ -26,5 +26,8 @@ router.post('/reset-password', resetPasswordValidation, resetPassword);
 
 // POST /api/v1/auth/refresh-token
 router.post("/refresh-token", isAuth, allowedTo, refreshAccessToken)
+
+// POST /api/v1/auth/reactivate
+router.post('/reactivate', reactivateAccount);
 
 module.exports = router;

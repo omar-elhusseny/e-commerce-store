@@ -23,11 +23,6 @@ exports.getReviewValidator = [
     validation,
 ];
 
-exports.getProductReviewsValidator = [
-    check('productId').isMongoId().withMessage('Invalid product ID'),
-    validation,
-];
-
 exports.updateReviewValidator = [
     check('id')
         .isMongoId().withMessage('Invalid review ID')

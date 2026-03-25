@@ -14,26 +14,21 @@ const {
     createReviewValidator,
     updateReviewValidator,
     deleteReviewValidator,
-    getProductReviewsValidator,
 } = require("../middleware/validator/reviewValidator");
 
-// GET /api/v1/reviews — all reviews (admin)
-// POST /api/v1/reviews — create review
-// POST /api/v1/products/:productId/reviews — create review via nested route
+// Root reviews endpoint:
+// - /api/v1/reviews                        => GET all reviews, POST create review
+// - /api/v1/products/:productId/reviews    => GET reviews for a product, POST create for that product
 router.route('/')
-    .get(getReviews)
+    .get((req, res, next) => (req.params.productId ? getProductReviews(req, res, next) : getReviews(req, res, next)))
     .post(setProductAndUser, createReviewValidator, createReview);
 
-// GET /api/v1/reviews/:id — get single review
-// PUT /api/v1/reviews/:id — update review (owner only)
-// DELETE /api/v1/reviews/:id — delete review (owner or admin)
+// GET /api/v1/reviews/:id      — get single review
+// PUT /api/v1/reviews/:id      — update review (owner only)
+// DELETE /api/v1/reviews/:id   — delete review (owner or admin)
 router.route('/:id')
     .get(getReviewValidator, getReview)
     .put(updateReviewValidator, updateReview)
     .delete(deleteReviewValidator, deleteReview);
-
-// GET /api/v1/products/:productId/reviews — get all reviews for a product (nested route)
-router.route('/product/:productId')
-    .get(getProductReviewsValidator, getProductReviews);
 
 module.exports = router;

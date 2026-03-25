@@ -173,30 +173,27 @@ const removeAddress = asyncWrapper(async (req, res, next) => {
 const changePassword = asyncWrapper(async (req, res, next) => {
     const { oldPassword, newPassword } = req.body;
 
-    const user = await User.findById(req.params.id).select("+password");
-    // 1️⃣ Check current password
+    // Always operate on the authenticated user — never trust a route param for self-service ops
+    const user = await User.findById(req.user._id).select("+password");
+    if (!user) return next(new AppError("User not found", 404));
+
+    // 1️⃣ Verify current password
     const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) return next(new AppError("Current password is incorrect", 401));
 
-    if (!isMatch) {
-        return next(new AppError("Current password is incorrect", 401));
-    }
-
-    // 2️⃣ Hash new password
-    const hashedPassword = await bcrypt.hash(newPassword, 15);
+    // 2️⃣ Hash new password (cost 12 — secure without being DoS-able)
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
 
     user.password = hashedPassword;
     user.passwordChangedAt = Date.now();
-
     await user.save();
 
-    // 3️⃣ Remove refresh token from Redis
+    // 3️⃣ Invalidate session — force re-login with new password
     await redisClient.del(`refreshToken:${user._id}`);
-
-    // 4️⃣ Blacklist current access token
     await addToBlackList(req.token);
 
-    return res.status(201).json({
-        message: "Password changed successfully. Please login again."
+    return res.status(200).json({
+        message: "Password changed successfully. Please log in again."
     });
 });
 

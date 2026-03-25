@@ -80,36 +80,44 @@ exports.create = (Model) => {
     });
 };
 
-exports.get = (Model, population) => {
+exports.get = (Model, population, forcedFilter = {}) => {
     return asyncWrapper(async (req, res, next) => {
         const { id } = req.params;
 
-        // 1) Generate a unique cache key for this product
-        const cacheKey = `${Model.collection.name}:${id}`;
+        // ✅ Merge id with forcedFilter
+        const filter = { _id: id, ...forcedFilter };
 
-        // 2) Check Redis cache
+        // ✅ Cache key MUST include filter (very important)
+        const cacheKey = `${Model.collection.name}:${JSON.stringify(filter)}`;
+
+        // 1) Check Redis cache
         const cachedData = await redisClient.get(cacheKey);
         if (cachedData) {
             return res.status(200).json({ data: JSON.parse(cachedData) });
         }
 
-        // 3) Build the database query
-        let query = Model.findById(id);
-        if (population) query = query.populate(population);
+        // 2) Build query using findOne instead of findById
+        let query = Model.findOne(filter);
 
-        // 4) Execute the query
+        if (population) {
+            query = query.populate(population);
+        }
+
+        // 3) Execute query
         const document = await query;
 
-        // 5) Handle the case where no document is found
-        if (!document) return next(new AppError(`No document for this id ${id}`, 404));
+        // 4) Handle not found
+        if (!document) {
+            return next(new AppError(`No document found for this id ${id}`, 404));
+        }
 
-        // 6) Store the result in Redis for future requests
-        await redisClient.set(cacheKey, JSON.stringify(document), { EX: 3600 }); // Cache expires in 1 hour
+        // 5) Cache result
+        await redisClient.set(cacheKey, JSON.stringify(document), { EX: 3600 });
 
-        // 7) Return the response to the client
+        // 6) Send response
         res.status(200).json({ data: document });
     });
-}
+};
 
 exports.getAll = (Model, population, forcedFilter = {}) => {
     return asyncWrapper(async (req, res) => {

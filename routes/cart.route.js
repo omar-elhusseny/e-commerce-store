@@ -14,12 +14,12 @@ router.put('/apply-coupon', applyCoupon);
 // /api/v1/cart/remove-coupon
 router.patch("/remove-coupon", removeCoupon);
 
+// /api/v1/cart/clear-cart
+router.delete("/clear-cart", clearCart);
+
 // /api/v1/cart/:productId - (update cart - delete item from cart)
 router.route("/:productId")
     .put(updateCartValidator, updateCart)
     .delete(deleteCartValidator, deleteFromCart)
-
-// /api/v1/cart/clear-cart
-router.delete("/clear-cart", clearCart);
 
 module.exports = router;

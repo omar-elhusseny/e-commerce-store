@@ -1,16 +1,38 @@
 const Subcategory = require("../models/subCategory.model");
 const helperFunction = require("./crud.methods");
+const asyncWrapper = require("../middleware/asyncWrapper");
 
-// added before validation in createSubCategory route
-const editRequestBody = (req, res, next) => {
-    // if the params have id, we use the nested route to add subcategory, if null, we use the original route to add it
-    if (!req.body.category) req.body.category = req.params.categoryId;
+const setCategoryId = (req, res, next) => {
+    // When accessed via `/categories/:categoryId/subcategories`, force the parent
+    // category id from the URL to avoid creating subcategories under
+    // a non-matching/non-existent category.
+    if (req.params.categoryId) {
+        req.body = req.body || {};
+        req.body.category = req.params.categoryId;
+    }
     next();
-}
+};
 
-const getSubCategories = helperFunction.getAll(Subcategory);
+// When accessed via /categories/:categoryId/subcategories, filter by that category.
+// When accessed directly via /subcategories, return all (no forced filter).
+const getSubCategories = asyncWrapper(async (req, res, next) => {
+    let filter = {};
+    if (req.params.categoryId) {
+        filter.category = req.params.categoryId;
+    }
+    return helperFunction.getAll(Subcategory, null, filter)(req, res, next);
+});
 
-const getSubCategory = helperFunction.get(Subcategory);
+const getSubCategory = asyncWrapper(async (req, res, next) => {
+    let filter = { _id: req.params.id };
+
+    // ✅ enforce parent relationship
+    if (req.params.categoryId) {
+        filter.category = req.params.categoryId;
+    }
+
+    return helperFunction.get(Subcategory, null, filter)(req, res, next);
+});
 
 const createSubCategory = helperFunction.create(Subcategory);
 
@@ -18,4 +40,11 @@ const updateSubCategory = helperFunction.update(Subcategory);
 
 const deleteSubCategory = helperFunction.delete(Subcategory);
 
-module.exports = { getSubCategories, getSubCategory, createSubCategory, updateSubCategory, deleteSubCategory, editRequestBody };
+module.exports = {
+    getSubCategories,
+    getSubCategory,
+    createSubCategory,
+    updateSubCategory,
+    deleteSubCategory,
+    setCategoryId
+};

@@ -74,11 +74,36 @@ const emailTemplates = {
         <h2>Order Confirmed 🎉</h2>
         <p>Hi ${name}, your order has been placed successfully!</p>
         <p><strong>Order ID:</strong> ${order._id}</p>
-        <p><strong>Total:</strong> $${order.totalAmount.toFixed(2)}</p>
+        <p><strong>Total:</strong> ${order.totalPrice?.toFixed(2)}</p>
         <p><strong>Status:</strong> ${order.status}</p>
+        <p><strong>Payment:</strong> ${order.paymentDetails?.method || 'N/A'}</p>
+        <p>We'll notify you when your order ships.</p>
       </div>`,
-        text: `Order ${order._id} confirmed. Total: $${order.totalAmount.toFixed(2)}`,
+        text: `Order ${order._id} confirmed. Total: ${order.totalPrice?.toFixed(2)}`,
     }),
+
+    orderStatusUpdate: (name, order) => {
+        const statusMessages = {
+            processing: 'Your order is being processed.',
+            shipped: 'Great news — your order has been shipped!',
+            delivered: 'Your order has been delivered. Enjoy!',
+            cancelled: 'Your order has been cancelled.',
+        };
+        const message = statusMessages[order.status] || `Your order status has been updated to: ${order.status}`;
+        return {
+            subject: `Order #${order._id} — ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}`,
+            html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2>Order Update</h2>
+        <p>Hi ${name},</p>
+        <p>${message}</p>
+        <p><strong>Order ID:</strong> ${order._id}</p>
+        <p><strong>Status:</strong> ${order.status}</p>
+        <p><strong>Total:</strong> ${order.totalPrice?.toFixed(2)}</p>
+      </div>`,
+            text: `Order ${order._id} update: ${message}`,
+        };
+    },
 };
 
 module.exports = { sendEmail, emailTemplates };

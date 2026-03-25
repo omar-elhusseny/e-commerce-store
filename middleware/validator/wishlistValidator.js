@@ -4,11 +4,13 @@ const AppError = require("../../utils/appError");
 
 
 const addWishlistValidation = [
-    body("productId").notEmpty().withMessage("product id is required")
+    body("productId").notEmpty().withMessage("product id is required"),
+    validation
 ]
 
 const removeWishlistValidation = [
-    check("id").notEmpty().withMessage("product id is required")
+    check("id").notEmpty().withMessage("product id is required"),
+    validation
 ]
 
 module.exports = { addWishlistValidation, removeWishlistValidation }

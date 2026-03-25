@@ -13,13 +13,13 @@ router.route("/")
 router.route('/:id')
     .get(getOrderValidation, getOrder)
 
-// /api/v1/orders/:id/pay
-router.put('/:id/pay', allowedTo, updateOrderToPaid);
+// /api/v1/orders/:id/pay — admin/manager only
+router.put('/:id/pay', allowedTo('admin', 'manager'), updateOrderToPaid);
 
-// /api/v1/orders/:id/status
-router.patch("/:id/status", allowedTo, updatedOrderValidation, updateOrderStatus)
+// /api/v1/orders/:id/status — admin/manager only
+router.patch("/:id/status", allowedTo('admin', 'manager'), updatedOrderValidation, updateOrderStatus)
 
-// /api/v1/orders/:id/cancel
+// /api/v1/orders/:id/cancel — any authenticated user (ownership checked in controller)
 router.patch('/:id/cancel', cancelOrder);
 
 module.exports = router;

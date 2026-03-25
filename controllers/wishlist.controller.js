@@ -50,7 +50,10 @@ const removeFromWishlist = asyncWrapper(async (req, res, next) => {
         return next(new AppError("Wishlist not found", 404))
     }
 
-    const productIndex = wishlist.products.indexOf(id);
+    const productIndex = wishlist.products.findIndex(
+        (product) => product.toString() === id
+    );
+    
     if (productIndex === -1) {
         return next(new AppError("Product not found in wishlist", 404))
     }

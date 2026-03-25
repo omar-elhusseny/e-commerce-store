@@ -202,53 +202,56 @@ const applyCoupon = asyncWrapper(async (req, res, next) => {
     const couponCode = req.body.coupon?.trim().toUpperCase();
     if (!couponCode) return next(new AppError("Coupon code is required", 400));
 
-    // 1️⃣ Find coupon with all validations
-    const coupon = await Coupon.findOne({
-        name: couponCode,
-        expire: { $gt: Date.now() },
-        isActive: true
-    });
-
-    if (!coupon) {
-        return next(new AppError("Coupon is invalid, expired, or exceeded usage limit", 400));
-    }
-
-    // Check usage limit separately (avoids broken $lt: "$usageLimit" query)
-    if (coupon.usageLimit !== null && coupon.usedCount >= coupon.usageLimit) {
-        return next(new AppError("Coupon has exceeded its usage limit", 400));
-    }
-
-    // 2️⃣ Get user's cart
+    // 1️⃣ Get user's cart first (needed for min order value check)
     const cart = await Cart.findOne({ user: req.user._id });
     if (!cart) return next(new AppError("Cart not found", 404));
 
-    // 3️⃣ Check minimum order value
-    if (cart.totalPrice < coupon.minOrderValue) {
-        return next(
-            new AppError(
-                `Cart total must be at least ${coupon.minOrderValue} to apply this coupon`,
-                400
-            )
-        );
+    // 2️⃣ Find and atomically increment usage in a single operation — prevents race conditions
+    const coupon = await Coupon.findOneAndUpdate(
+        {
+            name: couponCode,
+            expire: { $gt: Date.now() },
+            isActive: true,
+            $or: [
+                { usageLimit: null },
+                { $expr: { $lt: ["$usedCount", "$usageLimit"] } }
+            ]
+        },
+        { $inc: { usedCount: 1 } },
+        { new: false } // return doc BEFORE increment so we can check limits below
+    );
+
+    if (!coupon) {
+        return next(new AppError("Coupon is invalid, expired, or has reached its usage limit", 400));
     }
 
-    // 4️⃣ Calculate total price after discount
+    // 3️⃣ Prevent applying the same coupon twice on the same cart
+    if (cart.coupon && cart.coupon.toString() === coupon._id.toString()) {
+        // Roll back the increment we just did
+        await Coupon.findByIdAndUpdate(coupon._id, { $inc: { usedCount: -1 } });
+        return next(new AppError("This coupon is already applied to your cart", 400));
+    }
+
+    // 4️⃣ Check minimum order value
+    if (cart.totalPrice < coupon.minOrderValue) {
+        // Roll back the increment
+        await Coupon.findByIdAndUpdate(coupon._id, { $inc: { usedCount: -1 } });
+        return next(new AppError(
+            `Minimum order value for this coupon is ${coupon.minOrderValue}`,
+            400
+        ));
+    }
+
+    // 5️⃣ If there was a previously applied coupon, roll back its usage count
+    if (cart.coupon && cart.coupon.toString() !== coupon._id.toString()) {
+        await Coupon.findByIdAndUpdate(cart.coupon, { $inc: { usedCount: -1 } });
+    }
+
+    // 6️⃣ Apply discount and save cart
     const totalPriceAfterDiscount = cart.totalPrice - cart.totalPrice * (coupon.discount / 100);
     cart.totalPriceAfterDiscount = Number(totalPriceAfterDiscount.toFixed(2));
-
-    // 5️⃣ Optionally store the coupon in cart (if you have a coupon field)
     cart.coupon = coupon._id;
-
     await cart.save();
-
-    // 6️⃣ Increment coupon usage count atomically
-    if (coupon.usageLimit !== null) {
-        await Coupon.findByIdAndUpdate(
-            coupon._id,
-            { $inc: { usedCount: 1 } },
-            { new: true }
-        );
-    }
 
     res.status(200).json({
         success: true,

@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const hpp = require("hpp");
 const dotenv = require("dotenv").config();
 const path = require("path");
 const morgan = require("morgan");
@@ -15,6 +16,7 @@ const AppError = require("./utils/appError");
 const errorHandler = require("./middleware/errorHandling");
 const { webhook } = require("./controllers/webhooks");
 const logger = require("./utils/logger");
+const validateEnv = require("./config/env");
 
 // ------------------ API Routes ------------------
 const mainRoutes = require("./routes/mainRoutes");
@@ -22,13 +24,14 @@ const mainRoutes = require("./routes/mainRoutes");
 // initialize the application
 const app = express();
 
+// Validate env vars first — exits if anything critical is missing
+validateEnv();
+
 // ------------------ Connect to the database ------------------
 connectDB();
 
-
 // ------------------ Stripe webhook ------------------
 app.post('/api/v1/webhook/stripe', express.raw({ type: "application/json" }), webhook);
-
 
 // ------------------ Health check ------------------
 app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
@@ -49,6 +52,10 @@ app.use(cors({
     credentials: true,
 }));
 app.use(mongoSanitize());
+app.use(hpp({
+    // Whitelist params that legitimately appear multiple times (e.g. ?color=red&color=blue)
+    whitelist: ['colors', 'subcategory', 'fields', 'sort'],
+}));
 
 // ------------------ Rate limiting ------------------
 const limiter = rateLimit({

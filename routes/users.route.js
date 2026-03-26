@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { updatePasswordValidation, updateProfileValidation } = require("../middleware/validator/userValidator")
-const { getProfile, updateProfile, logout, deleteUser, addAddress, removeAddress, updateAddress, deactivateUser, changePassword } = require("../controllers/users.controller");
+const { getProfile, updateProfile, logout, deleteUser, addAddress, removeAddress, updateAddress, deactivateUser, changePassword, deleteAccount } = require("../controllers/users.controller");
 const { uploadSingleImage, setUploadType } = require("../config/cloudinary")
 const wishlistRoute = require("../routes/wishlist.route");
 const AppError = require("../utils/appError");
@@ -21,6 +21,9 @@ const isSelf = (req, res, next) => {
         return next(new AppError("You are not allowed to modify another user's account", 403));
     next();
 };
+
+// "/api/v1/users/me"
+router.delete("/me", deleteAccount)
 
 router.route("/:id")
     .put(isSelf, updateProfileValidation, setUploadType("users"), uploadSingleImage("profilePicture"), updateProfile)

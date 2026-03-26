@@ -197,32 +197,49 @@ const changePassword = asyncWrapper(async (req, res, next) => {
     });
 });
 
-const reactivateAccount = asyncWrapper(async (req, res, next) => {
+const deleteAccount = asyncWrapper(async (req, res, next) => {
+    const { user, token } = req;
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) return next(new AppError('Invalid credentials', 401));
+    if (!password) return next(new AppError("Password is required", 400));
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) return next(new AppError('Invalid credentials', 401));
+    const deletedUser = await User.findOne({ _id: user._id, email: user.email }).select("+password");
+    if (!deletedUser) return next(new AppError("User not found", 404));
 
-    if (user.isActive) return next(new AppError('Account is already active', 400));
+    const isMatch = await bcrypt.compare(password, deletedUser.password);
+    if (!isMatch) return next(new AppError("Your password is incorrect", 401));
 
-    user.isActive = true;
-    await user.save();
+    await User.deleteOne({ _id: user._id });
 
-    return res.status(200).json({ message: 'Account reactivated successfully. You can now log in.' });
-});
+    // If client sends email in body, make sure it matches authenticated user.
+    if (email && deletedUser.email && email !== deletedUser.email) {
+        return next(new AppError("Email does not match authenticated user", 400));
+    }
+
+    await deleteImage(deletedUser.profilePicture);
+
+
+    // Remove cached auth data and invalidate refresh token.
+    await redisClient.del([
+        `refreshToken:${deletedUser._id}`,
+        `userEmail:${deletedUser.email}`
+    ]);
+
+    // Blacklist current access token so the session cannot continue.
+    await addToBlackList(token);
+
+    return res.status(202).json({ message: "Account deleted successfully" })
+})
 
 module.exports = {
     getProfile,
     updateProfile,
     logout,
     deactivateUser,
-    reactivateAccount,
     deleteUser,
     addAddress,
     updateAddress,
     removeAddress,
-    changePassword
+    changePassword,
+    deleteAccount
 };

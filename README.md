@@ -52,6 +52,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - POST /api/v1/auth/reset-password
 - POST /api/v1/auth/refresh-token (admin-only)
 - GET  /api/v1/auth/verify-email
+- POST /api/v1/auth/reactivate
 
 ### User Routes
 - GET /api/v1/users/profile – Get user's profile
@@ -61,8 +62,8 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - PUT /api/v1/users/addresses/:addressId – Update user address
 - PATCH /api/v1/users/:id/change-password – change user password
 - DELETE /api/v1/users/addresses/:addressId – delete user address
-- DELETE /api/v1/users/:id/deactivate – Deactivate user's account
-- DELETE /api/v1/users/:id – Delete user's account
+- PUT /api/v1/users/:id/deactivate – Deactivate user's account
+- DELETE /api/v1/users/me – Delete user's account
 - GET /api/v1/users/:id/wishlist - Nested route to get user wishlist (Nested Route)
 
 ### Product Routes

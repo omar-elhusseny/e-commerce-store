@@ -1,6 +1,6 @@
 # 🛒 E-Commerce Backend API
 
-A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **MongoDB**. This project provides authentication, product management, cart and order handling, and wishlist functionality.
+A RESTful e-commerce backend built with **Node.js**, **Express.js**, **PostgreSQL**, and **Prisma**. This project provides authentication, product management, cart and order handling, and wishlist functionality.
 
 ## 🚀 Features
 
@@ -17,7 +17,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 
 ### Prerequisites
 - **Node.js** installed
-- **MongoDB** running
+- **PostgreSQL** running
 - **Redis** installed (for token blacklisting)
 
 ### Steps
@@ -32,7 +32,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
    ```sh
     PORT=3000
     NODE_ENV=development
-    MONGO_URI=your_mongodb_connection_string
+    DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DB_NAME?schema=public
     JWT_SECRET=your_jwt_secret
     REDIS_URL=your_redis_url
     STRIPE_SECRET_KEY=your_stripe_secret
@@ -40,7 +40,11 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
     CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
     CLOUDINARY_API_KEY=your_cloudinary_api_key
     CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-4. Start the server:
+4. Generate Prisma client and run migrations:
+   ```sh
+   npm run prisma:generate
+   npm run prisma:migrate
+5. Start the server:
    ```sh
    npm start
 
@@ -142,7 +146,7 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 
 ## 📜 Technologies Used
 - Node.js & Express.js (Backend)
-- MongoDB & Mongoose (Database)
+- PostgreSQL & Prisma (Database)
 - Redis (Token Blacklist)
 - JWT (Authentication)
 - Stripe (Payment Gateway)
@@ -157,19 +161,3 @@ A RESTful e-commerce backend built with **Node.js**, **Express.js**, and **Mongo
 - Commit changes (git commit -m "Add feature")
 - Push to branch (git push origin feature-name)
 - Open a Pull Request
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

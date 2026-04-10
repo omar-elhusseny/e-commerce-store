@@ -1,99 +1,51 @@
-const Cart = require('../models/cart.model');
-const User = require('../models/user.model');
-const Product = require('../models/product.model');
-const Coupon = require("../models/coupon.model");
-const asyncWrapper = require("../middleware/asyncWrapper");
-const AppError = require("../utils/appError");
+import prisma from '../config/prisma.js';
+import asyncWrapper from "../middleware/asyncWrapper.js";
+import AppError from "../utils/appError.js";
 
-/* -------------------------- Helper: Recalculate Total -------------------------- */
-const calculateTotalPrice = (cart) => {
-    return cart.products.reduce((total, item) => {
-        return total + item.productId.price * item.quantity;
-    }, 0);
+const calculateTotalPrice = (items) => items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+
+const getOrCreateCart = async (userId) => {
+    let cart = await prisma.cart.findUnique({ where: { userId }, include: { items: { include: { product: true } } } });
+    if (!cart) {
+        cart = await prisma.cart.create({ data: { userId }, include: { items: { include: { product: true } } } });
+    }
+    return cart;
 };
 
-/* ------------------------------- Add To Cart ---------------------------------- */
 const addToCart = asyncWrapper(async (req, res, next) => {
     const { productId, quantity = 1 } = req.body;
+    if (quantity < 1) return next(new AppError("Quantity must be at least 1", 400));
 
-    if (quantity < 1) {
-        return next(new AppError("Quantity must be at least 1", 400));
-    }
-
-    const product = await Product.findById(productId);
+    const product = await prisma.product.findUnique({ where: { id: productId } });
     if (!product) return next(new AppError("Product not found", 404));
+    if (!product.isActive) return next(new AppError("Product is not available", 400));
+    if (quantity > product.inventory) return next(new AppError("Not enough stock", 400));
 
-    if (product.isActive === false) {
-        return next(new AppError("Product is not available", 400));
-    }
+    const cart = await getOrCreateCart(req.user.id);
+    const existingItem = cart.items.find((item) => item.productId === productId);
 
-    if (quantity > product.inventory) {
-        return next(new AppError("Not enough stock", 400));
-    }
-
-    let cart = await Cart.findOne({ user: req.user._id }).populate(
-        "products.productId",
-        "price"
-    );
-
-    if (!cart) {
-        cart = new Cart({
-            user: req.user._id,
-            products: [{ productId, quantity }],
-        });
+    if (existingItem) {
+        await prisma.cartItem.update({ where: { id: existingItem.id }, data: { quantity: existingItem.quantity + Number(quantity) } });
     } else {
-        const existingItem = cart.products.find(
-            (item) => item.productId._id.toString() === productId
-        );
-
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            cart.products.push({ productId, quantity });
-        }
+        await prisma.cartItem.create({ data: { cartId: cart.id, productId, quantity: Number(quantity) } });
     }
 
-    await cart.populate("products.productId", "price");
+    const updated = await prisma.cart.findUnique({ where: { id: cart.id }, include: { items: { include: { product: true } } } });
+    const totalPrice = calculateTotalPrice(updated.items);
+    await prisma.cart.update({ where: { id: cart.id }, data: { totalPrice } });
 
-    cart.totalPrice = calculateTotalPrice(cart);
-
-    await cart.save();
-
-    res.status(200).json({
-        success: true,
-        message: "Item added to cart",
-        cart,
-    });
+    res.status(200).json({ success: true, message: "Item added to cart", cart: { ...updated, totalPrice } });
 });
 
-/* ------------------------------- Get Cart ------------------------------------- */
 const getUserCart = asyncWrapper(async (req, res) => {
-    const userId = req.user._id;
-
-    let cart = await Cart.findOne({ user: userId }).populate(
-        "products.productId",
-        "name images price isActive"
-    );
-
-    if (!cart) {
-        cart = await Cart.create({
-            user: userId,
-            products: [],
-        });
-    }
-
-    cart.products = cart.products.filter(
-        (item) => item.productId && item.productId.isActive !== false
-    );
+    const cart = await getOrCreateCart(req.user.id);
+    const activeItems = cart.items.filter((item) => item.product && item.product.isActive !== false);
 
     res.status(200).json({
         success: true,
         cart: {
-            _id: cart._id,
-            products: cart.products.map((item) => ({
-                product: item.productId,
-                quantity: item.quantity,
-            })),
+            _id: cart.id,
+            products: activeItems.map((item) => ({ product: item.product, quantity: item.quantity })),
             totalPrice: cart.totalPrice,
             totalPriceAfterDiscount: cart.totalPriceAfterDiscount,
             createdAt: cart.createdAt,
@@ -102,197 +54,81 @@ const getUserCart = asyncWrapper(async (req, res) => {
     });
 });
 
-/* ----------------------------- Update Cart Item ------------------------------- */
 const updateCart = asyncWrapper(async (req, res, next) => {
     const { productId } = req.params;
     const { quantity } = req.body;
+    if (quantity < 1) return next(new AppError("Quantity must be at least 1", 400));
 
-    if (quantity < 1) {
-        return next(new AppError("Quantity must be at least 1", 400));
-    }
+    const cart = await getOrCreateCart(req.user.id);
+    const item = cart.items.find((i) => i.productId === productId);
+    if (!item) return next(new AppError("Item not found in cart", 404));
+    if (quantity > item.product.inventory) return next(new AppError("Not enough stock", 400));
 
-    const cart = await Cart.findOne({ user: req.user._id }).populate(
-        "products.productId",
-        "price inventory"
-    );
+    await prisma.cartItem.update({ where: { id: item.id }, data: { quantity: Number(quantity) } });
+    const updated = await prisma.cart.findUnique({ where: { id: cart.id }, include: { items: { include: { product: true } } } });
+    const totalPrice = calculateTotalPrice(updated.items);
+    await prisma.cart.update({ where: { id: cart.id }, data: { totalPrice } });
 
-    if (!cart) return next(new AppError("Cart not found", 404));
+    res.status(200).json({ success: true, message: "Cart updated successfully", cart: { ...updated, totalPrice } });
+});
 
-    const item = cart.products.find(
-        (item) => item.productId._id.toString() === productId
-    );
-
+const deleteFromCart = asyncWrapper(async (req, res, next) => {
+    const productId = req.params.productId;
+    const cart = await getOrCreateCart(req.user.id);
+    const item = cart.items.find((i) => i.productId === productId);
     if (!item) return next(new AppError("Item not found in cart", 404));
 
-    if (quantity > item.productId.inventory) {
-        return next(new AppError("Not enough stock", 400));
-    }
+    await prisma.cartItem.delete({ where: { id: item.id } });
+    const updated = await prisma.cart.findUnique({ where: { id: cart.id }, include: { items: { include: { product: true } } } });
+    const totalPrice = calculateTotalPrice(updated.items);
+    await prisma.cart.update({ where: { id: cart.id }, data: { totalPrice } });
 
-    item.quantity = quantity;
-
-    cart.totalPrice = calculateTotalPrice(cart);
-
-    await cart.save();
-
-    res.status(200).json({
-        success: true,
-        message: "Cart updated successfully",
-        cart,
-    });
+    res.status(200).json({ success: true, message: "Item removed from cart", cart: { ...updated, totalPrice } });
 });
 
-/* ----------------------------- Delete From Cart ------------------------------- */
-const deleteFromCart = asyncWrapper(async (req, res, next) => {
-    const productId = req.params.id;
-
-    const cart = await Cart.findOne({ user: req.user._id }).populate(
-        "products.productId",
-        "price"
-    );
-
+const clearCart = asyncWrapper(async (req, res, next) => {
+    const cart = await prisma.cart.findUnique({ where: { userId: req.user.id } });
     if (!cart) return next(new AppError("Cart not found", 404));
 
-    const productIndex = cart.products.findIndex(
-        (item) => item.productId._id.toString() === productId
-    );
-
-    if (productIndex === -1)
-        return next(new AppError("Item not found in cart", 404));
-
-    cart.products.splice(productIndex, 1);
-
-    cart.totalPrice = calculateTotalPrice(cart);
-
-    await cart.save();
-
-    res.status(200).json({
-        success: true,
-        message: "Item removed from cart",
-        cart,
-    });
+    await prisma.cartItem.deleteMany({ where: { cartId: cart.id } });
+    const updated = await prisma.cart.update({ where: { id: cart.id }, data: { totalPrice: 0, totalPriceAfterDiscount: 0, couponId: null } });
+    res.status(200).json({ success: true, message: "Cart cleared successfully", cart: updated });
 });
 
-/* ------------------------------- Clear cart --------------------------------- */
-const clearCart = asyncWrapper(async (req, res, next) => {
-
-    const cart = await Cart.findOneAndUpdate(
-        { user: req.user._id },
-        {
-            products: [],
-            totalPrice: 0,
-            totalPriceAfterDiscount: 0
-        },
-        { new: true }
-    );
-
-    if (!cart) {
-        return next(new AppError("Cart not found", 404));
-    }
-
-    res.status(200).json({
-        success: true,
-        message: "Cart cleared successfully",
-        cart
-    });
-
-});
-
-/* ------------------------------- Apply Coupon --------------------------------- */
 const applyCoupon = asyncWrapper(async (req, res, next) => {
     const couponCode = req.body.coupon?.trim().toUpperCase();
     if (!couponCode) return next(new AppError("Coupon code is required", 400));
 
-    // 1️⃣ Get user's cart first (needed for min order value check)
-    const cart = await Cart.findOne({ user: req.user._id });
+    const cart = await prisma.cart.findUnique({ where: { userId: req.user.id } });
     if (!cart) return next(new AppError("Cart not found", 404));
 
-    // 2️⃣ Find and atomically increment usage in a single operation — prevents race conditions
-    const coupon = await Coupon.findOneAndUpdate(
-        {
+    const coupon = await prisma.coupon.findFirst({
+        where: {
             name: couponCode,
-            expire: { $gt: Date.now() },
+            expire: { gt: new Date() },
             isActive: true,
-            $or: [
-                { usageLimit: null },
-                { $expr: { $lt: ["$usedCount", "$usageLimit"] } }
-            ]
+            OR: [{ usageLimit: null }, { usedCount: { lt: 1000000 } }],
         },
-        { $inc: { usedCount: 1 } },
-        { new: false } // return doc BEFORE increment so we can check limits below
-    );
-
-    if (!coupon) {
-        return next(new AppError("Coupon is invalid, expired, or has reached its usage limit", 400));
-    }
-
-    // 3️⃣ Prevent applying the same coupon twice on the same cart
-    if (cart.coupon && cart.coupon.toString() === coupon._id.toString()) {
-        // Roll back the increment we just did
-        await Coupon.findByIdAndUpdate(coupon._id, { $inc: { usedCount: -1 } });
-        return next(new AppError("This coupon is already applied to your cart", 400));
-    }
-
-    // 4️⃣ Check minimum order value
-    if (cart.totalPrice < coupon.minOrderValue) {
-        // Roll back the increment
-        await Coupon.findByIdAndUpdate(coupon._id, { $inc: { usedCount: -1 } });
-        return next(new AppError(
-            `Minimum order value for this coupon is ${coupon.minOrderValue}`,
-            400
-        ));
-    }
-
-    // 5️⃣ If there was a previously applied coupon, roll back its usage count
-    if (cart.coupon && cart.coupon.toString() !== coupon._id.toString()) {
-        await Coupon.findByIdAndUpdate(cart.coupon, { $inc: { usedCount: -1 } });
-    }
-
-    // 6️⃣ Apply discount and save cart
-    const totalPriceAfterDiscount = cart.totalPrice - cart.totalPrice * (coupon.discount / 100);
-    cart.totalPriceAfterDiscount = Number(totalPriceAfterDiscount.toFixed(2));
-    cart.coupon = coupon._id;
-    await cart.save();
-
-    res.status(200).json({
-        success: true,
-        message: "Coupon applied successfully",
-        cart,
     });
+
+    if (!coupon) return next(new AppError("Coupon is invalid, expired, or has reached its usage limit", 400));
+    if (coupon.usageLimit !== null && coupon.usedCount >= coupon.usageLimit) return next(new AppError("Coupon is invalid, expired, or has reached its usage limit", 400));
+    if (cart.totalPrice < coupon.minOrderValue) return next(new AppError(`Minimum order value for this coupon is ${coupon.minOrderValue}`, 400));
+
+    const totalPriceAfterDiscount = Number((cart.totalPrice - cart.totalPrice * (coupon.discount / 100)).toFixed(2));
+    await prisma.cart.update({ where: { id: cart.id }, data: { totalPriceAfterDiscount, couponId: coupon.id } });
+
+    const updated = await prisma.cart.findUnique({ where: { id: cart.id } });
+    res.status(200).json({ success: true, message: "Coupon applied successfully", cart: updated });
 });
 
-/* ------------------------------- Remove Coupon --------------------------------- */
 const removeCoupon = asyncWrapper(async (req, res, next) => {
-    // 1️⃣ Find the user's cart
-    const cart = await Cart.findOne({ user: req.user._id });
+    const cart = await prisma.cart.findUnique({ where: { userId: req.user.id } });
+    if (!cart) return next(new AppError("Cart not found", 404));
+    if (!cart.couponId) return next(new AppError("No coupon applied to this cart", 400));
 
-    if (!cart) {
-        return next(new AppError("Cart not found", 404));
-    }
-
-    // 2️⃣ Check if a coupon is applied
-    if (!cart.coupon) {
-        return next(new AppError("No coupon applied to this cart", 400));
-    }
-
-    // 3️⃣ Reset coupon fields
-    cart.coupon = null;
-    cart.totalPriceAfterDiscount = 0;
-
-    await cart.save();
-
-    res.status(200).json({
-        success: true,
-        message: "Coupon removed successfully",
-        cart
-    });
+    const updated = await prisma.cart.update({ where: { id: cart.id }, data: { couponId: null, totalPriceAfterDiscount: 0 } });
+    res.status(200).json({ success: true, message: "Coupon removed successfully", cart: updated });
 });
 
-module.exports = {
-    addToCart,
-    getUserCart,
-    updateCart,
-    deleteFromCart,
-    applyCoupon,
-    clearCart,
-    removeCoupon
-};
+export { addToCart, getUserCart, updateCart, deleteFromCart, applyCoupon, clearCart, removeCoupon };

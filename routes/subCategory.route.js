@@ -1,23 +1,19 @@
-const express = require("express")
-const {
-    getSubCategories,
+import express from "express"
+import { getSubCategories,
     getSubCategory,
     createSubCategory,
     updateSubCategory,
     deleteSubCategory,
-    setCategoryId
-} = require("../controllers/subCategory.controller");
-const {
-    createSubCategoryValidator,
+    setCategoryId } from "../controllers/subCategory.controller.js";
+import { createSubCategoryValidator,
     getSubCategoryValidator,
     updateSubCategoryValidator,
-    deleteSubCategoryValidator
-} = require("../middleware/validator/subCategoryValidator");
-const { allowedTo } = require("../middleware/allowTo");
-const isAuth = require("../middleware/isAuth");
-const Category = require("../models/category.model");
-const AppError = require("../utils/appError");
-const asyncWrapper = require("../middleware/asyncWrapper");
+    deleteSubCategoryValidator } from "../middleware/validator/subCategoryValidator.js";
+import { allowedTo } from "../middleware/allowTo.js";
+import isAuth from "../middleware/isAuth.js";
+import prisma from "../config/prisma.js";
+import AppError from "../utils/appError.js";
+import asyncWrapper from "../middleware/asyncWrapper.js";
 
 // allow us to access the parameters of other route (/:categoryId/subcategories)
 const router = express.Router({ mergeParams: true });
@@ -28,12 +24,7 @@ const router = express.Router({ mergeParams: true });
 const validateCategoryExists = asyncWrapper(async (req, res, next) => {
     const categoryId = req.params.categoryId || req.body?.category;
     if (!categoryId) return next();
-    // Reject malformed ObjectIds before hitting the DB
-    const mongoose = require("mongoose");
-    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
-        return next(new AppError(`Invalid category ID: ${categoryId}`, 400));
-    }
-    const category = await Category.findById(categoryId);
+    const category = await prisma.category.findUnique({ where: { id: categoryId } });
     if (!category) {
         return next(new AppError(`No category found with ID: ${categoryId}`, 404));
     }
@@ -51,4 +42,4 @@ router.route("/:id")
     .put(isAuth, allowedTo('admin', 'manager'), updateSubCategoryValidator, updateSubCategory)
     .delete(isAuth, allowedTo('admin'), deleteSubCategoryValidator, deleteSubCategory)
 
-module.exports = router;
+export default router;

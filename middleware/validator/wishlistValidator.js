@@ -1,6 +1,6 @@
-const { check, body } = require("express-validator");
-const validation = require("../validation");
-const AppError = require("../../utils/appError");
+import { check, body } from "express-validator";
+import validation from "../validation.js";
+import AppError from "../../utils/appError.js";
 
 
 const addWishlistValidation = [
@@ -11,6 +11,6 @@ const addWishlistValidation = [
 const removeWishlistValidation = [
     check("id").notEmpty().withMessage("product id is required"),
     validation
-]
+];
 
-module.exports = { addWishlistValidation, removeWishlistValidation }
+export { addWishlistValidation, removeWishlistValidation };

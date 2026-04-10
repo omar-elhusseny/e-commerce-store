@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { getOrders, getOrder, checkout, updateOrderToPaid, updateOrderStatus, cancelOrder } = require('../controllers/orders.controller');
-const { createOrderValidation, updatedOrderValidation, getOrderValidation } = require("../middleware/validator/orderValidation")
-const { allowedTo } = require("../middleware/allowTo");
+import { getOrders, getOrder, checkout, updateOrderToPaid, updateOrderStatus, cancelOrder } from '../controllers/orders.controller.js';
+import { createOrderValidation, updatedOrderValidation, getOrderValidation } from "../middleware/validator/orderValidation.js"
+import { allowedTo } from "../middleware/allowTo.js";
 
 // /api/v1/orders
 router.route("/")
@@ -22,4 +22,4 @@ router.patch("/:id/status", allowedTo('admin', 'manager'), updatedOrderValidatio
 // /api/v1/orders/:id/cancel — any authenticated user (ownership checked in controller)
 router.patch('/:id/cancel', cancelOrder);
 
-module.exports = router;
+export default router;

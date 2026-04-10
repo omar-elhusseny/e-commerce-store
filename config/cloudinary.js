@@ -1,7 +1,7 @@
-const { v2: cloudinary } = require("cloudinary");
-const multer = require("multer");
-const AppError = require("../utils/appError");
-const logger = require("../utils/logger");
+import { v2 as cloudinary } from "cloudinary";
+import multer from "multer";
+import AppError from "../utils/appError.js";
+import logger from "../utils/logger.js";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -115,4 +115,4 @@ const deleteImage = async (imageUrl) => {
     }
 };
 
-module.exports = { uploadSingleImage, uploadMultipleImages, setUploadType, cloudinary, deleteImage };
+export { uploadSingleImage, uploadMultipleImages, setUploadType, cloudinary, deleteImage };

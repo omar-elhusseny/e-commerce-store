@@ -1,11 +1,11 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const reviewsRoute = require("./review.route");
-const { createProductValidator, updateProductValidator, getProductValidator, deleteProductValidator } = require("../middleware/validator/productValidator");
-const { getProducts, getProduct, addProduct, updateProduct, deleteProduct } = require("../controllers/products.controller");
-const { uploadMultipleImages, setUploadType} = require("../config/cloudinary")
-const { allowedTo } = require("../middleware/allowTo");
-const isAuth = require("../middleware/isAuth");
+import reviewsRoute from "./review.route.js";
+import { createProductValidator, updateProductValidator, getProductValidator, deleteProductValidator } from "../middleware/validator/productValidator.js";
+import { getProducts, getProduct, addProduct, updateProduct, deleteProduct } from "../controllers/products.controller.js";
+import { uploadMultipleImages, setUploadType } from "../config/cloudinary.js"
+import { allowedTo } from "../middleware/allowTo.js";
+import isAuth from "../middleware/isAuth.js";
 
 
 const uploadImages = uploadMultipleImages([
@@ -31,4 +31,4 @@ router.route("/:id")
     .delete(isAuth, allowedTo('admin'), deleteProductValidator, deleteProduct)
 
 
-module.exports = router;
+export default router;

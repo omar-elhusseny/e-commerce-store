@@ -1,65 +1,51 @@
-const { check, body } = require("express-validator");
-const validation = require("../validation")
-const User = require("../../models/user.model");
-const bcrypt = require("bcryptjs");
-const AppError = require("../../utils/appError")
-const slugify = require('slugify');
+import { check, body } from "express-validator";
+import validation from "../validation.js";
+import prisma from "../../config/prisma.js";
+import bcrypt from "bcryptjs";
+import AppError from "../../utils/appError.js";
+import slugify from 'slugify';
 
 const registerUserValidation = [
     check("username")
         .notEmpty().withMessage("Username is required")
         .isLength({ min: 8 }).withMessage("Minimum length is 8 characters")
         .custom(async (val, { req }) => {
-            const user = await User.findOne({ username: val });
-            if (user) {
-                return Promise.reject(new AppError('Username already in user', 400));
-            }
+            const user = await prisma.user.findUnique({ where: { username: val } });
+            if (user) return Promise.reject(new AppError('Username already in user', 400));
             req.body.slug = slugify(val);
         }),
-
     body("email")
         .notEmpty().withMessage("email is required")
         .isEmail().withMessage('Invalid email address')
         .custom(async (val) => {
-            const user = await User.findOne({ email: val })
-            if (user) {
-                return Promise.reject(new AppError('Email already in user', 400));
-            }
+            const user = await prisma.user.findUnique({ where: { email: val } });
+            if (user) return Promise.reject(new AppError('Email already in user', 400));
         }),
-
-    body("password")
-        .notEmpty().withMessage("password is required")
-        .isLength({ min: 8 }).withMessage("Minimum length is 8 characters"),
-
-    validation
-]
+    body("password").notEmpty().withMessage("password is required").isLength({ min: 8 }).withMessage("Minimum length is 8 characters"),
+    validation,
+];
 
 const loginUserValidation = [
     body("email")
         .notEmpty().withMessage("Email is required")
         .custom(async (val, { req }) => {
-            const user = await User.findOne({ email: val }).select('+password');
-            if (!user) return Promise.reject(new AppError('No user found with this email', 404));
-            // Attach user to req so password validator reuses it without a second DB call
+            const user = await prisma.user.findUnique({ where: { email: val } });
+            if (!user) return Promise.reject(new AppError('Invalid credentials', 401));
             req._loginUser = user;
         }),
-
     body("password")
         .notEmpty().withMessage("password is required")
         .custom(async (val, { req }) => {
-            if (!req._loginUser) return; // email validator already failed
+            if (!req._loginUser) return;
             const isPasswordValid = await bcrypt.compare(val, req._loginUser.password);
-            if (!isPasswordValid) return Promise.reject(new AppError("Wrong password", 400));
+            if (!isPasswordValid) return Promise.reject(new AppError("Invalid credentials", 401));
         }),
-
-    validation
-]
+    validation,
+];
 
 const resetPasswordValidation = [
-    check("newPassword")
-        .notEmpty().withMessage("Enter your new password")
-        .isLength({ min: 8 }).withMessage("Minimum length is 8 characters"),
-    validation
-]
+    check("newPassword").notEmpty().withMessage("Enter your new password").isLength({ min: 8 }).withMessage("Minimum length is 8 characters"),
+    validation,
+];
 
-module.exports = { registerUserValidation, loginUserValidation, resetPasswordValidation }
+export { registerUserValidation, loginUserValidation, resetPasswordValidation };

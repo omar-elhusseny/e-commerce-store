@@ -1,75 +1,38 @@
-const { deleteImage } = require("../config/cloudinary");
-const redisClient = require("../config/redis");
-const User = require("../models/user.model");
-const { addToBlackList } = require("../utils/handleTokens");
-const { generateToken } = require("../utils/jwtToken");
-const asyncWrapper = require("../middleware/asyncWrapper");
-const helperFunction = require("./crud.methods");
-const AppError = require("../utils/appError");
-const bcrypt = require("bcryptjs");
-const slugify = require("slugify");
-const { sendEmail } = require("../utils/email");
-
+import { deleteImage } from "../config/cloudinary.js";
+import redisClient from "../config/redis.js";
+import prisma from "../config/prisma.js";
+import { addToBlackList } from "../utils/handleTokens.js";
+import { generateToken } from "../utils/jwtToken.js";
+import asyncWrapper from "../middleware/asyncWrapper.js";
+import AppError from "../utils/appError.js";
+import bcrypt from "bcryptjs";
+import slugify from "slugify";
+import { sendEmail } from "../utils/email.js";
 
 const logout = asyncWrapper(async (req, res) => {
-    // delete refresh token from redis
-    await redisClient.del(`refreshToken:${req.user._id}`);
-
-    // Add the token to the blacklist
+    await redisClient.del(`refreshToken:${req.user.id}`);
     await addToBlackList(req.token);
-
-    // Respond with success
-    return res.status(200).json({
-        message: "User logged out successfully",
-        data: null,
-    });
-})
+    return res.status(200).json({ message: "User logged out successfully", data: null });
+});
 
 const getProfile = asyncWrapper(async (req, res, next) => {
-    if (!req.user) return next(new AppError("No user found, login or signup please", 404));
+    const user = await prisma.user.findUnique({ where: { id: req.user.id }, include: { addresses: true } });
+    if (!user) return next(new AppError("No user found, login or signup please", 404));
+    return res.status(200).json({ message: "User profile retrieved successfully", data: { ...user, _id: user.id } });
+});
 
-    // Get the user from the token
-    const user = await User.findById(req.user._id);
-
-    // Respond with success
-    return res.status(200).json({
-        message: "User profile retrieved successfully",
-        data: user,
-    });
-})
-
-const deactivateUser = asyncWrapper(async (req, res, next) => {
-    const user = await User.findByIdAndUpdate(req.user._id, { isActive: false }, { new: true });
-
-    // Sending deactivation message
-    const message = `Hi ${user.username}, Your account deactivated successfuly, you can re-activate it by login`
-    sendEmail({
-        to: user.email,
-        subject: "Account Deactivation",
-        text: message,
-    }).catch(console.error);
-
-    // Remove refresh token from Redis
-    await redisClient.del(`refreshToken:${user._id}`)
-
-    // Add the token to the blacklist
+const deactivateUser = asyncWrapper(async (req, res) => {
+    const user = await prisma.user.update({ where: { id: req.user.id }, data: { isActive: false } });
+    sendEmail({ to: user.email, subject: "Account Deactivation", text: `Hi ${user.username}, Your account deactivated successfuly, you can re-activate it by login` }).catch(console.error);
+    await redisClient.del(`refreshToken:${user.id}`);
     await addToBlackList(req.token);
-
     return res.status(204).json({ status: 'Success', data: user });
 });
 
-const deleteUser = helperFunction.delete(User);
-
 const updateProfile = asyncWrapper(async (req, res) => {
-    // Retrieve the user from the database
-    const user = await User.findById(req.user._id);
+    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
+    if (req.file && user?.profilePicture) await deleteImage(user.profilePicture);
 
-    // If a new file is uploaded, delete the old profile picture from Cloudinary
-    if (req.file) {
-        await deleteImage(user.profilePicture);
-    }
-
-    // Whitelist only the fields updateProfile is allowed to change
     const { username, email, phone } = req.body;
     const updateData = {
         ...(username && { username, slug: slugify(username) }),
@@ -78,123 +41,56 @@ const updateProfile = asyncWrapper(async (req, res) => {
         ...(req.file && { profilePicture: req.file.path }),
     };
 
-    const updatedUser = await User.findByIdAndUpdate(
-        req.user._id,
-        updateData,
-        { new: true }
-    );
+    const updatedUser = await prisma.user.update({ where: { id: req.user.id }, data: updateData });
 
     if (username || email) {
-        // delete the old refresh token
-        await redisClient.del(`refreshToken:${user._id}`);
-        // Generate new tokens
-        const newRefreshToken = generateToken(
-            { id: updatedUser._id, username: updatedUser.username, email: updatedUser.email },
-            "7d"
-        );
-        const newAccessToken = generateToken(
-            { id: updatedUser._id, username: updatedUser.username, email: updatedUser.email },
-            "1h"
-        );
-        // Save new refresh token to Redis
-        await redisClient.set(`refreshToken:${updatedUser._id}`, newRefreshToken, { EX: 7 * 24 * 60 * 60 });
-
-        // Return updated user and new tokens
-        return res.status(200).json({
-            message: "User profile updated successfully",
-            data: { ...updatedUser._doc, accessToken: newAccessToken, refreshToken: newRefreshToken },
-        });
+        await redisClient.del(`refreshToken:${user.id}`);
+        const payload = { id: updatedUser.id, username: updatedUser.username, email: updatedUser.email };
+        const newRefreshToken = generateToken(payload, "7d");
+        const newAccessToken = generateToken(payload, "1h");
+        await redisClient.set(`refreshToken:${updatedUser.id}`, newRefreshToken, { EX: 7 * 24 * 60 * 60 });
+        return res.status(200).json({ message: "User profile updated successfully", data: { ...updatedUser, _id: updatedUser.id, accessToken: newAccessToken, refreshToken: newRefreshToken } });
     }
 
-    return res.status(200).json({ message: "User profile updated successfully", data: updatedUser });
-})
+    return res.status(200).json({ message: "User profile updated successfully", data: { ...updatedUser, _id: updatedUser.id } });
+});
 
 const addAddress = asyncWrapper(async (req, res) => {
-    const user = await User.findByIdAndUpdate(
-        req.user._id,
-        { $addToSet: { addresses: req.body } },
-        { new: true }
-    );
-
-    return res.status(200).json({
-        status: 'success',
-        message: 'Address added successfully.',
-        data: user.addresses,
-    });
+    const address = await prisma.address.create({ data: { userId: req.user.id, ...req.body } });
+    const addresses = await prisma.address.findMany({ where: { userId: req.user.id } });
+    return res.status(200).json({ status: 'success', message: 'Address added successfully.', data: addresses, newAddress: address });
 });
 
 const updateAddress = asyncWrapper(async (req, res, next) => {
-    const updateFields = {};
+    const existing = await prisma.address.findFirst({ where: { id: req.params.addressId, userId: req.user.id } });
+    if (!existing) return next(new AppError("No user found to add the address", 404));
 
-    Object.entries(req.body).forEach(([key, value]) => {
-        if (value) {
-            updateFields[`addresses.$.${key}`] = value;
-        }
-    });
-
-    const user = await User.findOneAndUpdate(
-        {
-            _id: req.user._id,
-            "addresses._id": req.params.addressId,
-        },
-        {
-            $set: updateFields,
-        },
-        { new: true }
-    );
-
-    if (!user) {
-        return next(new AppError("No user found to add the address", 404));
-    }
-
-    return res.status(200).json({
-        status: 'success',
-        message: 'Address updated successfully.',
-        data: user.addresses,
-    });
+    await prisma.address.update({ where: { id: req.params.addressId }, data: req.body });
+    const addresses = await prisma.address.findMany({ where: { userId: req.user.id } });
+    return res.status(200).json({ status: 'success', message: 'Address updated successfully.', data: addresses });
 });
 
-const removeAddress = asyncWrapper(async (req, res, next) => {
-    const user = await User.findByIdAndUpdate(
-        req.user._id,
-        {
-            $pull: { addresses: { _id: req.params.addressId } },
-        },
-        { new: true }
-    );
-
-    return res.status(200).json({
-        status: 'success',
-        message: 'Address removed successfully.',
-        data: user.addresses,
-    });
+const removeAddress = asyncWrapper(async (req, res) => {
+    await prisma.address.deleteMany({ where: { id: req.params.addressId, userId: req.user.id } });
+    const addresses = await prisma.address.findMany({ where: { userId: req.user.id } });
+    return res.status(200).json({ status: 'success', message: 'Address removed successfully.', data: addresses });
 });
 
 const changePassword = asyncWrapper(async (req, res, next) => {
     const { oldPassword, newPassword } = req.body;
-
-    // Always operate on the authenticated user — never trust a route param for self-service ops
-    const user = await User.findById(req.user._id).select("+password");
+    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
     if (!user) return next(new AppError("User not found", 404));
 
-    // 1️⃣ Verify current password
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) return next(new AppError("Current password is incorrect", 401));
 
-    // 2️⃣ Hash new password (cost 12 — secure without being DoS-able)
     const hashedPassword = await bcrypt.hash(newPassword, 12);
+    await prisma.user.update({ where: { id: user.id }, data: { password: hashedPassword, passwordChangedAt: new Date() } });
 
-    user.password = hashedPassword;
-    user.passwordChangedAt = Date.now();
-    await user.save();
-
-    // 3️⃣ Invalidate session — force re-login with new password
-    await redisClient.del(`refreshToken:${user._id}`);
+    await redisClient.del(`refreshToken:${user.id}`);
     await addToBlackList(req.token);
 
-    return res.status(200).json({
-        message: "Password changed successfully. Please log in again."
-    });
+    return res.status(200).json({ message: "Password changed successfully. Please log in again." });
 });
 
 const deleteAccount = asyncWrapper(async (req, res, next) => {
@@ -203,43 +99,23 @@ const deleteAccount = asyncWrapper(async (req, res, next) => {
 
     if (!password) return next(new AppError("Password is required", 400));
 
-    const deletedUser = await User.findOne({ _id: user._id, email: user.email }).select("+password");
+    const deletedUser = await prisma.user.findUnique({ where: { id: user.id } });
     if (!deletedUser) return next(new AppError("User not found", 404));
 
     const isMatch = await bcrypt.compare(password, deletedUser.password);
     if (!isMatch) return next(new AppError("Your password is incorrect", 401));
 
-    await User.deleteOne({ _id: user._id });
-
-    // If client sends email in body, make sure it matches authenticated user.
     if (email && deletedUser.email && email !== deletedUser.email) {
         return next(new AppError("Email does not match authenticated user", 400));
     }
 
+    await prisma.user.delete({ where: { id: user.id } });
     await deleteImage(deletedUser.profilePicture);
 
-
-    // Remove cached auth data and invalidate refresh token.
-    await redisClient.del([
-        `refreshToken:${deletedUser._id}`,
-        `userEmail:${deletedUser.email}`
-    ]);
-
-    // Blacklist current access token so the session cannot continue.
+    await redisClient.del([`refreshToken:${deletedUser.id}`, `userEmail:${deletedUser.email}`]);
     await addToBlackList(token);
 
-    return res.status(202).json({ message: "Account deleted successfully" })
-})
+    return res.status(202).json({ message: "Account deleted successfully" });
+});
 
-module.exports = {
-    getProfile,
-    updateProfile,
-    logout,
-    deactivateUser,
-    deleteUser,
-    addAddress,
-    updateAddress,
-    removeAddress,
-    changePassword,
-    deleteAccount
-};
+export { getProfile, updateProfile, logout, deactivateUser, addAddress, updateAddress, removeAddress, changePassword, deleteAccount };

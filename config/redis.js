@@ -1,5 +1,5 @@
-const { createClient } = require("redis");
-const logger = require("../utils/logger");
+import { createClient } from "redis";
+import logger from "../utils/logger.js";
 
 const redisClient = createClient({
     url: process.env.REDIS_URL || "redis://localhost:6379"
@@ -27,4 +27,4 @@ const connectRedis = async () => {
 
 connectRedis();
 
-module.exports = redisClient;
+export default redisClient;

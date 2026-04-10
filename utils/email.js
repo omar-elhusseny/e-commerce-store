@@ -1,5 +1,5 @@
-const nodemailer = require('nodemailer');
-const logger = require('./logger');
+import nodemailer from 'nodemailer';
+import logger from './logger.js';
 
 const createTransporter = () => {
     return nodemailer.createTransport({
@@ -106,4 +106,4 @@ const emailTemplates = {
     },
 };
 
-module.exports = { sendEmail, emailTemplates };
+export { sendEmail, emailTemplates };

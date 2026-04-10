@@ -1,10 +1,10 @@
-const { check, body } = require("express-validator");
-const slugify = require('slugify');
-const validation = require("../validation")
+import { check, body } from "express-validator";
+import slugify from 'slugify';
+import validation from "../validation.js"
 
 
 const getCategoryValidator = [
-    check('id').isMongoId().withMessage("Invalid id"),
+    check('id').isUUID().withMessage("Invalid id"),
     validation
 ];
 
@@ -24,7 +24,7 @@ const createCategoryValidator = [
 ]
 
 const updateCategoryValidator = [
-    check('id').isMongoId().withMessage('Invalid category id'),
+    check('id').isUUID().withMessage('Invalid category id'),
     body('name')
         .custom((val, { req }) => {
             req.body.slug = slugify(val);
@@ -34,9 +34,9 @@ const updateCategoryValidator = [
 ]
 
 const deleteCategoryValidator = [
-    check('id').isMongoId().withMessage("Invalid id"),
+    check('id').isUUID().withMessage("Invalid id"),
     validation
 ]
 
 
-module.exports = { getCategoryValidator, createCategoryValidator, updateCategoryValidator, deleteCategoryValidator };
+export { getCategoryValidator, createCategoryValidator, updateCategoryValidator, deleteCategoryValidator };

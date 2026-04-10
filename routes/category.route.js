@@ -1,11 +1,11 @@
-const express = require("express")
+import express from "express"
 const router = express.Router();
-const { getCategoryValidator, createCategoryValidator, updateCategoryValidator, deleteCategoryValidator } = require("../middleware/validator/categoryValidator");
-const { getCategories, getCategory, createCategory, updateCategory, deleteCategory } = require("../controllers/category.controller");
-const subCategoryRoute = require("./subCategory.route");
-const { uploadSingleImage, setUploadType } = require("../config/cloudinary");
-const { allowedTo } = require("../middleware/allowTo");
-const isAuth = require("../middleware/isAuth");
+import { getCategoryValidator, createCategoryValidator, updateCategoryValidator, deleteCategoryValidator } from "../middleware/validator/categoryValidator.js";
+import { getCategories, getCategory, createCategory, updateCategory, deleteCategory } from "../controllers/category.controller.js";
+import subCategoryRoute from "./subCategory.route.js";
+import { uploadSingleImage, setUploadType } from "../config/cloudinary.js";
+import { allowedTo } from "../middleware/allowTo.js";
+import isAuth from "../middleware/isAuth.js";
 
 // /api/v1/categories/:categoryId/subcategories ==> go to subCategoryRoute
 router.use("/:categoryId/subcategories", subCategoryRoute)
@@ -20,4 +20,4 @@ router.route("/:id")
     .put(isAuth, allowedTo('admin', 'manager'), setUploadType("categories"), uploadSingleImage("image"), updateCategoryValidator, updateCategory)
     .delete(isAuth, allowedTo('admin'), deleteCategoryValidator, deleteCategory);
 
-module.exports = router;
+export default router;

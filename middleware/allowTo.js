@@ -1,11 +1,11 @@
-const AppError = require('../utils/appError');
+import AppError from '../utils/appError.js';
 
 /**
  * Role-based access control middleware factory.
  * Usage: allowedTo('admin', 'manager')
  * If called with no arguments, defaults to blocking the 'user' role (backward-compat).
  */
-exports.allowedTo = (...roles) => {
+export const allowedTo = (...roles) => {
     // Backward-compat: if no roles passed, block regular users
     const allowedRoles = roles.length > 0 ? roles : ['admin', 'manager'];
 

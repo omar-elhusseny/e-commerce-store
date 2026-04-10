@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { createCouponValidation } = require('../middleware/validator/couponValidator');
-const { createCoupon, updateCoupon, deleteCoupon, getCoupon, getCoupons } = require('../controllers/coupon.controller');
+import { createCouponValidation } from '../middleware/validator/couponValidator.js';
+import { createCoupon, updateCoupon, deleteCoupon, getCoupon, getCoupons } from '../controllers/coupon.controller.js';
 
 router.route('/')
     .get(getCoupons)
@@ -12,4 +12,4 @@ router.route('/:id')
     .put(updateCoupon)
     .delete(deleteCoupon);
 
-module.exports = router;
+export default router;

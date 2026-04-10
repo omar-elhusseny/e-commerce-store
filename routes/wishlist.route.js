@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router({ mergeParams: true });
-const { getWishlist, addWishlist, clearWishlist, removeFromWishlist } = require("../controllers/wishlist.controller");
-const { addWishlistValidation, removeWishlistValidation } = require("../middleware/validator/wishlistValidator")
+import { getWishlist, addWishlist, clearWishlist, removeFromWishlist } from "../controllers/wishlist.controller.js";
+import { addWishlistValidation, removeWishlistValidation } from "../middleware/validator/wishlistValidator.js"
 
 // /api/v1/wishlist - (get wishlist - add wishlist)
 router.route("/")
@@ -14,4 +14,4 @@ router.delete("/clear", clearWishlist);
 // DELETE /api/v1/wishlist/:id - remove product from wishlist
 router.delete("/:id", removeWishlistValidation, removeFromWishlist);
 
-module.exports = router;
+export default router;

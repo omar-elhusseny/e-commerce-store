@@ -1,9 +1,9 @@
-const { check, body } = require("express-validator");
-const validation = require("../validation")
+import { check, body } from "express-validator";
+import validation from "../validation.js"
 
 const addCartValidator = [
     body("productId")
-        .isMongoId().withMessage("Invalid id"),
+        .isUUID().withMessage("Invalid id"),
     body("quantity")
         .notEmpty().withMessage("quantity required")
         .isInt({ min: 1 }).withMessage("Minimum quantity is 1"),
@@ -12,7 +12,7 @@ const addCartValidator = [
 
 const updateCartValidator = [
     check("productId")
-        .isMongoId().withMessage("Invalid id"),
+        .isUUID().withMessage("Invalid id"),
     body("quantity")
         .notEmpty().withMessage("quantity required")
         .isInt({ min: 1 }).withMessage("Minimum quantity is 1"),
@@ -21,8 +21,8 @@ const updateCartValidator = [
 
 const deleteCartValidator = [
     check("productId")
-        .isMongoId().withMessage("Invalid id"),
+        .isUUID().withMessage("Invalid id"),
     validation
 ]
 
-module.exports = { updateCartValidator, deleteCartValidator, addCartValidator };
+export { updateCartValidator, deleteCartValidator, addCartValidator };

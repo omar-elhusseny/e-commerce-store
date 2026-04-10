@@ -1,8 +1,8 @@
-const { verifyToken, generateToken } = require('./jwtToken');
-const { addToBlackList } = require('./handleTokens');
-const redisClient = require('../config/redis');
-const asyncWrapper = require("../middleware/asyncWrapper");
-const AppError = require('./appError');
+import { verifyToken, generateToken } from './jwtToken.js';
+import { addToBlackList } from './handleTokens.js';
+import redisClient from '../config/redis.js';
+import asyncWrapper from "../middleware/asyncWrapper.js";
+import AppError from './appError.js';
 
 const refreshAccessToken = asyncWrapper(async (req, res, next) => {
     const { refreshToken } = req.body;
@@ -53,4 +53,4 @@ const refreshAccessToken = asyncWrapper(async (req, res, next) => {
     });
 });
 
-module.exports = refreshAccessToken;
+export default refreshAccessToken;

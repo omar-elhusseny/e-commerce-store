@@ -1,6 +1,6 @@
-const crypto = require("crypto");
-const redisClient = require("../config/redis");
-const { verifyToken } = require("./jwtToken");
+import crypto from "crypto";
+import redisClient from "../config/redis.js";
+import { verifyToken } from "./jwtToken.js";
 
 const hashToken = (token) => crypto.createHash("sha256").update(token).digest("hex");
 
@@ -37,4 +37,4 @@ const isBlackListed = async (token) => {
     return result === "1";
 };
 
-module.exports = { addToBlackList, isBlackListed };
+export { addToBlackList, isBlackListed };

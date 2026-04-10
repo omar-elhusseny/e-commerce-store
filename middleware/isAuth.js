@@ -1,8 +1,8 @@
-const { verifyToken } = require("../utils/jwtToken");
-const { isBlackListed } = require("../utils/handleTokens"); // Import the blacklist utility
-const User = require("../models/user.model");
-const AppError = require("../utils/appError");
-const asyncWrapper = require("../middleware/asyncWrapper");
+import { verifyToken } from "../utils/jwtToken.js";
+import { isBlackListed } from "../utils/handleTokens.js"; // Import the blacklist utility
+import prisma from "../config/prisma.js";
+import AppError from "../utils/appError.js";
+import asyncWrapper from "../middleware/asyncWrapper.js";
 
 const auth = asyncWrapper(async (req, res, next) => {
     let token;
@@ -30,15 +30,25 @@ const auth = asyncWrapper(async (req, res, next) => {
         return next(new AppError("Invalid or expired token. Please log in again.", 401));
     }
 
-    const user = await User.findOne({ _id: decoded.id }).select('-password -__v');
+    const user = await prisma.user.findUnique({
+        where: { id: decoded.id },
+        select: {
+            id: true,
+            username: true,
+            email: true,
+            role: true,
+            isActive: true,
+            isEmailVerified: true,
+        },
+    });
     if (!user) return next(new AppError("User with this token not found", 404));
 
     // Attach the decoded user information and token to the request object
     req.token = token;
-    req.user = user;
+    req.user = { ...user, _id: user.id };
 
     // Proceed to the next middleware or route handler
     next();
 });
 
-module.exports = auth;
+export default auth;

@@ -1,10 +1,10 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { updatePasswordValidation, updateProfileValidation } = require("../middleware/validator/userValidator")
-const { getProfile, updateProfile, logout, deleteUser, addAddress, removeAddress, updateAddress, deactivateUser, changePassword, deleteAccount } = require("../controllers/users.controller");
-const { uploadSingleImage, setUploadType } = require("../config/cloudinary")
-const wishlistRoute = require("../routes/wishlist.route");
-const AppError = require("../utils/appError");
+import { updatePasswordValidation, updateProfileValidation } from "../middleware/validator/userValidator.js"
+import { getProfile, updateProfile, logout, addAddress, removeAddress, updateAddress, deactivateUser, changePassword, deleteAccount } from "../controllers/users.controller.js";
+import { uploadSingleImage, setUploadType } from "../config/cloudinary.js"
+import wishlistRoute from "../routes/wishlist.route.js";
+import AppError from "../utils/appError.js";
 
 router.use('/:id/wishlist', wishlistRoute);
 
@@ -17,7 +17,7 @@ router.route("/profile").get(getProfile)
 // /api/v1/users/:id - (update user info - delete user)
 // Guard: users can only update/delete their own account
 const isSelf = (req, res, next) => {
-    if (req.user._id.toString() !== req.params.id)
+    if (req.user.id !== req.params.id)
         return next(new AppError("You are not allowed to modify another user's account", 403));
     next();
 };
@@ -27,7 +27,6 @@ router.delete("/me", deleteAccount)
 
 router.route("/:id")
     .put(isSelf, updateProfileValidation, setUploadType("users"), uploadSingleImage("profilePicture"), updateProfile)
-    .delete(isSelf, deleteUser)
 
 // /api/v1/users/addresses - (add address)
 router.route("/addresses")
@@ -45,4 +44,4 @@ router.put("/:id/deactivate", deactivateUser);
 router.patch("/:id/change-password", updatePasswordValidation, changePassword);
 
 
-module.exports = router;
+export default router;

@@ -1,10 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { loginUserValidation, registerUserValidation, resetPasswordValidation } = require("../middleware/validator/authValidator")
-const { register, verifyEmail, login, forgetPassword, verifyResetCode, resetPassword, reactivateAccount } = require("../controllers/auth.controller")
-const { allowedTo } = require("../middleware/allowTo");
-const isAuth = require("../middleware/isAuth");
-const refreshAccessToken = require('../utils/refreshToken');
+import { loginUserValidation, registerUserValidation, resetPasswordValidation } from "../middleware/validator/authValidator.js"
+import { register, verifyEmail, login, forgetPassword, verifyResetCode, resetPassword, reactivateAccount } from "../controllers/auth.controller.js"
+import refreshAccessToken from '../utils/refreshToken.js';
 
 // POST /api/v1/auth/register
 router.post("/register", registerUserValidation, register)
@@ -25,9 +23,9 @@ router.post('/verify-reset-code', verifyResetCode);
 router.post('/reset-password', resetPasswordValidation, resetPassword);
 
 // POST /api/v1/auth/refresh-token
-router.post("/refresh-token", isAuth, allowedTo, refreshAccessToken)
+router.post("/refresh-token", refreshAccessToken)
 
 // POST /api/v1/auth/reactivate
 router.post('/reactivate', reactivateAccount);
 
-module.exports = router;
+export default router;

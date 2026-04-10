@@ -1,5 +1,5 @@
-const redisClient = require("../config/redis");
-const logger = require("./logger");
+import redisClient from "../config/redis.js";
+import logger from "./logger.js";
 
 /**
  * Invalidate Redis cache for a model collection.
@@ -32,4 +32,4 @@ const invalidateCache = async (collectionName, documentId = null) => {
     }
 };
 
-module.exports = invalidateCache;
+export default invalidateCache;

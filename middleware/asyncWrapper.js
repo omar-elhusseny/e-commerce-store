@@ -3,7 +3,7 @@
 // Centralized Error Handling: All errors are forwarded to Express's error-handling middleware, 
 // making the application more robust and easier to debug.
 
-module.exports = (asyncFunc) => {
+export default (asyncFunc) => {
     return (req, res, next) => {
         asyncFunc(req, res, next).catch(error => {
             next(error);

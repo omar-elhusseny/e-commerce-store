@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { addToCart, getUserCart, deleteFromCart, updateCart, applyCoupon, removeCoupon, clearCart } = require("../controllers/cart.controller");
-const { updateCartValidator, deleteCartValidator, addCartValidator } = require("../middleware/validator/cartValidator");
+import { addToCart, getUserCart, deleteFromCart, updateCart, applyCoupon, removeCoupon, clearCart } from "../controllers/cart.controller.js";
+import { updateCartValidator, deleteCartValidator, addCartValidator } from "../middleware/validator/cartValidator.js";
 
 // /api/v1/cart - (get cart - add to cart)
 router.route("/")
@@ -22,4 +22,4 @@ router.route("/:productId")
     .put(updateCartValidator, updateCart)
     .delete(deleteCartValidator, deleteFromCart)
 
-module.exports = router;
+export default router;

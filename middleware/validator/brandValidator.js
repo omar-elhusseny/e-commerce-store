@@ -1,10 +1,10 @@
-const { check, body } = require("express-validator");
-const validation = require("../validation")
-const slugify = require("slugify");
+import { check, body } from "express-validator";
+import validation from "../validation.js"
+import slugify from "slugify";
 
 
 const getBrandValidator = [
-    check('id').isMongoId().withMessage("Invalid id"),
+    check('id').isUUID().withMessage("Invalid id"),
     validation
 ];
 
@@ -21,7 +21,7 @@ const createBrandValidator = [
 ]
 
 const updateBrandValidator = [
-    check('id').isMongoId().withMessage("Invalid id"),
+    check('id').isUUID().withMessage("Invalid id"),
     body("name")
         .custom((val, { req }) => {
             req.body.slug = slugify(val);
@@ -32,9 +32,9 @@ const updateBrandValidator = [
 ]
 
 const deleteBrandValidator = [
-    check('id').isMongoId().withMessage("Invalid id"),
+    check('id').isUUID().withMessage("Invalid id"),
     validation
 ]
 
 
-module.exports = { getBrandValidator, createBrandValidator, updateBrandValidator, deleteBrandValidator };
+export { getBrandValidator, createBrandValidator, updateBrandValidator, deleteBrandValidator };

@@ -1,17 +1,17 @@
-const usersRoute = require("./users.route");
-const authRoute = require("./auth.route");
-const productRoute = require("./products.route");
-const cartRoute = require("./cart.route");
-const orderRoute = require("./orders.route");
-const wishlistRoute = require("./wishlist.route");
-const categoryRoute = require("./category.route");
-const subCategoryRoute = require("./subCategory.route");
-const brandRoute = require("./brand.route");
-const reviewRoute = require("./review.route");
-const couponRoute = require("./coupon.route");
-const isAuth = require("../middleware/isAuth");
-const { allowedTo } = require("../middleware/allowTo");
-const rateLimit = require("express-rate-limit");
+import usersRoute from "./users.route.js";
+import authRoute from "./auth.route.js";
+import productRoute from "./products.route.js";
+import cartRoute from "./cart.route.js";
+import orderRoute from "./orders.route.js";
+import wishlistRoute from "./wishlist.route.js";
+import categoryRoute from "./category.route.js";
+import subCategoryRoute from "./subCategory.route.js";
+import brandRoute from "./brand.route.js";
+import reviewRoute from "./review.route.js";
+import couponRoute from "./coupon.route.js";
+import isAuth from "../middleware/isAuth.js";
+import { allowedTo } from "../middleware/allowTo.js";
+import rateLimit from "express-rate-limit";
 
 const authRateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -46,4 +46,4 @@ const mainRoutes = (app) => {
     app.use("/api/v1/coupons", isAuth, allowedTo('admin', 'manager'), couponRoute);
 };
 
-module.exports = mainRoutes;
+export default mainRoutes;

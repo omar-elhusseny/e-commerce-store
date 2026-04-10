@@ -27,4 +27,4 @@ const errorInProduction = (error, res) => {
     });
 }
 
-module.exports = errorHandler;
+export default errorHandler;

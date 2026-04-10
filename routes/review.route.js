@@ -1,20 +1,16 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router({ mergeParams: true });
-const {
-    getReviews,
+import { getReviews,
     getReview,
     createReview,
     updateReview,
     deleteReview,
     setProductAndUser,
-    getProductReviews,
-} = require("../controllers/reviews.controller");
-const {
-    getReviewValidator,
+    getProductReviews, } from "../controllers/reviews.controller.js";
+import { getReviewValidator,
     createReviewValidator,
     updateReviewValidator,
-    deleteReviewValidator,
-} = require("../middleware/validator/reviewValidator");
+    deleteReviewValidator, } from "../middleware/validator/reviewValidator.js";
 
 // Root reviews endpoint:
 // - /api/v1/reviews                        => GET all reviews, POST create review
@@ -31,4 +27,4 @@ router.route('/:id')
     .put(updateReviewValidator, updateReview)
     .delete(deleteReviewValidator, deleteReview);
 
-module.exports = router;
+export default router;

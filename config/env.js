@@ -3,10 +3,10 @@
  * Exits the process immediately if any are missing —
  * better to fail fast than to run with broken config.
  */
-const logger = require('../utils/logger');
+import logger from '../utils/logger.js';
 
 const REQUIRED_VARS = [
-    'MONGO_URI',
+    'DATABASE_URL',
     'JWT_SECRET',
     'REDIS_URL',
     'STRIPE_SECRET_KEY',
@@ -33,4 +33,4 @@ const validateEnv = () => {
     logger.info('Environment variables validated successfully.');
 };
 
-module.exports = validateEnv;
+export default validateEnv;

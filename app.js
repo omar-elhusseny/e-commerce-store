@@ -1,25 +1,23 @@
 // Import dependencies
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const hpp = require("hpp");
-const dotenv = require("dotenv").config();
-const path = require("path");
-const morgan = require("morgan");
-const rateLimit = require("express-rate-limit");
-const mongoSanitize = require("express-mongo-sanitize");
-const compression = require("compression");
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import hpp from "hpp";
+import "dotenv/config";
+import morgan from "morgan";
+import rateLimit from "express-rate-limit";
+import compression from "compression";
 
 // Import local files 
-const connectDB = require("./config/database");
-const AppError = require("./utils/appError");
-const errorHandler = require("./middleware/errorHandling");
-const { webhook } = require("./controllers/webhooks");
-const logger = require("./utils/logger");
-const validateEnv = require("./config/env");
+import connectDB from "./config/database.js";
+import AppError from "./utils/appError.js";
+import errorHandler from "./middleware/errorHandling.js";
+import { webhook } from "./controllers/webhooks.js";
+import logger from "./utils/logger.js";
+import validateEnv from "./config/env.js";
 
 // ------------------ API Routes ------------------
-const mainRoutes = require("./routes/mainRoutes");
+import mainRoutes from "./routes/mainRoutes.js";
 
 // initialize the application
 const app = express();
@@ -51,7 +49,6 @@ app.use(cors({
     origin: process.env.FRONTEND_URL || '*',
     credentials: true,
 }));
-app.use(mongoSanitize());
 app.use(hpp({
     // Whitelist params that legitimately appear multiple times (e.g. ?color=red&color=blue)
     whitelist: ['colors', 'subcategory', 'fields', 'sort'],
@@ -84,14 +81,19 @@ app.all("*", (req, res, next) => {
 // Global error handling middleware
 app.use(errorHandler)
 
-// Start the server
-const server = app.listen(process.env.PORT || 3000, () => { logger.info(`Server is ON — port ${process.env.PORT || 3000}`) });
+let server;
+if (process.env.NODE_ENV !== "test") {
+    server = app.listen(process.env.PORT || 3000, () => { logger.info(`Server is ON — port ${process.env.PORT || 3000}`) });
+}
 
-// any error catched outside express error-middleware
 process.on("unhandledRejection", (error) => {
     logger.error(`unhandledRejection Error: ${error.name} | ${error.message}`);
-    server.close(_ => {
-        logger.error("Server is OFF");
-        process.exit(1);
-    })
-})
+    if (server) {
+        server.close(_ => {
+            logger.error("Server is OFF");
+            process.exit(1);
+        });
+    }
+});
+
+export default app;
